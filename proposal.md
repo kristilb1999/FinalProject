@@ -1,4 +1,4 @@
-#Final Project Proposal
+# Final Project Proposal
 Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 
 We are interested in developing one game and one simulation.
