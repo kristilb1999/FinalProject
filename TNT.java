@@ -1,33 +1,54 @@
+// going to be lazy about imports in this class
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 /**
  * Write a description of class TNT here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
+ * @version Spring 2020
  */
-public class TNT
+public class TNT extends Weapon
 {
-    // instance variables - replace the example below with your own
-    private int x;
+        private static final int STRENGTH = 10;
+    
+    private static final int WEIGHT = 10;
 
     /**
      * Constructor for objects of class TNT
      */
-    public TNT()
+    public TNT(JComponent container, Point position)
     {
-        // initialise instance variables
-        x = 0;
+        super(container, position);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        typeFilePath = "weaponTypeThree.png";
+        type = toolkit.getImage(typeFilePath);
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    @Override
+    public void paint(Graphics g) {
+        if(!bounced) {
+            g.drawImage(type, position.x - velocity.x, position.y + velocity.y, null);
+        } else {
+            
+        }
+    }
+
+    @Override
+    public int getStrength(){
+        return STRENGTH;   
+    }
+
+    @Override
+    public int getWeight(){
+        return WEIGHT;
+    }
+    
+    @Override 
+    public void run() {
+        
     }
 }

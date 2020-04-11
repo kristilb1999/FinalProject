@@ -25,9 +25,6 @@ abstract public class Weapon extends Thread
     
     protected String typeFilePath;
     
-    protected int strength;
-    protected int weight;
-    
     protected boolean bounced;
     
     protected boolean done;
@@ -35,18 +32,20 @@ abstract public class Weapon extends Thread
     /**
      * Constructor for objects of class Weapon
      */
-    public Weapon(JComponent container, Point position, int strength, int weight)
+    public Weapon(JComponent container, Point position)
     {
         this.container = container;
         this.position = position;
-        this.strength = strength;
-        this.weight = weight;
         done = false;
     }
     
     abstract public void run();
     
     abstract public void paint(Graphics g);
+    
+    abstract public int getStrength();
+    
+    abstract public int getWeight();
     
     public boolean done() {
         return done;
