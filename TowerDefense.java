@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.geom.*;
 
 /**
  * Write a description of class TowerDefense here.
@@ -213,10 +214,11 @@ public class TowerDefense extends MouseAdapter implements Runnable
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,e.getPoint(),
-                new Point( 
-                    (int)SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
-                    (int)SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
+        Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,
+                new Point2D.Double(e.getPoint().x , e.getPoint().y),
+                new Point2D.Double( 
+                    SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                    SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
                 ) );
 
         // lock access to the list in case paintComponent is using it

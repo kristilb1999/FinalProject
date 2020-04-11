@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.geom.*;
 
 /**
  * description
@@ -16,7 +17,7 @@ abstract public class InelasticWeapon extends Weapon
     /**
      * Constructor for objects of class InelasticWeapon
      */
-    public InelasticWeapon(JComponent container, Point position, Point inertia)
+    public InelasticWeapon(JComponent container, Point2D.Double position, Point2D.Double inertia)
     {
         super(container,position,inertia);
     }

@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.geom.*;
 
 /**
  * Write a description of class Weapon here.
@@ -18,8 +19,8 @@ abstract public class Weapon extends Thread
 
     protected JComponent container;
 
-    protected Point position;
-    protected Point velocity;
+    protected Point2D.Double position;
+    protected Point2D.Double velocity;
 
     protected Image type;
 
@@ -44,16 +45,16 @@ abstract public class Weapon extends Thread
     /**
      * Constructor for objects of class Weapon
      */
-    public Weapon(JComponent container, Point position, Point inertia)
+    public Weapon(JComponent container, Point2D.Double position, Point2D.Double inertia)
     {
         this.container = container;
         done = false;
 
-        this.position = new Point(position.x - getSize()/2 , position.y - getSize()/2);
+        this.position = new Point2D.Double(position.x - getSize()/2 , position.y - getSize()/2);
         this.yMax = container.getHeight() - getSize();
         this.xMax = container.getWidth() - getSize();
 
-        velocity = new Point( inertia.x / getWeight() , inertia.y / getWeight() );
+        velocity = new Point2D.Double( inertia.x / getWeight() , inertia.y / getWeight() );
     }
 
     public void run(){

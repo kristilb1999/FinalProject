@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.Random;
+import java.awt.geom.*;
 
 /**
  * Procures weapons
@@ -14,7 +15,7 @@ import java.util.Random;
  */
 public class QuarterMaster
 {
-    public static Weapon getRandomWeapon(JComponent container, Point position, Point inertia){
+    public static Weapon getRandomWeapon(JComponent container, Point2D.Double position, Point2D.Double inertia){
 
         Random rand = new Random();
 

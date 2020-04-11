@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.geom.*;
 
 /**
  * Write a description of class Grenade here.
@@ -22,7 +23,7 @@ public class Grenade extends Weapon
     /**
      * Constructor for objects of class Grenade
      */
-    public Grenade(JComponent container, Point position, Point inertia)
+    public Grenade(JComponent container, Point2D.Double position, Point2D.Double inertia)
     {
         super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -33,7 +34,7 @@ public class Grenade extends Weapon
     @Override
     public void paint(Graphics g) {
         if(!bounced) {
-            g.drawImage(type, position.x - velocity.x, position.y + velocity.y, null);
+            g.drawImage(type, (int)position.x, (int)position.y, null);
         } else {
 
         }
