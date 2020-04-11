@@ -14,10 +14,10 @@ import javax.swing.event.*;
 public class Boulder extends Weapon
 {
     private static final int STRENGTH = 10;
-    
+
     private static final int WEIGHT = 10;
-    
-private static final int SIZE = 10;
+
+    private static final int SIZE = 50;
 
     /**
      * Constructor for objects of class Boulder
@@ -27,7 +27,7 @@ private static final int SIZE = 10;
         super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeFour.png";
-        type = toolkit.getImage(typeFilePath);
+        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 
     @Override
@@ -48,7 +48,7 @@ private static final int SIZE = 10;
     public int getWeight(){
         return WEIGHT;
     }
-    
+
     @Override
     public int getSize(){
         return SIZE;

@@ -16,8 +16,8 @@ public class MolotovCocktail extends InelasticWeapon
     private static final int STRENGTH = 10;
 
     private static final int WEIGHT = 10;
-    
-private static final int SIZE = 10;
+
+    private static final int SIZE = 50;
 
     /**
      * Constructor for objects of class MolotovCocktail
@@ -26,8 +26,8 @@ private static final int SIZE = 10;
     {
         super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeOne.png";
-        type = toolkit.getImage(typeFilePath);
+        typeFilePath = "weaponTypeOne.jpg";
+        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 
     @Override
@@ -48,7 +48,7 @@ private static final int SIZE = 10;
     public int getWeight(){
         return WEIGHT;
     }
-    
+
     @Override
     public int getSize(){
         return SIZE;

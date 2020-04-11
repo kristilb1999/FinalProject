@@ -17,7 +17,7 @@ public class Grenade extends Weapon
 
     private static final int WEIGHT = 10;
 
-    private static final int SIZE = 10;
+    private static final int SIZE = 50;
 
     /**
      * Constructor for objects of class Grenade
@@ -26,8 +26,8 @@ public class Grenade extends Weapon
     {
         super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeTwo.png";
-        type = toolkit.getImage(typeFilePath);
+        typeFilePath = "weaponTypeTwo.jpg";
+        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 
     @Override
