@@ -33,7 +33,7 @@ abstract public class Weapon extends Thread
     public static final double ALMOST_STOPPED = 0.4;
 
     // what to add to ySpeed to simulate gravity?
-    public static final double GRAVITY = 0.3;
+    public static final double GRAVITY = 1;
 
     // how much momentum to lose on a bounce
     public static final double DAMPING = 0.9;
@@ -47,10 +47,9 @@ abstract public class Weapon extends Thread
     public Weapon(JComponent container, Point position, Point inertia)
     {
         this.container = container;
-        this.position = position;
         done = false;
 
-        this.position = new Point(position.x - getSize()/2 , position.y / getSize()/2);
+        this.position = new Point(position.x - getSize()/2 , position.y - getSize()/2);
         this.yMax = container.getHeight() - getSize();
         this.xMax = container.getWidth() - getSize();
 
@@ -102,14 +101,15 @@ abstract public class Weapon extends Thread
                 velocity.x *= DAMPING;
                 velocity.y *= DAMPING;
             }
-
+            
             // if we've almost stopped moving, let's say we're done
             done = (position.y == yMax &&
                 Math.abs(velocity.y) < ALMOST_STOPPED &&
                 Math.abs(velocity.x) < ALMOST_STOPPED);
-
+                
             // gravity factor also
             velocity.y += GRAVITY;
+            
         }
 
     }

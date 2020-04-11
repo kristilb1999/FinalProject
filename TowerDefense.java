@@ -215,8 +215,8 @@ public class TowerDefense extends MouseAdapter implements Runnable
     public void mouseReleased(MouseEvent e) {
         Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,e.getPoint(),
                 new Point( 
-                    (int)SLING_FACTOR * (e.getPoint().x - pressPoint.x) , 
-                    (int)SLING_FACTOR * (e.getPoint().y - pressPoint.y) 
+                    (int)SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                    (int)SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
                 ) );
 
         // lock access to the list in case paintComponent is using it

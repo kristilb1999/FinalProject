@@ -40,25 +40,29 @@ abstract public class InelasticWeapon extends Weapon
             if (position.x  < 0) {
                 position.x  = 0;
                 done = true;
-                velocity.x = -velocity.x;
+                velocity.x = 0;
+                velocity.y = 0;
             }
 
             if (position.x > xMax) {
                 position.x = xMax;
                 done = true;
-                velocity.x = -velocity.x;
+                velocity.x = 0;
+                velocity.y = 0;
             }
 
             if (position.y < 0) {
                 position.y = 0;
                 done = true;
-                velocity.y = -velocity.y;
+                velocity.x = 0;
+                velocity.y = 0;
             }
 
             if (position.y > yMax) {
                 position.y = yMax;
                 done = true;
-                velocity.y = -velocity.y;
+                velocity.x = 0;
+                velocity.y = 0;
             }
             
             //remove this? FIXME
