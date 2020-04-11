@@ -52,6 +52,5 @@ public class Grenade extends Weapon
     @Override
     public int getSize(){
         return SIZE;
-        
     }
 }

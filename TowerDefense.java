@@ -41,13 +41,16 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
     private JPanel panel;
 
+    public static final double SLING_FACTOR = 2.5;
+
     // press/drag points for launching, and if we are dragging
     private boolean dragging;
     private Point pressPoint;
     private Point dragPoint;
 
     // an object to serve as the lock for thread safety of our list access
-    private Object lock = new Object();
+    private Object weaponLock = new Object();
+    private Object soldierLock = new Object();
 
     /**
     Method to redraw our basic winter scene in the graphics panel.
@@ -78,6 +81,47 @@ public class TowerDefense extends MouseAdapter implements Runnable
         }
 
         g.drawImage(towerPic, towerXPos, towerYPos, null);
+
+        // if we are currently dragging, draw a sling line
+        if (dragging) {
+            g.setColor(Color.RED);
+            g.drawLine(pressPoint.x, pressPoint.y,
+                dragPoint.x, dragPoint.y);
+        }
+
+        // redraw each ball at its current position,
+        // remove the ones that are done along the way
+        int i = 0;
+
+        // since we will be modifying the list, we will
+        // lock access in case a mouseReleased is going
+        // to happen at the same time
+        synchronized (weaponLock) {
+            while (i < weaponList.size()) {
+                Weapon w = weaponList.get(i);
+                if (w.done()) {
+                    weaponList.remove(i);
+                }
+                else {
+                    w.paint(g);
+                    i++;
+                }
+            }
+        }
+
+        i = 0;
+        synchronized (soldierLock) {
+            while (i < soldierList.size()) {
+                Soldier s = soldierList.get(i);
+                if (s.done()) {
+                    soldierList.remove(i);
+                }
+                else {
+                    s.paint(g);
+                    i++;
+                }
+            }
+        }
     }
 
     @Override
@@ -105,13 +149,16 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
                 // redraw our main scene
                 redrawScene(g);
-
-                synchronized (lock) {}
             }
+
         };
 
         frame.add(panel);
         panel.addMouseListener(this);
+
+        weaponList = new Vector<Weapon>();
+
+        soldierList = new Vector<Soldier>();
 
         // display the window we've created
         frame.pack();
@@ -130,7 +177,9 @@ public class TowerDefense extends MouseAdapter implements Runnable
                     panel.repaint();
                 }
             }
-        }.start();
+        }.
+
+        start();
     }
 
     /**
@@ -164,11 +213,15 @@ public class TowerDefense extends MouseAdapter implements Runnable
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,e.getPoint());
+        Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,e.getPoint(),
+                new Point( 
+                    (int)SLING_FACTOR * (e.getPoint().x - pressPoint.x) , 
+                    (int)SLING_FACTOR * (e.getPoint().y - pressPoint.y) 
+                ) );
 
         // lock access to the list in case paintComponent is using it
         // concurrently
-        synchronized (lock) {
+        synchronized (weaponLock) {
             weaponList.add(newWeapon);
         }
 

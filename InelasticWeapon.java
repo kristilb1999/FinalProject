@@ -70,5 +70,6 @@ abstract public class InelasticWeapon extends Weapon
             // gravity factor also
             velocity.y += GRAVITY;
         }
+
     }
 }

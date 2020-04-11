@@ -39,6 +39,6 @@ public class QuarterMaster
             toReturn = new Boulder(container,position,inertia);
         }
 
-        return toReturn;
+        return new Boulder(container,position,inertia);
     }
 }
