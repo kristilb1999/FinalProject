@@ -11,11 +11,13 @@ import javax.swing.event.*;
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
-public class TNT extends Weapon
+public class TNT extends InelasticWeapon
 {
         private static final int STRENGTH = 10;
     
     private static final int WEIGHT = 10;
+    
+private static final int SIZE = 10;
 
     /**
      * Constructor for objects of class TNT
@@ -47,8 +49,8 @@ public class TNT extends Weapon
         return WEIGHT;
     }
     
-    @Override 
-    public void run() {
-        
+    @Override
+    public int getSize(){
+        return SIZE;
     }
 }

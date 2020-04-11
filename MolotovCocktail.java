@@ -11,11 +11,13 @@ import javax.swing.event.*;
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
-public class MolotovCocktail extends Weapon
+public class MolotovCocktail extends InelasticWeapon
 {
     private static final int STRENGTH = 10;
 
     private static final int WEIGHT = 10;
+    
+private static final int SIZE = 10;
 
     /**
      * Constructor for objects of class MolotovCocktail
@@ -46,9 +48,9 @@ public class MolotovCocktail extends Weapon
     public int getWeight(){
         return WEIGHT;
     }
-
-    @Override 
-    public void run() {
-
+    
+    @Override
+    public int getSize(){
+        return SIZE;
     }
 }

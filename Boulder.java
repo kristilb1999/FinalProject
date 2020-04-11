@@ -16,6 +16,8 @@ public class Boulder extends Weapon
     private static final int STRENGTH = 10;
     
     private static final int WEIGHT = 10;
+    
+private static final int SIZE = 10;
 
     /**
      * Constructor for objects of class Boulder
@@ -46,9 +48,9 @@ public class Boulder extends Weapon
     public int getWeight(){
         return WEIGHT;
     }
-
-    @Override 
-    public void run() {
-
+    
+    @Override
+    public int getSize(){
+        return SIZE;
     }
 }

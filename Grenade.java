@@ -14,8 +14,10 @@ import javax.swing.event.*;
 public class Grenade extends Weapon
 {
     private static final int STRENGTH = 10;
-    
+
     private static final int WEIGHT = 10;
+
+    private static final int SIZE = 10;
 
     /**
      * Constructor for objects of class Grenade
@@ -33,7 +35,7 @@ public class Grenade extends Weapon
         if(!bounced) {
             g.drawImage(type, position.x - velocity.x, position.y + velocity.y, null);
         } else {
-            
+
         }
     }
 
@@ -47,8 +49,8 @@ public class Grenade extends Weapon
         return WEIGHT;
     }
     
-    @Override 
-    public void run() {
-        
+    @Override
+    public int getSize(){
+        return SIZE;
     }
 }
