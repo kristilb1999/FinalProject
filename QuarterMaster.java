@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class QuarterMaster
 {
-    public static Weapon getRandomWeapon(JComponent container, Point position){
+    public static Weapon getRandomWeapon(JComponent container, Point position, Point inertia){
 
         Random rand = new Random();
 
@@ -24,19 +24,19 @@ public class QuarterMaster
 
         switch(num){
             case 0:
-            toReturn = new MolotovCocktail(container,position);
+            toReturn = new MolotovCocktail(container,position,inertia);
             break;
             case 1:
-            toReturn = new Grenade(container,position);
+            toReturn = new Grenade(container,position,inertia);
             break;
             case 2:
-            toReturn = new TNT(container,position);
+            toReturn = new TNT(container,position,inertia);
             break;
             case 3:
-            toReturn = new Boulder(container,position);
+            toReturn = new Boulder(container,position,inertia);
             break;
             default:
-            toReturn = new Boulder(container,position);
+            toReturn = new Boulder(container,position,inertia);
         }
 
         return toReturn;

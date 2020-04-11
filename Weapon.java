@@ -29,14 +29,25 @@ abstract public class Weapon extends Thread
     
     protected boolean done;
     
+    // what is slow enough to consider to be stopped?
+    public static final double ALMOST_STOPPED = 0.4;
+
+    // what to add to ySpeed to simulate gravity?
+    public static final double GRAVITY = 0.3;
+
+    // how much momentum to lose on a bounce
+    public static final double DAMPING = 0.9;
+    
     /**
      * Constructor for objects of class Weapon
      */
-    public Weapon(JComponent container, Point position)
+    public Weapon(JComponent container, Point position, Point inertia)
     {
         this.container = container;
         this.position = position;
         done = false;
+        
+        velocity = new Point( inertia.x / getWeight() , inertia.y / getWeight() );
     }
     
     abstract public void run();

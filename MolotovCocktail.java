@@ -20,9 +20,9 @@ public class MolotovCocktail extends Weapon
     /**
      * Constructor for objects of class MolotovCocktail
      */
-    public MolotovCocktail(JComponent container, Point position)
+    public MolotovCocktail(JComponent container, Point position, Point inertia)
     {
-        super(container, position);
+        super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeOne.png";
         type = toolkit.getImage(typeFilePath);

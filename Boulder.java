@@ -20,9 +20,9 @@ public class Boulder extends Weapon
     /**
      * Constructor for objects of class Boulder
      */
-    public Boulder(JComponent container, Point position)
+    public Boulder(JComponent container, Point position, Point inertia)
     {
-        super(container, position);
+        super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeFour.png";
         type = toolkit.getImage(typeFilePath);

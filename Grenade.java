@@ -20,9 +20,9 @@ public class Grenade extends Weapon
     /**
      * Constructor for objects of class Grenade
      */
-    public Grenade(JComponent container, Point position)
+    public Grenade(JComponent container, Point position, Point inertia)
     {
-        super(container, position);
+        super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeTwo.png";
         type = toolkit.getImage(typeFilePath);

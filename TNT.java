@@ -20,9 +20,9 @@ public class TNT extends Weapon
     /**
      * Constructor for objects of class TNT
      */
-    public TNT(JComponent container, Point position)
+    public TNT(JComponent container, Point position, Point inertia)
     {
-        super(container, position);
+        super(container, position, inertia);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeThree.png";
         type = toolkit.getImage(typeFilePath);
