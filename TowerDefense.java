@@ -13,13 +13,64 @@ import javax.swing.event.*;
  */
 public class TowerDefense extends MouseAdapter implements Runnable
 {
-    private static final int FRAME_WIDTH = 1000;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_WIDTH = 1250;
+    private static final int FRAME_HEIGHT = 700;
+
+    private static final int TOWER_X_DISPLACEMENT = 325;
+    private static final int TOWER_Y_DISPLACEMENT = 475;
+
+    private int towerXPos;
+    private int towerYPos;
+
+    private int grassLine;
+
+    private static final Color DAY_GRASS = new Color(42, 153, 32);
+    private static final Color NIGHT_GRASS = new Color(29, 112, 87);
+
+    private static final Color DAY_SKY = new Color(73, 185, 230);
+    private static final Color NIGHT_SKY = new Color(62, 53, 150);
+
+    private static Image towerPic;
+
+    private static final String towerPicFilename = "towerImage.png";
 
     private Vector<Soldier> soldierList;
     private Vector<Weapon> weaponList;
 
+    private boolean nightTime;
+
     private JPanel panel;
+
+    /**
+    Method to redraw our basic winter scene in the graphics panel.
+
+    @param g the Graphics object in which to paint
+     */
+    protected void redrawScene(Graphics g) {
+        int width = panel.getWidth();
+        int height = panel.getHeight();
+
+        grassLine = height/4;
+
+        towerXPos = width - TOWER_X_DISPLACEMENT;
+        towerYPos = height - TOWER_Y_DISPLACEMENT;
+
+        if(!nightTime) {
+            g.setColor(DAY_SKY);
+            g.fillRect(0, 0, width, height - grassLine);
+
+            g.setColor(DAY_GRASS);
+            g.fillRect(0, height - grassLine, width, height);
+        } else {
+            g.setColor(NIGHT_SKY);
+            g.fillRect(0, 0, width, height - grassLine);
+
+            g.setColor(NIGHT_GRASS);
+            g.fillRect(0, height - grassLine, width, height);
+        }
+
+        g.drawImage(towerPic, towerXPos, towerYPos, null);
+    }
 
     @Override
     public void run() {
@@ -43,18 +94,25 @@ public class TowerDefense extends MouseAdapter implements Runnable
                 // first, we should call the paintComponent method we are
                 // overriding in JPanel
                 super.paintComponent(g);
+
+                // redraw our main scene
+                redrawScene(g);
             }
         };
-        
+
         frame.add(panel);
-	panel.addMouseListener(this);
-	
-	// display the window we've created
-	frame.pack();
-	frame.setVisible(true);
+        panel.addMouseListener(this);
+
+        // display the window we've created
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
+
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        towerPic = toolkit.getImage(towerPicFilename);
+
         // launch the main thread that will manage the GUI
         javax.swing.SwingUtilities.invokeLater(new TowerDefense());
     }
