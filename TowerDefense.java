@@ -41,6 +41,14 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
     private JPanel panel;
 
+    // press/drag points for launching, and if we are dragging
+    private boolean dragging;
+    private Point pressPoint;
+    private Point dragPoint;
+
+    // an object to serve as the lock for thread safety of our list access
+    private Object lock = new Object();
+
     /**
     Method to redraw our basic winter scene in the graphics panel.
 
@@ -97,6 +105,8 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
                 // redraw our main scene
                 redrawScene(g);
+
+                synchronized (lock) {}
             }
         };
 
@@ -106,6 +116,64 @@ public class TowerDefense extends MouseAdapter implements Runnable
         // display the window we've created
         frame.pack();
         frame.setVisible(true);
+
+        new Thread() {
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        sleep(33);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+
+                    panel.repaint();
+                }
+            }
+        }.start();
+    }
+
+    /**
+    Mouse press event handler to set up to create a new
+    BouncingGravityBall on subsequent release.
+    @param e mouse event info
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+        pressPoint = e.getPoint();
+    }
+
+    /**
+    Mouse drag event handler to create remember the current point
+    for sling line drawing.
+    @param e mouse event info
+     */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        dragPoint = e.getPoint();
+        dragging = true;
+    }
+
+    /**
+    Mouse release event handler to create a new BouncingGravityBall
+    centered at the release point, initial velocities depending on 
+    distance from press point.
+    @param e mouse event info
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,e.getPoint());
+
+        // lock access to the list in case paintComponent is using it
+        // concurrently
+        synchronized (lock) {
+            weaponList.add(newWeapon);
+        }
+
+        newWeapon.start();
+        dragging = false;
     }
 
     public static void main(String[] args) {
