@@ -13,6 +13,9 @@ import javax.swing.event.*;
  */
 abstract public class Weapon extends Thread
 {
+    // delay time between frames of animation (ms)
+    public static final int DELAY_TIME = 33;
+    
     protected JComponent container;
     
     protected Point position;
@@ -25,18 +28,17 @@ abstract public class Weapon extends Thread
     protected int strength;
     protected int weight;
     
+    protected boolean bounced;
+    
     protected boolean done;
     
     /**
      * Constructor for objects of class Weapon
      */
-    public Weapon(JComponent container, Point position, Point velocity, Image type, String typeFilePath, int strength, int weight)
+    public Weapon(JComponent container, Point position, int strength, int weight)
     {
         this.container = container;
         this.position = position;
-        this.velocity = velocity;
-        this.type = type;
-        this.typeFilePath = typeFilePath;
         this.strength = strength;
         this.weight = weight;
         done = false;
