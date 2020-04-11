@@ -52,5 +52,6 @@ private static final int SIZE = 10;
     @Override
     public int getSize(){
         return SIZE;
+        
     }
 }

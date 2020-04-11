@@ -111,7 +111,6 @@ abstract public class Weapon extends Thread
             // gravity factor also
             velocity.y += GRAVITY;
         }
-
     }
 
     abstract public int getSize();
