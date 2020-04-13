@@ -30,12 +30,12 @@ abstract public class Soldier extends Thread
     protected boolean done;
 
     protected JComponent container;
-    
-    public static final int DELAY_TIME = 33;
-    
-    public static final File imageIn = new File("towerImage.png");
+
+    public static final int DELAY_TIME = 200;
+
+    //public static final File imageIn = new File("towerImage.png");
     //public static final BufferedImage tower =  ImageIO.read(imageIn);
-    
+
     //public static final int IMAGE_SIZE;
 
     /**
@@ -61,22 +61,23 @@ abstract public class Soldier extends Thread
             // by a pixel
             position.x += speed;
 
-            if (position.x < container.getWidth() - 325)
+            if (position.x > container.getWidth())
             {
                 done = true;
             }
-            
+
+            System.out.println(position);
             container.repaint();
         }
-
+        container.repaint();
     }
 
     abstract public void paint(Graphics g);
-    
+
     abstract public int getStrength();
-    
+
     abstract public int getSize();
-   
+
     public boolean done() {
         return done;
     }
