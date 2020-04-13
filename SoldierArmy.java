@@ -31,11 +31,11 @@ public class SoldierArmy extends Thread
 
     private static final int AVG_ZOMB = 0;
 
-    private static final int PIRATE = 0;
+    private static final int PIRATE = 1;
 
-    private static final int HUNCHBACK = 0;
+    private static final int HUNCHBACK = 2;
 
-    private static final int BIG_EYE = 0;
+    private static final int BIG_EYE = 3;
 
     private boolean allStarted;
 
