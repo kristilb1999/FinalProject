@@ -31,11 +31,11 @@ public class SoldierArmy extends Thread
 
     private static final int AVG_ZOMB = 0;
 
-    private static final int PIRATE = 1;
-
     private static final int HUNCHBACK = 2;
 
-    private static final int BIG_EYE = 3;
+    private static final int BIG_EYE = 1;
+    
+     private static final int PIRATE = 3;
 
     private boolean allStarted;
 
@@ -75,7 +75,7 @@ public class SoldierArmy extends Thread
             }
 
             // random y coordinate
-            int yCoord = r.nextInt(container.getHeight() / 4) + 3 * container.getHeight() / 4 ;
+            int yCoord = 70; //r.nextInt(container.getHeight() / 4) + 3 * container.getHeight() / 4 ;
             Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
             int soldierType = r.nextInt(4);
             if(soldierType == AVG_ZOMB)
