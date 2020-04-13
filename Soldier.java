@@ -66,6 +66,7 @@ abstract public class Soldier extends Thread
                 done = true;
             }
             
+            container.repaint();
         }
 
     }
