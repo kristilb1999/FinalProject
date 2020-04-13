@@ -18,6 +18,8 @@ public class BigEye extends Soldier
     private static final int SIZE = 50;
     
     private static final int STRENGTH = 10;
+    
+    private static final int SPEED = 10;
 
     /**
      * Constructor for objects of class AverageZombie
@@ -26,10 +28,10 @@ public class BigEye extends Soldier
     {
         super(position, container);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeTwo.png";
+        typeFilePath = "soldierTypeTwo.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
         hitsUntilDeath = 2;
-        
+        speed = SPEED;
     }
 
     @Override

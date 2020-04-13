@@ -19,6 +19,7 @@ public class Pirate extends Soldier
     
     private static final int STRENGTH = 10;
 
+    private static final int SPEED = 10;
     /**
      * Constructor for objects of class AverageZombie
      */
@@ -26,10 +27,10 @@ public class Pirate extends Soldier
     {
         super(position, container);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeFour.png";
+        typeFilePath = "soldierTypeFour.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
         hitsUntilDeath = 4;
-        
+        speed = SPEED;
     }
 
     @Override

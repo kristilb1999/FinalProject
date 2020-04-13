@@ -18,6 +18,8 @@ public class Hunchback extends Soldier
     private static final int SIZE = 50;
     
     private static final int STRENGTH = 10;
+    
+    private static final int SPEED = 10;
 
     /**
      * Constructor for objects of class AverageZombie
@@ -26,10 +28,10 @@ public class Hunchback extends Soldier
     {
         super(position, container);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeThree.png";
+        typeFilePath = "soldierTypeThree.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
         hitsUntilDeath = 3;
-        
+        speed = SPEED;
     }
 
     @Override
