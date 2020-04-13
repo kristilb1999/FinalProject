@@ -24,7 +24,7 @@ public class DatabaseDriver
                 stmt = conn.prepareStatement(query);
                 stmt.execute();
             }
-            
+
         }catch(FileNotFoundException e){
             System.err.println("Database File Missing: " + e);
         }catch(SQLException e){
@@ -36,28 +36,12 @@ public class DatabaseDriver
         int exitCode = 0;
 
         try(Connection conn = DriverManager.getConnection("jdbc:h2:./Player-Friends","sa","");){
-
-            String query = "SELECT count(*) FROM Player AS numplay WHERE Name = '" + playerName + "'";
+            String query = "INSERT INTO Player values ('" + playerName + "',0)";
             PreparedStatement stmt = conn.prepareStatement(query);
-            
-            //int count = stmt.executeQuery().getInt(1);
-            ResultSet rset = stmt.executeQuery();
-            int count = 0;
-            while(rset.next()){
-                count++;
-            }
-             System.out.println("sdfd" + count);
-            
-            if(count == 0){
-                query = "INSERT INTO Player values ('" + playerName + "',0)";
-                stmt = conn.prepareStatement(query);
-                stmt.executeUpdate();
-                exitCode = 0;
-            } else {
-
-                exitCode = 1;
-            }
-
+            //System.err.println(stmt.toString());
+            exitCode = 0;
+        }catch(SQLIntegrityConstraintViolationException e){
+            exitCode = 1;
         }catch(SQLException e){
             System.err.println("SQL Error: " + e); 
             e.printStackTrace();
@@ -70,14 +54,12 @@ public class DatabaseDriver
     public static void main(String args[]){
 
         // try{
-            // System.setErr(new PrintStream("error_log.txt"));
+        // System.setErr(new PrintStream("error_log.txt"));
         // }catch(FileNotFoundException e){
-            // System.err.println("Error Log Missing: " + e);
+        // System.err.println("Error Log Missing: " + e);
         // }
 
-        
         DatabaseDriver dbd = new DatabaseDriver();
-        
         dbd.fetchDatabase();
         dbd.addPlayer("Will");
         dbd.addPlayer("Will");
