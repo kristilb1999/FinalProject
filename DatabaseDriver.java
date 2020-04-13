@@ -5,15 +5,14 @@ import java.util.Scanner;
 /**
  * Write a description of class DatabaseDriver here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
+ * @version Spring 2020
  */
 public class DatabaseDriver
 {
 
     public void fetchDatabase(){
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:h2:./test","sa","");
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:./Player-Friends","sa","");){
 
             Scanner sc = new Scanner(new File("createSampleDatabase.txt"));
 
@@ -21,13 +20,11 @@ public class DatabaseDriver
             PreparedStatement stmt;
             while(sc.hasNextLine()){
 
-                query = sc.next();
+                query = sc.nextLine();
                 stmt = conn.prepareStatement(query);
-                System.out.println("SQL INPUT: " + stmt.toString() + "\n");
                 stmt.execute();
             }
-
-            conn.close();
+            
         }catch(FileNotFoundException e){
             System.err.println("Database File Missing: " + e);
         }catch(SQLException e){
@@ -38,16 +35,21 @@ public class DatabaseDriver
     public int addPlayer(String playerName){
         int exitCode = 0;
 
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:h2:./test","sa","");
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:./Player-Friends","sa","");){
 
-            String query = "SELECT count(*) FROM Player P WHERE P.Name = playerName";
+            String query = "SELECT count(*) FROM Player AS numplay WHERE Name = '" + playerName + "'";
             PreparedStatement stmt = conn.prepareStatement(query);
-            //System.out.println("SQL INPUT: " + stmt.toString() + "\n");//REMOVEME
-            int count = stmt.executeQuery().getInt(1);
-
+            
+            //int count = stmt.executeQuery().getInt(1);
+            ResultSet rset = stmt.executeQuery();
+            int count = 0;
+            while(rset.next()){
+                count++;
+            }
+             System.out.println("sdfd" + count);
+            
             if(count == 0){
-                query = "INSERT INTO Player P values (playerName,0)";
+                query = "INSERT INTO Player values ('" + playerName + "',0)";
                 stmt = conn.prepareStatement(query);
                 stmt.executeUpdate();
                 exitCode = 0;
@@ -56,9 +58,9 @@ public class DatabaseDriver
                 exitCode = 1;
             }
 
-            conn.close();
         }catch(SQLException e){
-            System.err.println("SQL Error: " + e);   
+            System.err.println("SQL Error: " + e); 
+            e.printStackTrace();
             exitCode = 2;
         }
 
@@ -77,6 +79,7 @@ public class DatabaseDriver
         DatabaseDriver dbd = new DatabaseDriver();
         
         dbd.fetchDatabase();
+        dbd.addPlayer("Will");
         dbd.addPlayer("Will");
 
     }
