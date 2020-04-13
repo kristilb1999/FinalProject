@@ -27,7 +27,7 @@ public class SoldierArmy extends Thread
 
     private JComponent container;
 
-    private static final int DELAY_TIME = 33;
+    private static final int DELAY_TIME = 700;
 
     private static final int AVG_ZOMB = 0;
 
@@ -75,9 +75,10 @@ public class SoldierArmy extends Thread
             }
 
             // random y coordinate
-            int yCoord = 70; //r.nextInt(container.getHeight() / 4) + 3 * container.getHeight() / 4 ;
+            int yCoord = (r.nextInt(container.getHeight() / 4) + 3 * container.getHeight() / 4);
             Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
             int soldierType = r.nextInt(4);
+            
             if(soldierType == AVG_ZOMB)
             {
                 Soldier soldier = new AverageZombie(startSpot, container);

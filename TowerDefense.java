@@ -16,13 +16,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 {
     private static final int PANEL_WIDTH = 1250;
     private static final int PANEL_HEIGHT = 700;
-    
+
     private static final int FRAME_WIDTH = 1250;
     private static final int FRAME_HEIGHT = 800;
 
     private static final int TOWER_X_DISPLACEMENT = 325;
     private static final int TOWER_Y_DISPLACEMENT = 475;
-    
+
     private static final int EASY = 0;
     private static final int MEDIUM = 1;
     private static final int HARD = 2;
@@ -49,12 +49,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     private JPanel panel;
     private JPanel startPanel;
-    
-    
+
     private JButton easyRound;
     private JButton mediumRound;
     private JButton hardRound;
-    
+
     public static final double SLING_FACTOR = 2.5;
 
     // press/drag points for launching, and if we are dragging
@@ -152,14 +151,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         // tell the JFrame that when someone closes the
         // window, the application should terminate
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         easyRound = new JButton("Easy");      
         mediumRound = new JButton("Medium");
         hardRound = new JButton("Hard");
-        
+
         JPanel panelHolder = new JPanel(new FlowLayout());
         frame.add(panelHolder);
-        
+
         // JPanel with a paintComponent method
         panel = new JPanel() {
             @Override
@@ -177,11 +176,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         panel.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         startPanel = new JPanel();
         startPanel.setBackground(Color.RED);
-        
+
         startPanel.add(easyRound);
         startPanel.add(mediumRound);
         startPanel.add(hardRound);
-           
+
         panelHolder.add(panel);
         panelHolder.add(startPanel);
         panel.addMouseListener(this);
@@ -229,20 +228,20 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             soldierArmyList.add(easy);
             easy.start();
         }
-        else if (e.getSource().equals(easyRound))
+        if (e.getSource().equals(mediumRound))
         {
             SoldierArmy medium = new SoldierArmy(MEDIUM, panel);
             soldierArmyList.add(medium);
             medium.start();
         }
-        else if (e.getSource().equals(easyRound))
+        if (e.getSource().equals(hardRound))
         {
             SoldierArmy hard = new SoldierArmy(HARD, panel);
             soldierArmyList.add(hard);
             hard.start();
         }
     }
-    
+
     /**
     Mouse press event handler to set up to create a new
     BouncingGravityBall on subsequent release.

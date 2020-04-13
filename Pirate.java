@@ -15,11 +15,12 @@ import java.awt.geom.*;
 public class Pirate extends Soldier
 {
     
-    private static final int SIZE = 50;
+    private static final int SIZE = 80;
     
     private static final int STRENGTH = 10;
 
     private static final int SPEED = 10;
+    
     /**
      * Constructor for objects of class AverageZombie
      */
@@ -28,9 +29,10 @@ public class Pirate extends Soldier
         super(position, container);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "soldierTypeFour.jpg";
-        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
+        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         hitsUntilDeath = 4;
         speed = SPEED;
+        position.setLocation(position.x, position.y - SIZE);
     }
 
     @Override
