@@ -12,13 +12,20 @@ import java.awt.geom.*;
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
-public class TowerDefense extends MouseAdapter implements Runnable
+public class TowerDefense extends MouseAdapter implements Runnable, ActionListener
 {
+    private static final int PANEL_WIDTH = 1250;
+    private static final int PANEL_HEIGHT = 700;
+    
     private static final int FRAME_WIDTH = 1250;
-    private static final int FRAME_HEIGHT = 700;
+    private static final int FRAME_HEIGHT = 800;
 
     private static final int TOWER_X_DISPLACEMENT = 325;
     private static final int TOWER_Y_DISPLACEMENT = 475;
+    
+    private static final int EASY = 0;
+    private static final int MEDIUM = 1;
+    private static final int HARD = 2;
 
     private int towerXPos;
     private int towerYPos;
@@ -35,13 +42,19 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
     private static final String towerPicFilename = "towerImage.png";
 
-    private Vector<Soldier> soldierList;
+    private Vector<SoldierArmy> soldierArmyList;
     private Vector<Weapon> weaponList;
 
     private boolean nightTime;
 
     private JPanel panel;
-
+    private JPanel startPanel;
+    
+    
+    private JButton easyRound;
+    private JButton mediumRound;
+    private JButton hardRound;
+    
     public static final double SLING_FACTOR = 2.5;
 
     // press/drag points for launching, and if we are dragging
@@ -112,10 +125,10 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
         i = 0;
         synchronized (soldierLock) {
-            while (i < soldierList.size()) {
-                Soldier s = soldierList.get(i);
+            while (i < soldierArmyList.size()) {
+                SoldierArmy s = soldierArmyList.get(i);
                 if (s.done()) {
-                    soldierList.remove(i);
+                    soldierArmyList.remove(i);
                 }
                 else {
                     s.paint(g);
@@ -139,7 +152,14 @@ public class TowerDefense extends MouseAdapter implements Runnable
         // tell the JFrame that when someone closes the
         // window, the application should terminate
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
+        easyRound = new JButton("Easy");      
+        mediumRound = new JButton("Medium");
+        hardRound = new JButton("Hard");
+        
+        JPanel panelHolder = new JPanel(new FlowLayout());
+        frame.add(panelHolder);
+        
         // JPanel with a paintComponent method
         panel = new JPanel() {
             @Override
@@ -154,12 +174,24 @@ public class TowerDefense extends MouseAdapter implements Runnable
 
         };
 
-        frame.add(panel);
+        panel.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
+        startPanel = new JPanel();
+        startPanel.setBackground(Color.RED);
+        
+        startPanel.add(easyRound);
+        startPanel.add(mediumRound);
+        startPanel.add(hardRound);
+           
+        panelHolder.add(panel);
+        panelHolder.add(startPanel);
         panel.addMouseListener(this);
+        easyRound.addActionListener(this);
+        mediumRound.addActionListener(this);
+        hardRound.addActionListener(this);
 
         weaponList = new Vector<Weapon>();
 
-        soldierList = new Vector<Soldier>();
+        soldierArmyList = new Vector<SoldierArmy>();
 
         // display the window we've created
         frame.pack();
@@ -183,6 +215,31 @@ public class TowerDefense extends MouseAdapter implements Runnable
         start();
     }
 
+    /**
+    Mouse press event handler to set up to create a new
+    BouncingGravityBall on subsequent release.
+    @param e mouse event info
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource().equals(easyRound))
+        {
+            SoldierArmy easy = new SoldierArmy(EASY, panel);
+            easy.start();
+        }
+        else if (e.getSource().equals(easyRound))
+        {
+            SoldierArmy medium = new SoldierArmy(MEDIUM, panel);
+            medium.start();
+        }
+        else if (e.getSource().equals(easyRound))
+        {
+            SoldierArmy hard = new SoldierArmy(HARD, panel);
+            hard.start();
+        }
+    }
+    
     /**
     Mouse press event handler to set up to create a new
     BouncingGravityBall on subsequent release.
