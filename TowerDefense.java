@@ -291,7 +291,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     }
 
     public static void main(String[] args) {
-
+        // try{
+        // System.setErr(new PrintStream("error_log.txt"));
+        // }catch(FileNotFoundException e){
+        // System.err.println("File Not Found: " + e);
+        // }
+        
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         towerPic = toolkit.getImage(towerPicFilename);
 
