@@ -53,12 +53,6 @@ public class DatabaseDriver
 
     public static void main(String args[]){
 
-        // try{
-        // System.setErr(new PrintStream("error_log.txt"));
-        // }catch(FileNotFoundException e){
-        // System.err.println("Error Log Missing: " + e);
-        // }
-
         DatabaseDriver dbd = new DatabaseDriver();
         dbd.fetchDatabase();
         dbd.addPlayer("Will");
