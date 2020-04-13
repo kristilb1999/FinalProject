@@ -15,11 +15,11 @@ import java.awt.geom.*;
 public class BigEye extends Soldier
 {
     
-    private static final int SIZE = 50;
+    private static final int SIZE = 80;
     
     private static final int STRENGTH = 10;
     
-    private static final int SPEED = 10;
+    private static final int SPEED = 7;
 
     /**
      * Constructor for objects of class AverageZombie
@@ -29,9 +29,10 @@ public class BigEye extends Soldier
         super(position, container);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "soldierTypeTwo.jpg";
-        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
+        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         hitsUntilDeath = 2;
         speed = SPEED;
+        position.setLocation(position.x, position.y - SIZE);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class BigEye extends Soldier
     {
         if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
-        } else {
+       } else {
 
         }
     }
