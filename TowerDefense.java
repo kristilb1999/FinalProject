@@ -226,16 +226,19 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         if (e.getSource().equals(easyRound))
         {
             SoldierArmy easy = new SoldierArmy(EASY, panel);
+            soldierArmyList.add(easy);
             easy.start();
         }
         else if (e.getSource().equals(easyRound))
         {
             SoldierArmy medium = new SoldierArmy(MEDIUM, panel);
+            soldierArmyList.add(medium);
             medium.start();
         }
         else if (e.getSource().equals(easyRound))
         {
             SoldierArmy hard = new SoldierArmy(HARD, panel);
+            soldierArmyList.add(hard);
             hard.start();
         }
     }
