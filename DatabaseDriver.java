@@ -78,19 +78,14 @@ public class DatabaseDriver
     }
 
     private ResultSet select(String queryIn){
-        int exitCode = 0;
-
         ResultSet rset = null;
 
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(queryIn);
             rset = stmt.executeQuery();
-        }catch(SQLIntegrityConstraintViolationException e){
-            exitCode = 1;
         }catch(SQLException e){
             System.err.println("SQL Error: " + e); 
             e.printStackTrace();
-            exitCode = 2;
         }
 
         return rset;
