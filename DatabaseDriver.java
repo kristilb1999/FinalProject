@@ -1,6 +1,7 @@
 import java.io.*;
 import java.sql.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Write a description of class DatabaseDriver here.
@@ -79,20 +80,35 @@ public class DatabaseDriver
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rset = stmt.executeQuery();
-            
+
             rset.next();
             score = rset.getInt("Score");
         }catch(SQLException e){
             System.err.println("SQL Error: " + e); 
             e.printStackTrace();
             score = -1;
-        }catch(NullPointerException e){
-            System.err.println("Null ResultSet from select(): " + e); 
-            e.printStackTrace();
-            score = -1;
         }
 
         return score;
+    }
+
+    public ArrayList<String> getFriends(String playerName){
+        ArrayList friends = new ArrayList<String>();
+        String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rset = stmt.executeQuery();
+
+            while(rset.next()){
+
+                friends.add(rset.getString("Name2"));
+            }
+        }catch(SQLException e){
+            System.err.println("SQL Error: " + e); 
+            e.printStackTrace();
+        }
+
+        return friends;
     }
 
     public static void main(String args[]){
@@ -102,62 +118,82 @@ public class DatabaseDriver
 
         int count = 0;
         int maxCount = 0;
+        maxCount++;
         if(dbd.addPlayer("Will") == 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.addPlayer("Will") != 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.addPlayer("Not Will") == 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.addFriendship("Will","Not Will") == 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.addFriendship("Will","Not Will") != 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.getScore("Will") == 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.getScore("Not Will") == 0){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.setScore("Will",5)){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.setScore("Not Will",10)){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.getScore("Will") == 5){
             count++;
         };
-        maxCount++;
 
+        maxCount++;
         if(dbd.getScore("Not Will") == 10){
             count++;
         };
-        maxCount++;
 
-        //need more tests
+        maxCount++;
+        if(dbd.getFriends("Will").contains("Not Will")){
+            count++;
+        };
+        
+        maxCount++;
+        if(dbd.addFriendship("Will","Not Not Will") == 0){
+            count++;
+        };
+        
+        maxCount++;
+        if(dbd.getFriends("Will").contains("Not Not Will")){
+            count++;
+        };
+
+        maxCount++;
+        try{
+            dbd.getFriends("Not Will").get(0);
+        }catch(IndexOutOfBoundsException e){
+            count++;
+        }
 
         System.out.println("Test Complete: " + count + "/" + maxCount + " points earned.");
 
