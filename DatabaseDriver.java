@@ -59,7 +59,6 @@ public class DatabaseDriver
     }
 
     public int getScore(String playerName){
-        int exitCode = 0;
         int score = 0;
         String query = "SELECT Score FROM Player WHERE Player.Name = " + playerName;
         try{
@@ -67,11 +66,9 @@ public class DatabaseDriver
         }catch(SQLException e){
             System.err.println("SQL Error: " + e); 
             e.printStackTrace();
-            exitCode = 2;
         }catch(NullPointerException e){
             System.err.println("Null ResultSet from select(): " + e); 
             e.printStackTrace();
-            exitCode = 3;
         }
 
         return score;
