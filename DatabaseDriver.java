@@ -41,6 +41,7 @@ public class DatabaseDriver
         return insert("INSERT INTO Friendship values ('" + name1 + "','" + name2 + "')");
     }
 
+    
     private int insert(String queryIn){
         int exitCode = 0;
 
@@ -57,23 +58,40 @@ public class DatabaseDriver
 
         return exitCode;
     }
+        
+    public boolean setScore(String playerName,int score){
+        boolean successful = true;
+        String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+        }catch(SQLException e){
+            System.err.println("SQL Error: " + e); 
+            e.printStackTrace();
+            successful = false;
+        }
+
+        return successful;
+    }
 
     public int getScore(String playerName){
         int score = 0;
-        String query = "SELECT Score FROM Player WHERE Player.Name = " + playerName;
+        String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
         try{
             score = select(query).getInt("Score");
         }catch(SQLException e){
             System.err.println("SQL Error: " + e); 
             e.printStackTrace();
+            score = 2;
         }catch(NullPointerException e){
             System.err.println("Null ResultSet from select(): " + e); 
             e.printStackTrace();
+            score = 2;
         }
 
         return score;
     }
-
+    
     private ResultSet select(String queryIn){
         ResultSet rset = null;
 
@@ -116,6 +134,36 @@ public class DatabaseDriver
         maxCount++;
 
         if(dbd.addFriendship("Will","Not Will") != 0){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.getScore("Will") == 0){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.getScore("Not Will") == 0){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.setScore("Will",5)){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.setScore("Not Will",10)){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.getScore("Will") == 5){
+            count++;
+        };
+        maxCount++;
+        
+        if(dbd.getScore("Not Will") == 10){
             count++;
         };
         maxCount++;
