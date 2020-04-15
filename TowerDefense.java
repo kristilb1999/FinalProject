@@ -127,11 +127,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         synchronized (soldierLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
+                
                 if (s.done()) {
                     soldierArmyList.remove(i);
                 }
                 else {
                     s.paint(g);
+                    s.setWeaponList(weaponList);
                     i++;
                 }
             }

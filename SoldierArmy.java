@@ -36,7 +36,7 @@ public class SoldierArmy extends Thread
     private static final int BIG_EYE = 1;
     
      private static final int PIRATE = 3;
-
+    private Vector<Weapon> wList;
     private boolean allStarted;
 
     private static final int X_START = 0;
@@ -53,13 +53,18 @@ public class SoldierArmy extends Thread
         done = false;
         allStarted = false;
     } 
+    public void setWeaponList(Vector<Weapon> wList){
+        this.wList = wList;
+    }
 
     public void paint(Graphics g)
     {
         if (done) return;
 
         for (Soldier soldier : soldierList) {
+            
             soldier.paint(g);
+            soldier.getWeapons(wList);
         }
     }
 

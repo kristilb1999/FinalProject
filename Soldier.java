@@ -20,15 +20,15 @@ abstract public class Soldier extends Thread
     protected double speed;
     protected int damage;
     protected int hitsUntilDeath;
-
+    protected static final int STOP_ZOMB = 300;
     protected Image type;
 
     protected String typeFilePath;
 
     protected Point2D.Double position;
-
+    protected Vector<Weapon> projectiles;
     protected boolean done;
-
+    protected boolean hit;
     protected JComponent container;
 
     public static final int DELAY_TIME = 200;
@@ -60,13 +60,31 @@ abstract public class Soldier extends Thread
             // every iteration, update the coordinates
             // by a pixel
             position.x += speed;
+            container.repaint();
+            int numHits = 0;
+            
+            
+            int i = 0;
+            while (i < projectiles.size()) {
+                Weapon w = projectiles.get(i);
+                contains(w.position);
+                if (hit){
+                    numHits++;
+                }
+                i++;
+            }
 
-            if (position.x > container.getWidth())
+            
+            
+            hitsUntilDeath -= numHits;
+            hit = false;
+
+            if (position.x > container.getWidth() - STOP_ZOMB || hitsUntilDeath <= 0)
             {
                 done = true;
             }
 
-            System.out.println(position);
+            //System.out.println(position);
             container.repaint();
         }
         container.repaint();
@@ -77,6 +95,20 @@ abstract public class Soldier extends Thread
     abstract public int getStrength();
 
     abstract public int getSize();
+
+    public void getWeapons(Vector<Weapon> wList){
+        projectiles = wList;
+    }
+
+    public void contains(Point2D.Double damage){
+        hit = false;
+        if(damage.x >= position.x && damage.x <= position.x + getSize()){
+            if(damage.y >= position.y && damage.y <= position.y + (3 * getSize() / 2)){
+                hit = true;
+            }
+        }
+
+    }
 
     public boolean done() {
         return done;
