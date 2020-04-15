@@ -110,6 +110,25 @@ public class DatabaseDriver
 
         return friends;
     }
+    
+    public ArrayList<String> getAllPlayers(){
+        ArrayList players= new ArrayList<String>();
+        String query = "SELECT Name FROM Player";
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rset = stmt.executeQuery();
+
+            while(rset.next()){
+
+                players.add(rset.getString("Name"));
+            }
+        }catch(SQLException e){
+            System.err.println("SQL Error: " + e); 
+            e.printStackTrace();
+        }
+
+        return players;
+    }
 
     public static void main(String args[]){
 
@@ -177,12 +196,17 @@ public class DatabaseDriver
         if(dbd.getFriends("Will").contains("Not Will")){
             count++;
         };
-        
+
+        maxCount++;
+        if(dbd.addPlayer("Not Not Will") == 0){
+            count++;
+        };
+
         maxCount++;
         if(dbd.addFriendship("Will","Not Not Will") == 0){
             count++;
         };
-        
+
         maxCount++;
         if(dbd.getFriends("Will").contains("Not Not Will")){
             count++;
@@ -194,6 +218,31 @@ public class DatabaseDriver
         }catch(IndexOutOfBoundsException e){
             count++;
         }
+        
+        maxCount++;
+        if(dbd.getAllPlayers().contains("Not Will")){
+            count++;
+        };
+        
+        maxCount++;
+        if(dbd.getAllPlayers().contains("Will")){
+            count++;
+        };
+        
+        maxCount++;
+        if(dbd.getAllPlayers().contains("Not Not Will")){
+            count++;
+        };
+        
+        maxCount++;
+        if(!dbd.getAllPlayers().contains("Very Much Not Will")){
+            count++;
+        };
+        
+        maxCount++;
+        if(!dbd.getAllPlayers().contains("Very Much Will")){
+            count++;
+        };
 
         System.out.println("Test Complete: " + count + "/" + maxCount + " points earned.");
 
