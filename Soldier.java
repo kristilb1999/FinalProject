@@ -67,7 +67,7 @@ abstract public class Soldier extends Thread
             int i = 0;
             while (i < projectiles.size()) {
                 Weapon w = projectiles.get(i);
-                contains(w.position);
+                contains(w);
                 if (hit){
                     numHits++;
                 }
@@ -100,13 +100,22 @@ abstract public class Soldier extends Thread
         projectiles = wList;
     }
 
-    public void contains(Point2D.Double damage){
+    public void contains(Weapon weapon){
         hit = false;
+        Point2D.Double damage = weapon.position;
         if(damage.x >= position.x && damage.x <= position.x + getSize()){
             if(damage.y >= position.y && damage.y <= position.y + (3 * getSize() / 2)){
                 hit = true;
+            } else if (damage.y + weapon.getSize() >= position.y && damage.y + weapon.getSize() <= position.y + (3 * getSize() / 2)){
+                hit = true;
             }
-        }
+        } else if (damage.x + weapon.getSize() >= position.x && damage.x + weapon.getSize() <= position.x + getSize()){
+            if(damage.y >= position.y && damage.y <= position.y + (3 * getSize() / 2)){
+                hit = true;
+            } else if (damage.y + weapon.getSize() >= position.y && damage.y + weapon.getSize() <= position.y + (3 * getSize() / 2)){
+                hit = true;
+            }
+        } 
 
     }
 

@@ -110,6 +110,25 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         // since we will be modifying the list, we will
         // lock access in case a mouseReleased is going
         // to happen at the same time
+        
+        synchronized (soldierLock) {
+            while (i < soldierArmyList.size()) {
+                SoldierArmy s = soldierArmyList.get(i);
+
+                if (s.done()) {
+                    soldierArmyList.remove(i);
+                }
+                else {
+                    s.paint(g);
+                    s.setWeaponList(weaponList);
+                    i++;
+                }
+            }
+        }
+        
+        
+        i = 0;
+        
         synchronized (weaponLock) {
             while (i < weaponList.size()) {
                 Weapon w = weaponList.get(i);
@@ -118,22 +137,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
                 else {
                     w.paint(g);
-                    i++;
-                }
-            }
-        }
-
-        i = 0;
-        synchronized (soldierLock) {
-            while (i < soldierArmyList.size()) {
-                SoldierArmy s = soldierArmyList.get(i);
-                
-                if (s.done()) {
-                    soldierArmyList.remove(i);
-                }
-                else {
-                    s.paint(g);
-                    s.setWeaponList(weaponList);
                     i++;
                 }
             }
@@ -295,11 +298,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     public static void main(String[] args) {
         try{
-        System.setErr(new PrintStream("error_log.txt"));
+            System.setErr(new PrintStream("error_log.txt"));
         }catch(FileNotFoundException e){
-        System.err.println("File Not Found: " + e);
+            System.err.println("File Not Found: " + e);
         }
-        
+
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         towerPic = toolkit.getImage(towerPicFilename);
 

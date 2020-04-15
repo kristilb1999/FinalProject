@@ -38,19 +38,19 @@ abstract public class InelasticWeapon extends Weapon
             position.y += velocity.y;
 
             // bounce off the walls
-            if (position.x  < 0) {
-                position.x  = 0;
-                done = true;
-                velocity.x = 0;
-                velocity.y = 0;
-            }
+            // if (position.x  < 0) {
+                // position.x  = 0;
+                // done = true;
+                // velocity.x = 0;
+                // velocity.y = 0;
+            // }
 
-            if (position.x > xMax) {
-                position.x = xMax;
-                done = true;
-                velocity.x = 0;
-                velocity.y = 0;
-            }
+            // if (position.x > xMax) {
+                // position.x = xMax;
+                // done = true;
+                // velocity.x = 0;
+                // velocity.y = 0;
+            // }
 
             if (position.y < 0) {
                 position.y = 0;

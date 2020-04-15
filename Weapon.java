@@ -73,17 +73,17 @@ abstract public class Weapon extends Thread
 
             boolean bounced = false;
             // bounce off the walls
-            if (position.x  < 0) {
-                position.x  = 0;
-                bounced = true;
-                velocity.x = -velocity.x;
-            }
+            // if (position.x  < 0) {
+                // position.x  = 0;
+                // bounced = true;
+                // velocity.x = -velocity.x;
+            // }
 
-            if (position.x > xMax) {
-                position.x = xMax;
-                bounced = true;
-                velocity.x = -velocity.x;
-            }
+            // if (position.x > xMax) {
+                // position.x = xMax;
+                // bounced = true;
+                // velocity.x = -velocity.x;
+            // }
 
             if (position.y < 0) {
                 position.y = 0;

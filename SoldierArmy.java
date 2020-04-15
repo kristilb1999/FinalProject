@@ -24,7 +24,7 @@ public class SoldierArmy extends Thread
     private int difficultyLevel;
 
     private int numOfEnemies;
-
+    
     private JComponent container;
 
     private static final int DELAY_TIME = 700;
@@ -40,6 +40,7 @@ public class SoldierArmy extends Thread
     private boolean allStarted;
 
     private static final int X_START = 0;
+    private static final int Y_STOP = 52;
     /**
      * Constructor for objects of class Soldier
      */
@@ -80,7 +81,7 @@ public class SoldierArmy extends Thread
             }
 
             // random y coordinate
-            int yCoord = (r.nextInt(container.getHeight() / 4) + 3 * container.getHeight() / 4);
+            int yCoord = (r.nextInt(container.getHeight() / 4 - Y_STOP) + 3 * container.getHeight() / 4 - Y_STOP );
             Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
             int soldierType = r.nextInt(4);
             
