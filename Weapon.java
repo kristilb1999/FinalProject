@@ -59,7 +59,6 @@ abstract public class Weapon extends Thread
 
     public void run(){
         while (!done) {
-
             try {
                 sleep(DELAY_TIME);
             }
