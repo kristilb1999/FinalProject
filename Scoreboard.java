@@ -29,8 +29,13 @@ public class Scoreboard extends Thread implements ActionListener
     JButton exitButton;
     JButton cancelAddPlayerButton;
     JButton cancelAddFriendButton;
+    JComponent container;
 
     DatabaseDriver DBDriver;
+
+    public Scoreboard(JComponent container){
+        this.container = container;
+    }
 
     public void run(){
         //dialog box for adding a highscore
@@ -74,6 +79,9 @@ public class Scoreboard extends Thread implements ActionListener
         //add databasedriver
         DBDriver = new DatabaseDriver();
 
+        container.add(saveScoreDialog);
+        container.add(addPlayerDialog);
+        container.add(addFriendDialog);
         saveScoreDialog.setVisible(false);
         addPlayerDialog.setVisible(false);
         addFriendDialog.setVisible(false);
@@ -114,10 +122,9 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     public void show(){
-
         saveScoreDialog.setVisible(true);
-
     }
+
     public void setScore(int score){
         this.score = score;
     }
