@@ -34,7 +34,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     private static final int START_HEALTH = 15;
 
-    private static final Font FONT_USED = new Font("Rockwell", Font.BOLD, 25);
+    private static final Font FONT_USED = new Font("Rockwell", Font.BOLD, 20);
     private static final Font LARGER_FONT_USED = new Font("Rockwell", Font.BOLD, 50);
 
     private int towerXPos;
@@ -69,9 +69,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     private JButton startOrRestart;
 
+    private JButton score;
+
     private JLabel healthBar;
 
     public static final double SLING_FACTOR = 2.5;
+
+    Scoreboard scoreboard = new Scoreboard(panel);
 
     // press/drag points for launching, and if we are dragging
     private boolean dragging;
@@ -122,13 +126,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         if(towerHealth >= 2 * START_HEALTH / 3) {
             healthBar.setForeground(FULL_HEALTH);
-            healthBar = new JLabel("Tower Health: " + towerHealth);
+            healthBar.setText("Tower Health: " + towerHealth);
         } else if(towerHealth > START_HEALTH / 3) {
             healthBar.setForeground(MED_HEALTH);
-            healthBar = new JLabel("Tower Health: " + towerHealth);
+            healthBar.setText("Tower Health: " + towerHealth);
         } else {
             healthBar.setForeground(LOW_HEALTH);
-            healthBar = new JLabel("Tower Health: " + towerHealth);
+            healthBar.setText("Tower Health: " + towerHealth);
         }
 
         // redraw each ball at its current position,
@@ -201,12 +205,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         startOrRestart = new JButton("Start");
 
+        score = new JButton("Save score");
+
         easyRound = new JButton("Easy");      
         mediumRound = new JButton("Medium");
         hardRound = new JButton("Hard");
 
         healthBar = new JLabel();
-        healthBar.setFont(FONT_USED);
 
         JPanel panelHolder = new JPanel(new FlowLayout());
         frame.add(panelHolder);
@@ -245,6 +250,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         hardRound.setForeground(LOW_HEALTH);
         hardRound.setBackground(Color.BLACK);
 
+        healthBar.setFont(FONT_USED);
+        score.setFont(FONT_USED);
+        score.setForeground(Color.MAGENTA);
+        score.setBackground(Color.BLACK);
+
         startPanel.add(startOrRestart);
 
         startPanel.add(easyRound);
@@ -253,9 +263,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         startPanel.add(healthBar);
 
+        startPanel.add(score);
+
         easyRound.setVisible(false);
         mediumRound.setVisible(false);
         hardRound.setVisible(false);
+
+        score.setVisible(false);
 
         healthBar.setVisible(false);
 
@@ -265,9 +279,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         panel.addMouseListener(this);
 
         startOrRestart.addActionListener(this);
+
         easyRound.addActionListener(this);
         mediumRound.addActionListener(this);
         hardRound.addActionListener(this);
+
+        score.addActionListener(this);
 
         weaponList = new Vector<Weapon>();
         soldierArmyList = new Vector<SoldierArmy>();
@@ -304,14 +321,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             if(startOrRestart.getText().equals("Start")) { 
                 startGame = true;
 
-                healthBar.setText("Tower Health: " + towerHealth);
-                healthBar.setForeground(FULL_HEALTH);
+                towerHealth = START_HEALTH;
 
                 easyRound.setVisible(true);
                 mediumRound.setVisible(true);
                 hardRound.setVisible(true);
 
                 healthBar.setVisible(true);
+
+                score.setVisible(true);
 
                 startOrRestart.setText("Restart");
                 towerHealth = START_HEALTH;
@@ -327,6 +345,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
                 healthBar.setVisible(false);
 
+                score.setVisible(false);
+
                 weaponList.clear();
                 soldierArmyList.clear();
             }
@@ -338,17 +358,23 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             soldierArmyList.add(easy);
             easy.start();
         }
+
         if (e.getSource().equals(mediumRound))
         {
             SoldierArmy medium = new SoldierArmy(MEDIUM, panel, this);
             soldierArmyList.add(medium);
             medium.start();
         }
+
         if (e.getSource().equals(hardRound))
         {
             SoldierArmy hard = new SoldierArmy(HARD, panel, this);
             soldierArmyList.add(hard);
             hard.start();
+        }
+
+        if(e.getSource().equals(score)) {
+            scoreboard.show();
         }
     }
 
@@ -402,7 +428,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     public void modifyTowerHealth(int numDamage) {
         synchronized (healthLock) {
-            towerHealth = towerHealth - numDamage;
+            towerHealth = (towerHealth - numDamage < 0 ? 0 : towerHealth - numDamage);
         }
     }
 
