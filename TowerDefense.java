@@ -28,10 +28,21 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private static final int MEDIUM = 1;
     private static final int HARD = 2;
 
+    private static final Color FULL_HEALTH = new Color(13, 201, 6);
+    private static final Color MED_HEALTH = new Color(245, 243, 110);
+    private static final Color LOW_HEALTH = new Color(176, 41, 32);
+
+    private static final int START_HEALTH = 15;
+
+    private static final Font FONT_USED = new Font("Rockwell", Font.BOLD, 25);
+    private static final Font LARGER_FONT_USED = new Font("Rockwell", Font.BOLD, 50);
+
     private int towerXPos;
     private int towerYPos;
 
     private int grassLine;
+
+    private int towerHealth;
 
     private static final Color DAY_GRASS = new Color(42, 153, 32);
     private static final Color NIGHT_GRASS = new Color(29, 112, 87);
@@ -47,6 +58,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private Vector<Weapon> weaponList;
 
     private boolean nightTime;
+    private boolean startGame;
 
     private JPanel panel;
     private JPanel startPanel;
@@ -54,6 +66,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private JButton easyRound;
     private JButton mediumRound;
     private JButton hardRound;
+
+    private JButton startOrRestart;
+
+    private JLabel healthBar;
 
     public static final double SLING_FACTOR = 2.5;
 
@@ -65,6 +81,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     // an object to serve as the lock for thread safety of our list access
     private Object weaponLock = new Object();
     private Object soldierLock = new Object();
+    private Object healthLock = new Object();
 
     /**
     Method to redraw our basic winter scene in the graphics panel.
@@ -103,6 +120,17 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 dragPoint.x, dragPoint.y);
         }
 
+        if(towerHealth >= 2 * START_HEALTH / 3) {
+            healthBar.setForeground(FULL_HEALTH);
+            healthBar = new JLabel("Tower Health: " + towerHealth);
+        } else if(towerHealth > START_HEALTH / 3) {
+            healthBar.setForeground(MED_HEALTH);
+            healthBar = new JLabel("Tower Health: " + towerHealth);
+        } else {
+            healthBar.setForeground(LOW_HEALTH);
+            healthBar = new JLabel("Tower Health: " + towerHealth);
+        }
+
         // redraw each ball at its current position,
         // remove the ones that are done along the way
         int i = 0;
@@ -110,7 +138,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         // since we will be modifying the list, we will
         // lock access in case a mouseReleased is going
         // to happen at the same time
-        
+
         synchronized (soldierLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
@@ -125,10 +153,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
             }
         }
-        
-        
+
         i = 0;
-        
         synchronized (weaponLock) {
             while (i < weaponList.size()) {
                 Weapon w = weaponList.get(i);
@@ -140,6 +166,21 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                     i++;
                 }
             }
+        }
+
+        if( startGame && towerHealth <= 0) {
+            int centerX = width/2;
+            int centerY = height/2;
+
+            g.setFont(LARGER_FONT_USED);
+
+            FontMetrics fontInfo = g.getFontMetrics();
+            centerX = centerX - (fontInfo.stringWidth("You're a loser.")/2);
+            centerY = centerY - (fontInfo.getAscent()/2);
+
+            g.setColor(Color.MAGENTA);
+            g.drawString("You're a loser.", centerX, centerY);
+
         }
     }
 
@@ -158,9 +199,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         // window, the application should terminate
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        startOrRestart = new JButton("Start");
+
         easyRound = new JButton("Easy");      
         mediumRound = new JButton("Medium");
         hardRound = new JButton("Hard");
+
+        healthBar = new JLabel();
+        healthBar.setFont(FONT_USED);
 
         JPanel panelHolder = new JPanel(new FlowLayout());
         frame.add(panelHolder);
@@ -181,21 +227,49 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         panel.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         startPanel = new JPanel();
-        startPanel.setBackground(Color.RED);
+        startPanel.setBackground(Color.BLACK);
+
+        startOrRestart.setFont(FONT_USED);
+        startOrRestart.setForeground(Color.CYAN);
+        startOrRestart.setBackground(Color.BLACK);
+
+        easyRound.setFont(FONT_USED);
+        easyRound.setForeground(FULL_HEALTH);
+        easyRound.setBackground(Color.BLACK);
+
+        mediumRound.setFont(FONT_USED);
+        mediumRound.setForeground(MED_HEALTH);
+        mediumRound.setBackground(Color.BLACK);
+
+        hardRound.setFont(FONT_USED);
+        hardRound.setForeground(LOW_HEALTH);
+        hardRound.setBackground(Color.BLACK);
+
+        startPanel.add(startOrRestart);
 
         startPanel.add(easyRound);
         startPanel.add(mediumRound);
         startPanel.add(hardRound);
 
+        startPanel.add(healthBar);
+
+        easyRound.setVisible(false);
+        mediumRound.setVisible(false);
+        hardRound.setVisible(false);
+
+        healthBar.setVisible(false);
+
         panelHolder.add(panel);
         panelHolder.add(startPanel);
+
         panel.addMouseListener(this);
+
+        startOrRestart.addActionListener(this);
         easyRound.addActionListener(this);
         mediumRound.addActionListener(this);
         hardRound.addActionListener(this);
 
         weaponList = new Vector<Weapon>();
-
         soldierArmyList = new Vector<SoldierArmy>();
 
         // display the window we've created
@@ -215,12 +289,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                     panel.repaint();
                 }
             }
-        }.
-
-        start();
+        }.start(); 
     }
 
-    /**
+    /** 
     Mouse press event handler to set up to create a new
     BouncingGravityBall on subsequent release.
     @param e mouse event info
@@ -228,21 +300,53 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource().equals(startOrRestart)) {
+            if(startOrRestart.getText().equals("Start")) { 
+                startGame = true;
+
+                healthBar.setText("Tower Health: " + towerHealth);
+                healthBar.setForeground(FULL_HEALTH);
+
+                easyRound.setVisible(true);
+                mediumRound.setVisible(true);
+                hardRound.setVisible(true);
+
+                healthBar.setVisible(true);
+
+                startOrRestart.setText("Restart");
+                towerHealth = START_HEALTH;
+            } else {
+                startGame = false;
+
+                startOrRestart.setText("Start");
+                towerHealth = START_HEALTH;
+
+                easyRound.setVisible(false);
+                mediumRound.setVisible(false);
+                hardRound.setVisible(false);
+
+                healthBar.setVisible(false);
+
+                weaponList.clear();
+                soldierArmyList.clear();
+            }
+        }
+
         if (e.getSource().equals(easyRound))
         {
-            SoldierArmy easy = new SoldierArmy(EASY, panel);
+            SoldierArmy easy = new SoldierArmy(EASY, panel, this);
             soldierArmyList.add(easy);
             easy.start();
         }
         if (e.getSource().equals(mediumRound))
         {
-            SoldierArmy medium = new SoldierArmy(MEDIUM, panel);
+            SoldierArmy medium = new SoldierArmy(MEDIUM, panel, this);
             soldierArmyList.add(medium);
             medium.start();
         }
         if (e.getSource().equals(hardRound))
         {
-            SoldierArmy hard = new SoldierArmy(HARD, panel);
+            SoldierArmy hard = new SoldierArmy(HARD, panel, this);
             soldierArmyList.add(hard);
             hard.start();
         }
@@ -294,6 +398,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         newWeapon.start();
         dragging = false;
+    }
+
+    public void modifyTowerHealth(int numDamage) {
+        synchronized (healthLock) {
+            towerHealth = towerHealth - numDamage;
+        }
     }
 
     public static void main(String[] args) {

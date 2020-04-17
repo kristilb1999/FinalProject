@@ -34,7 +34,7 @@ abstract public class Weapon extends Thread
     public static final double ALMOST_STOPPED = 0.4;
 
     // what to add to ySpeed to simulate gravity?
-    public static final double GRAVITY = 1;
+    public static final double GRAVITY = 0.5;
 
     // how much momentum to lose on a bounce
     public static final double DAMPING = 0.9;
@@ -70,19 +70,7 @@ abstract public class Weapon extends Thread
             position.x += velocity.x;
             position.y += velocity.y;
 
-            boolean bounced = false;
-            // bounce off the walls
-            // if (position.x  < 0) {
-                // position.x  = 0;
-                // bounced = true;
-                // velocity.x = -velocity.x;
-            // }
-
-            // if (position.x > xMax) {
-                // position.x = xMax;
-                // bounced = true;
-                // velocity.x = -velocity.x;
-            // }
+            bounced = false;
 
             if (position.y < 0) {
                 position.y = 0;

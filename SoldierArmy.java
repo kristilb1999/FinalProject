@@ -41,10 +41,12 @@ public class SoldierArmy extends Thread
 
     private static final int X_START = 0;
     private static final int Y_STOP = 52;
+    
+    private TowerDefense tower;
     /**
      * Constructor for objects of class Soldier
      */
-    public SoldierArmy(int difficultyLevel, JComponent container)
+    public SoldierArmy(int difficultyLevel, JComponent container, TowerDefense tower)
     {
         this.difficultyLevel = difficultyLevel;
 
@@ -53,6 +55,8 @@ public class SoldierArmy extends Thread
         soldierList = new Vector<Soldier>();
         done = false;
         allStarted = false;
+        
+        this.tower = tower;
     } 
     public void setWeaponList(Vector<Weapon> wList){
         this.wList = wList;
@@ -87,25 +91,25 @@ public class SoldierArmy extends Thread
             
             if(soldierType == AVG_ZOMB)
             {
-                Soldier soldier = new AverageZombie(startSpot, container);
+                Soldier soldier = new AverageZombie(startSpot, container, tower);
                 soldierList.add(soldier);
                 soldier.start();
             }
             else if  (soldierType == BIG_EYE)
             {
-                Soldier soldier = new BigEye(startSpot, container);
+                Soldier soldier = new BigEye(startSpot, container, tower);
                 soldierList.add(soldier);
                 soldier.start();
             }
             else if  (soldierType == HUNCHBACK)
             {
-                Soldier soldier = new Hunchback(startSpot, container);
+                Soldier soldier = new Hunchback(startSpot, container, tower);
                 soldierList.add(soldier);
                 soldier.start();
             }
-            else if  (soldierType == BIG_EYE)
+            else if  (soldierType == PIRATE)
             {
-                Soldier soldier = new Pirate(startSpot, container);
+                Soldier soldier = new Pirate(startSpot, container, tower);
                 soldierList.add(soldier);
                 soldier.start();
             }

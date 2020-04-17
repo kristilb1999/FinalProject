@@ -33,11 +33,9 @@ public class Boulder extends Weapon
 
     @Override
     public void paint(Graphics g) {
-        if(!bounced) {
+        
             g.drawImage(type, (int)position.x, (int)position.y, null);
-        } else {
-
-        }
+        
     }
 
     @Override

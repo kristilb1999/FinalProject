@@ -24,9 +24,9 @@ public class BigEye extends Soldier
     /**
      * Constructor for objects of class AverageZombie
      */
-    public BigEye(Point2D.Double position, JComponent container)
+    public BigEye(Point2D.Double position, JComponent container, TowerDefense tower)
     {
-        super(position, container);
+        super(position, container, tower);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "soldierTypeTwo.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);

@@ -33,11 +33,9 @@ public class Grenade extends Weapon
 
     @Override
     public void paint(Graphics g) {
-        if(!bounced) {
-            g.drawImage(type, (int)position.x, (int)position.y, null);
-        } else {
 
-        }
+        g.drawImage(type, (int)position.x, (int)position.y, null);
+
     }
 
     @Override
@@ -49,7 +47,7 @@ public class Grenade extends Weapon
     public int getWeight(){
         return WEIGHT;
     }
-    
+
     @Override
     public int getSize(){
         return SIZE;
