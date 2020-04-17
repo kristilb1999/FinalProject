@@ -82,9 +82,13 @@ abstract public class Soldier extends Thread
             hitsUntilDeath -= numHits;
             hit = false;
 
-            if (position.x > container.getWidth() - STOP_ZOMB || hitsUntilDeath <= 0)
+            if (position.x > container.getWidth() - STOP_ZOMB)
             {
                 tower.modifyTowerHealth(DAMAGE_DONE);
+                done = true;
+            }
+            
+            if( hitsUntilDeath <= 0) {
                 done = true;
             }
 
