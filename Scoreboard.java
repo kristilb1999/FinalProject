@@ -31,8 +31,6 @@ public class Scoreboard extends Thread implements ActionListener
     JButton cancelAddFriendButton;
     JComponent container;
 
-    DatabaseDriver DBDriver;
-
     public Scoreboard(JComponent container){
         this.container = container;
     }
@@ -76,9 +74,6 @@ public class Scoreboard extends Thread implements ActionListener
         cancelAddFriendButton = new JButton("Cancel");
         addFriendDialog.add(cancelAddFriendButton);
 
-        //add databasedriver
-        DBDriver = new DatabaseDriver();
-
         container.add(saveScoreDialog);
         container.add(addPlayerDialog);
         container.add(addFriendDialog);
@@ -96,15 +91,15 @@ public class Scoreboard extends Thread implements ActionListener
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(saveScoreButton)){
-            DBDriver.setScore((String)yourNameSelect.getSelectedItem(),this.score);
+            DatabaseDriver.setScore((String)yourNameSelect.getSelectedItem(),this.score);
         } else if(e.getSource().equals(addPlayerButton)){
             addPlayerDialog.setVisible(true);
         } else if(e.getSource().equals(saveNameButton)){
-            DBDriver.addPlayer(newPlayerName.getText());
+            DatabaseDriver.addPlayer(newPlayerName.getText());
             newPlayerName.setText("");
             addPlayerDialog.setVisible(false);
         } else if(e.getSource().equals(addFriendButton)){
-            DBDriver.addFriendship((String)yourNameSelect.getSelectedItem(),(String)friendNameSelect.getSelectedItem());
+            DatabaseDriver.addFriendship((String)yourNameSelect.getSelectedItem(),(String)friendNameSelect.getSelectedItem());
             friendNameSelect.setSelectedItem(null);
             addFriendDialog.setVisible(false);
         }else if(e.getSource().equals(exitButton)){

@@ -13,7 +13,7 @@ public class DatabaseDriver
 {
     private static String databaseName = "./Player-Friends";
 
-    public void fetchDatabase(){
+    public static void fetchDatabase(){
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
 
             Scanner sc = new Scanner(new File("createSampleDatabase.txt"));
@@ -34,15 +34,15 @@ public class DatabaseDriver
         }
     }
 
-    public int addPlayer(String playerName){
+    public static int addPlayer(String playerName){
         return insert("INSERT INTO Player values ('" + playerName + "',0)");
     }
 
-    public int addFriendship(String name1,String name2){
+    public static int addFriendship(String name1,String name2){
         return insert("INSERT INTO Friendship values ('" + name1 + "','" + name2 + "')");
     }
 
-    private int insert(String queryIn){
+    private static int insert(String queryIn){
         int exitCode = 0;
 
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -59,7 +59,7 @@ public class DatabaseDriver
         return exitCode;
     }
 
-    public boolean setScore(String playerName,int score){
+    public static boolean setScore(String playerName,int score){
         boolean successful = true;
         String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -74,7 +74,7 @@ public class DatabaseDriver
         return successful;
     }
 
-    public int getScore(String playerName){
+    public static int getScore(String playerName){
         int score = 0;
         String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -92,7 +92,7 @@ public class DatabaseDriver
         return score;
     }
 
-    public ArrayList<String> getFriends(String playerName){
+    public static ArrayList<String> getFriends(String playerName){
         ArrayList friends = new ArrayList<String>();
         String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -111,7 +111,7 @@ public class DatabaseDriver
         return friends;
     }
     
-    public ArrayList<String> getAllPlayers(){
+    public static ArrayList<String> getAllPlayers(){
         ArrayList players= new ArrayList<String>();
         String query = "SELECT Name FROM Player";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -131,116 +131,114 @@ public class DatabaseDriver
     }
 
     public static void main(String args[]){
-
-        DatabaseDriver dbd = new DatabaseDriver();
-        dbd.fetchDatabase();
+        DatabaseDriver.fetchDatabase();
 
         int count = 0;
         int maxCount = 0;
         maxCount++;
-        if(dbd.addPlayer("Will") == 0){
+        if(DatabaseDriver.addPlayer("Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.addPlayer("Will") != 0){
+        if(DatabaseDriver.addPlayer("Will") != 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.addPlayer("Not Will") == 0){
+        if(DatabaseDriver.addPlayer("Not Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.addFriendship("Will","Not Will") == 0){
+        if(DatabaseDriver.addFriendship("Will","Not Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.addFriendship("Will","Not Will") != 0){
+        if(DatabaseDriver.addFriendship("Will","Not Will") != 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.getScore("Will") == 0){
+        if(DatabaseDriver.getScore("Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.getScore("Not Will") == 0){
+        if(DatabaseDriver.getScore("Not Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.setScore("Will",5)){
+        if(DatabaseDriver.setScore("Will",5)){
             count++;
         };
 
         maxCount++;
-        if(dbd.setScore("Not Will",10)){
+        if(DatabaseDriver.setScore("Not Will",10)){
             count++;
         };
 
         maxCount++;
-        if(dbd.getScore("Will") == 5){
+        if(DatabaseDriver.getScore("Will") == 5){
             count++;
         };
 
         maxCount++;
-        if(dbd.getScore("Not Will") == 10){
+        if(DatabaseDriver.getScore("Not Will") == 10){
             count++;
         };
 
         maxCount++;
-        if(dbd.getFriends("Will").contains("Not Will")){
+        if(DatabaseDriver.getFriends("Will").contains("Not Will")){
             count++;
         };
 
         maxCount++;
-        if(dbd.addPlayer("Not Not Will") == 0){
+        if(DatabaseDriver.addPlayer("Not Not Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.addFriendship("Will","Not Not Will") == 0){
+        if(DatabaseDriver.addFriendship("Will","Not Not Will") == 0){
             count++;
         };
 
         maxCount++;
-        if(dbd.getFriends("Will").contains("Not Not Will")){
+        if(DatabaseDriver.getFriends("Will").contains("Not Not Will")){
             count++;
         };
 
         maxCount++;
         try{
-            dbd.getFriends("Not Will").get(0);
+            DatabaseDriver.getFriends("Not Will").get(0);
         }catch(IndexOutOfBoundsException e){
             count++;
         }
         
         maxCount++;
-        if(dbd.getAllPlayers().contains("Not Will")){
+        if(DatabaseDriver.getAllPlayers().contains("Not Will")){
             count++;
         };
         
         maxCount++;
-        if(dbd.getAllPlayers().contains("Will")){
+        if(DatabaseDriver.getAllPlayers().contains("Will")){
             count++;
         };
         
         maxCount++;
-        if(dbd.getAllPlayers().contains("Not Not Will")){
+        if(DatabaseDriver.getAllPlayers().contains("Not Not Will")){
             count++;
         };
         
         maxCount++;
-        if(!dbd.getAllPlayers().contains("Very Much Not Will")){
+        if(!DatabaseDriver.getAllPlayers().contains("Very Much Not Will")){
             count++;
         };
         
         maxCount++;
-        if(!dbd.getAllPlayers().contains("Very Much Will")){
+        if(!DatabaseDriver.getAllPlayers().contains("Very Much Will")){
             count++;
         };
 
