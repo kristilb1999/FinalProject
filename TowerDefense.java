@@ -75,7 +75,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     public static final double SLING_FACTOR = 2.5;
 
-    Scoreboard scoreboard = new Scoreboard(panel);
+    Scoreboard scoreboard;
 
     // press/drag points for launching, and if we are dragging
     private boolean dragging;
@@ -229,6 +229,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
 
         };
+        
+        scoreboard = new Scoreboard(panel);
+        scoreboard.start();
 
         panel.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         startPanel = new JPanel();
