@@ -24,9 +24,9 @@ public class AverageZombie extends Soldier
     /**
      * Constructor for objects of class AverageZombie
      */
-    public AverageZombie(Point2D.Double position, JComponent container)
+    public AverageZombie(Point2D.Double position, JComponent container, TowerDefense tower)
     {
-        super(position, container);
+        super(position, container, tower);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "soldierTypeOne.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);

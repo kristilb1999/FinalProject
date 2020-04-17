@@ -33,6 +33,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     private int grassLine;
 
+    private int towerHealth = 5;
+
     private static final Color DAY_GRASS = new Color(42, 153, 32);
     private static final Color NIGHT_GRASS = new Color(29, 112, 87);
 
@@ -47,6 +49,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private Vector<Weapon> weaponList;
 
     private boolean nightTime;
+    private boolean gameLost;
 
     private JPanel panel;
     private JPanel startPanel;
@@ -65,6 +68,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     // an object to serve as the lock for thread safety of our list access
     private Object weaponLock = new Object();
     private Object soldierLock = new Object();
+    private Object healthLock = new Object();
 
     /**
     Method to redraw our basic winter scene in the graphics panel.
@@ -110,7 +114,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         // since we will be modifying the list, we will
         // lock access in case a mouseReleased is going
         // to happen at the same time
-        
+
         synchronized (soldierLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
@@ -125,10 +129,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
             }
         }
-        
-        
+
         i = 0;
-        
         synchronized (weaponLock) {
             while (i < weaponList.size()) {
                 Weapon w = weaponList.get(i);
@@ -140,6 +142,23 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                     i++;
                 }
             }
+        }
+
+        if(gameLost) {
+            int centerX = width/2;
+            int centerY = height/2;
+
+            Font currentFont = g.getFont();
+            Font newFont = new Font("Rockwell", Font.BOLD, 50);
+            g.setFont(newFont);
+
+            FontMetrics fontInfo = g.getFontMetrics();
+            centerX = centerX - (fontInfo.stringWidth("Click to create bubbles!!")/2);
+            centerY = centerY - (fontInfo.getAscent()/2);
+
+            g.setColor(Color.MAGENTA);
+            g.drawString("You're a loser.", centerX, centerY);
+
         }
     }
 
@@ -175,6 +194,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
                 // redraw our main scene
                 redrawScene(g);
+
+                if(towerHealth <= 0) {
+                    gameLost = true;
+                }
             }
 
         };
@@ -215,12 +238,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                     panel.repaint();
                 }
             }
-        }.
-
-        start();
+        }.start(); 
     }
 
-    /**
+    /** 
     Mouse press event handler to set up to create a new
     BouncingGravityBall on subsequent release.
     @param e mouse event info
@@ -230,19 +251,19 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         if (e.getSource().equals(easyRound))
         {
-            SoldierArmy easy = new SoldierArmy(EASY, panel);
+            SoldierArmy easy = new SoldierArmy(EASY, panel, this);
             soldierArmyList.add(easy);
             easy.start();
         }
         if (e.getSource().equals(mediumRound))
         {
-            SoldierArmy medium = new SoldierArmy(MEDIUM, panel);
+            SoldierArmy medium = new SoldierArmy(MEDIUM, panel, this);
             soldierArmyList.add(medium);
             medium.start();
         }
         if (e.getSource().equals(hardRound))
         {
-            SoldierArmy hard = new SoldierArmy(HARD, panel);
+            SoldierArmy hard = new SoldierArmy(HARD, panel, this);
             soldierArmyList.add(hard);
             hard.start();
         }
@@ -294,6 +315,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         newWeapon.start();
         dragging = false;
+    }
+
+    public void modifyTowerHealth(int numDamage) {
+        synchronized (healthLock) {
+            towerHealth = towerHealth - numDamage;
+        }
     }
 
     public static void main(String[] args) {

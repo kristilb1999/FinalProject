@@ -18,9 +18,9 @@ import javax.imageio.ImageIO;
 abstract public class Soldier extends Thread 
 {
     protected double speed;
-    protected int damage;
     protected int hitsUntilDeath;
     protected static final int STOP_ZOMB = 300;
+    protected static final int DAMAGE_DONE = 1;
     protected Image type;
 
     protected String typeFilePath;
@@ -32,6 +32,8 @@ abstract public class Soldier extends Thread
     protected JComponent container;
 
     public static final int DELAY_TIME = 200;
+    
+    protected TowerDefense tower;
 
     //public static final File imageIn = new File("towerImage.png");
     //public static final BufferedImage tower =  ImageIO.read(imageIn);
@@ -41,11 +43,12 @@ abstract public class Soldier extends Thread
     /**
      * Constructor for objects of class Soldier
      */
-    public Soldier(Point2D.Double position, JComponent container)
+    public Soldier(Point2D.Double position, JComponent container, TowerDefense tower)
     {
         this.position = position;
         this.container = container;
         done = false;
+        this.tower = tower;
     } 
 
     public void run(){
@@ -81,6 +84,7 @@ abstract public class Soldier extends Thread
 
             if (position.x > container.getWidth() - STOP_ZOMB || hitsUntilDeath <= 0)
             {
+                tower.modifyTowerHealth(DAMAGE_DONE);
                 done = true;
             }
 
