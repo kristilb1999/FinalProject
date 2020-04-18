@@ -38,7 +38,7 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     public void run(){
-        //DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
+        DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
         
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
