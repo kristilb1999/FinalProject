@@ -7,109 +7,153 @@ import javax.swing.event.*;
 import java.awt.geom.*;
 
 /**
- * Write a description of class Weapon here.
+ * This abstract class outlines exactly what we expect our weapons to be
+ * and what we expect them to do to the enemies.
  *
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
 abstract public class Weapon extends Thread
 {
-    // delay time between frames of animation (ms)
+    //DELAY TIME BETWEEN FRAMES OF ANIMATION (MS)
     public static final int DELAY_TIME = 33;
+    
+    //WHAT IS SLOW ENOUGH TO CONSIDER A WEAPON "STOPPED"
+    public static final double ALMOST_STOPPED = 0.4;
 
+    //AMOUNT TO ADD TO THE VELOCITY IN THE Y DIRECTION TO SIMULATE GRAVITY
+    public static final double GRAVITY = 0.5;
+
+    //HOW MUCH MOMENTUM IS LOST ON BOUNCE
+    public static final double DAMPING = 0.5;
+
+    //THE CONTAINER TO REPAINT
     protected JComponent container;
 
+    //THE POSITION OF THE WEAPON AND ITS VELOCITY
     protected Point2D.Double position;
     protected Point2D.Double velocity;
 
+    //THE WEAPONS IMAGE
     protected Image type;
 
+    //THE FILE PATH FOR THAT IMAGE
     protected String typeFilePath;
 
+    //WHETHER OR NOT THE IMAGE HAS BOUNCED
     protected boolean bounced;
 
+    //WHETHER OR NOT THE WEAPON HAS COMPLETED ITS FUNCTION
     protected boolean done;
 
-    // what is slow enough to consider to be stopped?
-    public static final double ALMOST_STOPPED = 0.4;
-
-    // what to add to ySpeed to simulate gravity?
-    public static final double GRAVITY = 0.5;
-
-    // how much momentum to lose on a bounce
-    public static final double DAMPING = 0.9;
-
-    // max allowed coordinates of the upper left corner
+    //MAX COORDINATES THE UPPER LEFT COORDINATE CAN REACH
     protected int xMax, yMax;
 
     /**
-     * Constructor for objects of class Weapon
+     * Creates a weapon and puts it in the container.
+     * 
+     * @param container The container to paint it in.
+     * @param position The weapon's current position.
+     * @param inertia Determines object velocity.
      */
     public Weapon(JComponent container, Point2D.Double position, Point2D.Double inertia)
     {
+        //SET THE CONTAINER TO REPAINT AND ENSURE WEAPON IS NOT FINISHED YET
         this.container = container;
         done = false;
 
+        //SETS POSITION OF WEAPON TO ITS CENTER
         this.position = new Point2D.Double(position.x - getSize()/2 , position.y - getSize()/2);
-        this.yMax = container.getHeight() - getSize();
-        this.xMax = container.getWidth() - getSize();
+        
+        //SETS THE MAX COORDINATES TO LESS THAN THE HEIGHT AND WIDTH BY HALF THE SIZE OF THE WEAPON
+        this.yMax = container.getHeight() - getSize() / 2;
 
+        //SETS VELOCITY OF OBJECT BASED ON ITS INERTIA
         velocity = new Point2D.Double( inertia.x / getWeight() , inertia.y / getWeight() );
     }
 
+    /**
+     * Moves the weapon across the screen based on its own velocity and the pull of gravity.
+     * Weapons may bounce off of the ceiling and the floor.
+     */
     public void run(){
         while (!done) {
+            //SLEEP BETWEEN REDRAWING FRAMES
             try {
                 sleep(DELAY_TIME);
             }
             catch (InterruptedException e) {
             }
 
-            // every iteration, update the coordinates
-            // by a pixel
+            //EVERY ITERATION, UPDATE COORDINATES
             position.x += velocity.x;
             position.y += velocity.y;
 
             bounced = false;
 
+            //BOUNCE OFF OF THE CIELING
             if (position.y < 0) {
                 position.y = 0;
                 bounced = true;
                 velocity.y = -velocity.y;
             }
 
+            //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
                 position.y = yMax;
                 bounced = true;
                 velocity.y = -velocity.y;
             }
 
-            // if we bounced, we're going to dampen speed in both dimensions
+            //IF WE BOUNCED, WE'RE GOING TO DAMPEN SPEED IN BOTH DIMENSIONS
             if (bounced) {
                 velocity.x *= DAMPING;
                 velocity.y *= DAMPING;
             }
             
-            // if we've almost stopped moving, let's say we're done
+            //IF WE'VE ALMOST STOPPED MOVING, LET'S END
             done = (position.y == yMax &&
                 Math.abs(velocity.y) < ALMOST_STOPPED &&
                 Math.abs(velocity.x) < ALMOST_STOPPED);
                 
-            // gravity factor also
+            //ADD IN GRAVITY TO THE VELOCITY
             velocity.y += GRAVITY;
-            
         }
-
     }
 
+    /**
+     * Returns the size of the weapon.
+     * 
+     * @return The size of the weapon object.
+     */
     abstract public int getSize();
 
+    /**
+     * Paints the object in the panel.
+     * 
+     * @param g The graphics object.
+     */
     abstract public void paint(Graphics g);
 
+    /**
+     * Returns the strength of the weapon.
+     * 
+     * @return The strength of the weapon.
+     */
     abstract public int getStrength();
 
+    /**
+     * Returns the weight of the object.
+     * 
+     * @return The weight of the object.
+     */
     abstract public int getWeight();
 
+    /**
+     * Returns whether or not the weapon is finished.
+     * 
+     * @return Whether or not the weapon is done.
+     */
     public boolean done() {
         return done;
     }
