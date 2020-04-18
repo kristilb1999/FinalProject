@@ -37,10 +37,8 @@ public class Scoreboard extends Thread implements ActionListener
     JButton exitButton;
     JButton cancelAddPlayerButton;
     JButton cancelAddFriendButton;
-    JComponent container;
 
-    public Scoreboard(JComponent container){
-        this.container = container;
+    public Scoreboard(){
         this.score = 0;
     }
 
