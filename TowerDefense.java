@@ -8,7 +8,13 @@ import javax.swing.event.*;
 import java.awt.geom.*;
 
 /**
- * Write a description of class TowerDefense here.
+ * This game is loosely based off of a tower defense game. In this game, 
+ * you must defend your tower against the invading zombie army. Your 
+ * weapons of choice: explosives and boulders? You must shoot all of the
+ * incoming zombies with your boulders, grenades, molotov cocktails, and 
+ * your trusty tnt. The user may choose from three difficulty levels for
+ * enemy waves and spawn as many enemies as you'd like. However, once 
+ * your tower falls, you'll be exposed for the loser you are.
  *
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
