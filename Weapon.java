@@ -50,7 +50,7 @@ abstract public class Weapon extends Thread
     protected int xMax, yMax;
 
     /**
-     * Creates a weapon and puts it in the container.
+     * Creates a Weapon and puts it in the container.
      * 
      * @param container The container to paint it in.
      * @param position The weapon's current position.
@@ -91,12 +91,16 @@ abstract public class Weapon extends Thread
 
             bounced = false;
 
-            //BOUNCE OFF OF THE CIELING
-            if (position.y < 0) {
-                position.y = 0;
-                bounced = true;
-                velocity.y = -velocity.y;
-            }
+            //WHEN THIS PART IS COMMENTED OUT, THE WEAPON WILL FLY PAST THE BORDER
+            //OF THE SCREEN AND COME BACK DOWN TOWARD THE GRAVITY ONCE ITS VELOCITY
+            //BECOMES NEGATIVE -- DO WE LIKE THIS? I LIKE THIS.
+            
+            // //BOUNCE OFF OF THE CIELING
+            // if (position.y < 0) {
+                // position.y = 0;
+                // bounced = true;
+                // velocity.y = -velocity.y;
+            // }
 
             //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
@@ -143,9 +147,9 @@ abstract public class Weapon extends Thread
     abstract public int getStrength();
 
     /**
-     * Returns the weight of the object.
+     * Returns the weight of the weapon.
      * 
-     * @return The weight of the object.
+     * @return The weight of the weapon object.
      */
     abstract public int getWeight();
 
