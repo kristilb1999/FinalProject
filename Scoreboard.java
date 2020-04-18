@@ -49,6 +49,8 @@ public class Scoreboard extends Thread implements ActionListener
         
         JPanel savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
+        yourNameSelect = new JComboBox<String>();
+        savePanel.add(yourNameSelect);
         savePanel.add(saveScoreButton);
         saveScoreDialog.add(savePanel);
 
