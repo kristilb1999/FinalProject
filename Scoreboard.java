@@ -41,11 +41,16 @@ public class Scoreboard extends Thread implements ActionListener
         saveScoreDialog.setTitle("Add New Highscore");
         saveScoreDialog.setSize(new Dimension(500,500));
         //fields for adding a highscore
-        saveScoreDialog.add(new JLabel("Select Your Player Name: "));
-        saveScoreDialog.add(yourNameSelect);
+        //saveScoreDialog.add(new JLabel("Select Your Player Name: "));
+        //saveScoreDialog.add(yourNameSelect);
         saveScoreButton = new JButton("Save Highscore");
-        saveScoreDialog.add(saveScoreButton);
-        addPlayerButton = new JButton("Add New Player");
+        //saveScoreDialog.add(saveScoreButton);
+        //addPlayerButton = new JButton("Add New Player");
+        
+        JPanel savePanel = new JPanel();
+        savePanel.add(new JLabel("Select Your Player Name: "));
+        savePanel.add(saveScoreButton);
+        saveScoreDialog.add(savePanel);
 
         //dialog box for adding a new player
         addPlayerDialog = new JDialog();
