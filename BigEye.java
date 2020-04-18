@@ -7,50 +7,78 @@ import javax.swing.event.*;
 import java.awt.geom.*;
 
 /**
- * Write a description of class AverageZombie here.
+ * The BigEye Soldier.
  *
  * @author Cameron Costello, Kristi Boardman, Jacob Burch, Will Skelly
  * @version Spring 2020
  */
 public class BigEye extends Soldier
 {
-    
+    //THE SIZE OF THE AVERAGEZOMBIE SOLDIER
     private static final int SIZE = 80;
     
+    //THE STRENGTH OF THE AVERAGEZOMBIE SOLDIER
     private static final int STRENGTH = 10;
     
+    //THE SPEED OF THE AVERAGEZOMBIE SOLDIER
     private static final int SPEED = 7;
 
     /**
-     * Constructor for objects of class AverageZombie
+     * Creates a BigEye Soldier object.
+     * 
+     * @param position The position of the soldier.
+     * @param container The container to repaint the soldier in.
+     * @param tower The reference to the tower in the game.
      */
     public BigEye(Point2D.Double position, JComponent container, TowerDefense tower)
     {
+        //CALLS THE SUPER CONTRUCTOR FOR THE SOLDIER
         super(position, container, tower);
+        
+        //CREATES THE IMAGE OF THE BIGEYE SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "soldierTypeTwo.jpg";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
+        
+        //SETS THE HEALTH OF THE SOLDIER
         hitsUntilDeath = 2;
+        
+        //SETS THE SPEED OF THE SOLDIER
         speed = SPEED;
+        
+        //SETS THE LOCATION OF THE SOLDIER AT ITS POSITION
         position.setLocation(position.x, position.y - SIZE);
     }
 
+    /**
+     * Paints the BigEye Soldier on the container at it's position.
+     * 
+     * @param g The graphics object.
+     */
     @Override
     public void paint(Graphics g) 
     {
         if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
-       } else {
-
         }
     }
     
+    /**
+     * Returns the strength of the BigEye Soldier.
+     * 
+     * @return The strength of this BigEye soldier.
+     */
     @Override
     public int getStrength() 
     {
         return STRENGTH;
     }
     
+    /**
+     * Returns the size of the BigEye Soldier.
+     * 
+     * @return The size of this BigEye soldier.
+     */
     @Override
     public int getSize() 
     {
