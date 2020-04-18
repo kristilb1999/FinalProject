@@ -15,9 +15,15 @@ import java.awt.geom.*;
  */
 public class Scoreboard extends Thread implements ActionListener
 {
+    //THE DELAY TIME FOR THE SLEEP METHOD
+    private static final int DELAY_TIME = 33;
+    
     JDialog saveScoreDialog;
     JDialog addFriendDialog;
     JDialog addPlayerDialog;
+    JPanel savePanel;
+    JPanel addPlayerPanel;
+    JPanel addFriendPanel;
     int score;
     JLabel yourScoreLabel;
     JTextField newPlayerName;
@@ -27,6 +33,7 @@ public class Scoreboard extends Thread implements ActionListener
     JButton addPlayerButton;
     JButton saveNameButton;
     JButton addFriendButton;
+    JButton saveFriendButton;
     JButton exitButton;
     JButton cancelAddPlayerButton;
     JButton cancelAddFriendButton;
@@ -39,12 +46,12 @@ public class Scoreboard extends Thread implements ActionListener
 
     public void run(){
         DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
-        
+
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
         saveScoreDialog.setTitle("Add New Highscore");
         saveScoreDialog.setSize(new Dimension(500,500));
-        JPanel savePanel = new JPanel();
+        savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
         yourNameSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
         savePanel.add(yourNameSelect);
@@ -54,6 +61,8 @@ public class Scoreboard extends Thread implements ActionListener
         savePanel.add(saveScoreButton);
         addPlayerButton = new JButton("Add New Player");
         savePanel.add(addPlayerButton);
+        addFriendButton = new JButton("Add Friend");
+        savePanel.add(addFriendButton);
         exitButton = new JButton("Exit");
         savePanel.add(exitButton);
         saveScoreDialog.add(savePanel);
@@ -63,9 +72,10 @@ public class Scoreboard extends Thread implements ActionListener
         addPlayerDialog.setTitle("Add New Player");
         addPlayerDialog.setSize(new Dimension(500,500));
         //fields for adding a player
-        JPanel addPlayerPanel = new JPanel();
+        addPlayerPanel = new JPanel();
         addPlayerPanel.add(new JLabel("Enter Your Name: "));
         newPlayerName = new JTextField();
+        newPlayerName.setMinimumSize(new Dimension(100,100));
         addPlayerPanel.add(newPlayerName);
         saveNameButton = new JButton("Save Player Name");
         addPlayerPanel.add(saveNameButton);
@@ -74,24 +84,22 @@ public class Scoreboard extends Thread implements ActionListener
         addPlayerDialog.add(addPlayerPanel);
 
         //dialog box for adding a friend
-        addPlayerDialog = new JDialog();
-        addPlayerDialog.setTitle("Add Friend");
-        addPlayerDialog.setSize(new Dimension(500,500));
+        addFriendDialog = new JDialog();
+        addFriendDialog.setTitle("Add Friend");
+        addFriendDialog.setSize(new Dimension(500,500));
         //fields for adding a friend
-        JPanel addFriendPanel = new JPanel();
+        addFriendPanel = new JPanel();
         addFriendPanel.add(new JLabel("Select Your Player Name: "));
         addFriendPanel.add(yourNameSelect);
         addFriendPanel.add(new JLabel("Select Your Friend's Player Name: "));
+        friendNameSelect = new JComboBox<String>();
         addFriendPanel.add(friendNameSelect);
-        addFriendButton = new JButton("Add Friend");
-        addFriendPanel.add(addFriendButton);
+        saveFriendButton = new JButton("Add Friend");
+        addFriendPanel.add(saveFriendButton);
         cancelAddFriendButton = new JButton("Cancel");
         addFriendPanel.add(cancelAddFriendButton);
-        addFriendPanel.add(addFriendPanel);
-        
-        container.add(saveScoreDialog);
-        container.add(addPlayerDialog);
-        container.add(addFriendDialog);
+        addFriendDialog.add(addFriendPanel);
+
         saveScoreDialog.setVisible(false);
         addPlayerDialog.setVisible(false);
         addFriendDialog.setVisible(false);
@@ -102,6 +110,23 @@ public class Scoreboard extends Thread implements ActionListener
         exitButton.addActionListener(this);
         cancelAddPlayerButton.addActionListener(this);
         cancelAddFriendButton.addActionListener(this);
+        
+        Scoreboard thisScoreBoard = this;
+        //REPAINT THE SCENE AFTER A SET AMOUNT OF TIME
+        new Thread() {
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        sleep(DELAY_TIME);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+
+                    thisScoreBoard.paint();
+                }
+            }
+        }.start(); 
     }
 
     public void actionPerformed(ActionEvent e){
@@ -114,6 +139,8 @@ public class Scoreboard extends Thread implements ActionListener
             newPlayerName.setText("");
             addPlayerDialog.setVisible(false);
         } else if(e.getSource().equals(addFriendButton)){
+            addFriendDialog.setVisible(true);
+        } else if(e.getSource().equals(saveFriendButton)){
             DatabaseDriver.addFriendship((String)yourNameSelect.getSelectedItem(),(String)friendNameSelect.getSelectedItem());
             friendNameSelect.setSelectedItem(null);
             addFriendDialog.setVisible(false);
@@ -138,5 +165,11 @@ public class Scoreboard extends Thread implements ActionListener
     public void setScore(int score){
         this.score = score;
         yourScoreLabel.setText("Your Highscore: " + score);
+    }
+    
+    public void paint(){
+        savePanel.repaint();
+        addFriendPanel.repaint();
+        addPlayerPanel.repaint();
     }
 }
