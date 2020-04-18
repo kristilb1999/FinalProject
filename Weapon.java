@@ -65,8 +65,8 @@ abstract public class Weapon extends Thread
         //SETS POSITION OF WEAPON TO ITS CENTER
         this.position = new Point2D.Double(position.x - getSize()/2 , position.y - getSize()/2);
         
-        //SETS THE MAX COORDINATES TO LESS THAN THE HEIGHT AND WIDTH BY HALF THE SIZE OF THE WEAPON
-        this.yMax = container.getHeight() - getSize() / 2;
+        //SETS THE MAX COORDINATES TO LESS THAN THE HEIGHT AND WIDTH BY THE SIZE OF THE WEAPON
+        this.yMax = container.getHeight() - getSize();
 
         //SETS VELOCITY OF OBJECT BASED ON ITS INERTIA
         velocity = new Point2D.Double( inertia.x / getWeight() , inertia.y / getWeight() );
