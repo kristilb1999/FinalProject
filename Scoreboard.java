@@ -19,6 +19,7 @@ public class Scoreboard extends Thread implements ActionListener
     JDialog addFriendDialog;
     JDialog addPlayerDialog;
     int score;
+    JLabel yourScoreLabel;
     JTextField newPlayerName;
     JComboBox<String> yourNameSelect;
     JComboBox<String> friendNameSelect;
@@ -33,25 +34,28 @@ public class Scoreboard extends Thread implements ActionListener
 
     public Scoreboard(JComponent container){
         this.container = container;
+        this.score = 0;
     }
 
     public void run(){
+        //DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
+        
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
         saveScoreDialog.setTitle("Add New Highscore");
         saveScoreDialog.setSize(new Dimension(500,500));
-        //fields for adding a highscore
-        //saveScoreDialog.add(new JLabel("Select Your Player Name: "));
-        //saveScoreDialog.add(yourNameSelect);
-        saveScoreButton = new JButton("Save Highscore");
-        //saveScoreDialog.add(saveScoreButton);
-        //addPlayerButton = new JButton("Add New Player");
-        
         JPanel savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
-        yourNameSelect = new JComboBox<String>();
+        yourNameSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
         savePanel.add(yourNameSelect);
+        yourScoreLabel = new JLabel("Your Highscore: 0");
+        savePanel.add(yourScoreLabel);
+        saveScoreButton = new JButton("Save Highscore");
         savePanel.add(saveScoreButton);
+        addPlayerButton = new JButton("Add New Player");
+        savePanel.add(addPlayerButton);
+        exitButton = new JButton("Exit");
+        savePanel.add(exitButton);
         saveScoreDialog.add(savePanel);
 
         //dialog box for adding a new player
@@ -59,28 +63,32 @@ public class Scoreboard extends Thread implements ActionListener
         addPlayerDialog.setTitle("Add New Player");
         addPlayerDialog.setSize(new Dimension(500,500));
         //fields for adding a player
-        addPlayerDialog.add(new JLabel("Enter Your Name: "));
+        JPanel addPlayerPanel = new JPanel();
+        addPlayerPanel.add(new JLabel("Enter Your Name: "));
         newPlayerName = new JTextField();
-        addPlayerDialog.add(newPlayerName);
+        addPlayerPanel.add(newPlayerName);
         saveNameButton = new JButton("Save Player Name");
-        addPlayerDialog.add(saveNameButton);
+        addPlayerPanel.add(saveNameButton);
         cancelAddPlayerButton = new JButton("Cancel");
-        addPlayerDialog.add(cancelAddPlayerButton);
+        addPlayerPanel.add(cancelAddPlayerButton);
+        addPlayerDialog.add(addPlayerPanel);
 
         //dialog box for adding a friend
         addPlayerDialog = new JDialog();
         addPlayerDialog.setTitle("Add Friend");
         addPlayerDialog.setSize(new Dimension(500,500));
         //fields for adding a friend
-        addFriendDialog.add(new JLabel("Select Your Player Name: "));
-        addFriendDialog.add(yourNameSelect);
-        addFriendDialog.add(new JLabel("Select Your Friend's Player Name: "));
-        addFriendDialog.add(friendNameSelect);
+        JPanel addFriendPanel = new JPanel();
+        addFriendPanel.add(new JLabel("Select Your Player Name: "));
+        addFriendPanel.add(yourNameSelect);
+        addFriendPanel.add(new JLabel("Select Your Friend's Player Name: "));
+        addFriendPanel.add(friendNameSelect);
         addFriendButton = new JButton("Add Friend");
-        addFriendDialog.add(addFriendButton);
+        addFriendPanel.add(addFriendButton);
         cancelAddFriendButton = new JButton("Cancel");
-        addFriendDialog.add(cancelAddFriendButton);
-
+        addFriendPanel.add(cancelAddFriendButton);
+        addFriendPanel.add(addFriendPanel);
+        
         container.add(saveScoreDialog);
         container.add(addPlayerDialog);
         container.add(addFriendDialog);
@@ -129,5 +137,6 @@ public class Scoreboard extends Thread implements ActionListener
 
     public void setScore(int score){
         this.score = score;
+        yourScoreLabel.setText("Your Highscore: " + score);
     }
 }
