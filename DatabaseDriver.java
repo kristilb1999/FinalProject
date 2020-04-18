@@ -2,6 +2,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Write a description of class DatabaseDriver here.
@@ -13,10 +14,10 @@ public class DatabaseDriver
 {
     private static String databaseName = "./Player-Friends";
 
-    public static void fetchDatabase(){
+    public static void fetchDatabase(File file){
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
 
-            Scanner sc = new Scanner(new File("createSampleDatabase.txt"));
+            Scanner sc = new Scanner(file);
 
             String query = "";
             PreparedStatement stmt;
@@ -111,8 +112,8 @@ public class DatabaseDriver
         return friends;
     }
     
-    public static ArrayList<String> getAllPlayers(){
-        ArrayList players= new ArrayList<String>();
+    public static Vector<String> getAllPlayers(){
+        Vector players= new Vector<String>();
         String query = "SELECT Name FROM Player";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(query);
@@ -131,7 +132,7 @@ public class DatabaseDriver
     }
 
     public static void main(String args[]){
-        DatabaseDriver.fetchDatabase();
+        DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
 
         int count = 0;
         int maxCount = 0;
