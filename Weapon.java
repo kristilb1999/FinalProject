@@ -17,7 +17,7 @@ abstract public class Weapon extends Thread
 {
     //DELAY TIME BETWEEN FRAMES OF ANIMATION (MS)
     public static final int DELAY_TIME = 33;
-    
+
     //WHAT IS SLOW ENOUGH TO CONSIDER A WEAPON "STOPPED"
     public static final double ALMOST_STOPPED = 0.4;
 
@@ -64,7 +64,7 @@ abstract public class Weapon extends Thread
 
         //SETS POSITION OF WEAPON TO ITS CENTER
         this.position = new Point2D.Double(position.x - getSize()/2 , position.y - getSize()/2);
-        
+
         //SETS THE MAX COORDINATES TO LESS THAN THE HEIGHT AND WIDTH BY THE SIZE OF THE WEAPON
         this.yMax = container.getHeight() - getSize();
 
@@ -89,18 +89,7 @@ abstract public class Weapon extends Thread
             position.x += velocity.x;
             position.y += velocity.y;
 
-            bounced = false;
-
-            //WHEN THIS PART IS COMMENTED OUT, THE WEAPON WILL FLY PAST THE BORDER
-            //OF THE SCREEN AND COME BACK DOWN TOWARD THE GRAVITY ONCE ITS VELOCITY
-            //BECOMES NEGATIVE -- DO WE LIKE THIS? I LIKE THIS.
-            
-            // //BOUNCE OFF OF THE CIELING
-            // if (position.y < 0) {
-                // position.y = 0;
-                // bounced = true;
-                // velocity.y = -velocity.y;
-            // }
+            //bounced = false;
 
             //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
@@ -113,16 +102,18 @@ abstract public class Weapon extends Thread
             if (bounced) {
                 velocity.x *= DAMPING;
                 velocity.y *= DAMPING;
+                
             }
-            
+
             //IF WE'VE ALMOST STOPPED MOVING, LET'S END
             done = (position.y == yMax &&
                 Math.abs(velocity.y) < ALMOST_STOPPED &&
                 Math.abs(velocity.x) < ALMOST_STOPPED);
-                
+
             //ADD IN GRAVITY TO THE VELOCITY
             velocity.y += GRAVITY;
         }
+        
     }
 
     /**

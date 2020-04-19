@@ -23,6 +23,15 @@ public class Grenade extends Weapon
     //THE SIZE OF EVERY GRENADE WEAPON
     private static final int SIZE = 50;
 
+    //THE SIZE OF EVERY GRENADE WEAPON
+    private static final int WHEN_TO_EXPLODE = 10;
+
+    //DETERMINES WHEN GRENADE EXPLODES
+    protected int countTillExplosion;
+
+    //DETERMINES WHEN GRENADE EXPLODES
+    protected boolean explodedInAir;
+
     /**
      * Creates a Grenade Weapon.
      * 
@@ -34,7 +43,7 @@ public class Grenade extends Weapon
     {
         //CALL THE SUPER CONSTRUCTOR OF THE WEAPON
         super(container, position, inertia);
-        
+
         //CREATES THE GRENADE IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         typeFilePath = "weaponTypeTwo.jpg";
@@ -49,7 +58,110 @@ public class Grenade extends Weapon
     @Override
     public void paint(Graphics g) {
 
-        g.drawImage(type, (int)position.x, (int)position.y, null);
+        //if (!done)
+        //{
+            if (!explodedInAir)
+            {
+                g.drawImage(type, (int)position.x, (int)position.y, null);
+            }
+            else
+            {
+                g.setColor(Color.RED);
+                g.fillOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
+                g.setColor(Color.BLACK);
+                g.drawOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
+
+                g.setColor(Color.RED);
+                g.fillOval((int)position.x - SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
+                g.setColor(Color.BLACK);
+                g.drawOval((int)position.x- SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
+
+                g.setColor(Color.RED);
+                g.fillOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
+                g.setColor(Color.BLACK);
+                g.drawOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
+
+                g.setColor(Color.RED);
+                g.fillOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+                g.setColor(Color.BLACK);
+                g.drawOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+
+                g.setColor(Color.RED);
+                g.fillOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+                g.setColor(Color.BLACK);
+                g.drawOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+
+                velocity.x = 0;
+                velocity.y = 0;
+                done = true;
+
+                
+            }
+
+        //}
+
+        //container.repaint();
+        System.out.println("DONE " + done);
+    }
+
+    /**
+     * Moves the weapon across the screen based on its own velocity and the pull of gravity.
+     * Weapons may bounce off of the ceiling and the floor.
+     */
+    @Override
+    public void run(){
+        while (!explodedInAir) {
+            //SLEEP BETWEEN REDRAWING FRAMES
+            try {
+                sleep(DELAY_TIME);
+            }
+            catch (InterruptedException e) {
+            }
+
+            //EVERY ITERATION, UPDATE COORDINATES
+            position.x += velocity.x;
+            position.y += velocity.y;
+
+            //bounced = false;
+
+            //BOUNCE OFF OF THE FLOOR
+            if (position.y > yMax) {
+                position.y = yMax;
+                bounced = true;
+                velocity.y = -velocity.y;
+            }
+
+            //IF WE BOUNCED, WE'RE GOING TO DAMPEN SPEED IN BOTH DIMENSIONS
+            if (bounced && countTillExplosion == 0) {
+                velocity.x *= DAMPING;
+                velocity.y *= DAMPING;
+            }
+
+            if(bounced){
+                countTillExplosion++;
+            }
+
+            if (countTillExplosion == WHEN_TO_EXPLODE){
+                explodedInAir = true;
+            }
+
+            //IF WE'VE ALMOST STOPPED MOVING, LET'S END
+            done = (position.y == yMax &&
+                Math.abs(velocity.y) < ALMOST_STOPPED &&
+                Math.abs(velocity.x) < ALMOST_STOPPED);
+
+            //ADD IN GRAVITY TO THE VELOCITY
+            velocity.y += GRAVITY;
+        }
+
+        //container.repaint();
+        try {
+                sleep(5000);
+            }
+            catch (InterruptedException e) {
+            }
+        
+        done = true;
 
     }
 
