@@ -23,7 +23,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 {
     //THE DELAY TIME FOR THE SLEEP METHOD
     private static final int DELAY_TIME = 33;
-    
+
     //THE WIDTH AND HEIGHT OF THE PANEL
     private static final int PANEL_WIDTH = 1250;
     private static final int PANEL_HEIGHT = 700;
@@ -201,7 +201,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //RESET INDEX TO ZERO
         i = 0;
-        
+
         //REDRAW EACH WEAPON AT ITS CURRENT POSITION AND REMOVE THE ONES THAT ARE DONE ALONG THE WAY
         //SINCE WE WILL BE MODIFYING THE LIST, WE WILL LOCK ACCESS SO THAT NO CONCURRENT EXCEPTION WILL OCCUR
         synchronized (weaponLock) {
@@ -289,7 +289,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATE A PANEL FOR THE GAME
         panel.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
-        
+
         //CREATE A PANEL FOR THE BUTTONS AND SET THE COLOR TO BLACK
         startPanel = new JPanel();
         startPanel.setBackground(Color.BLACK);
@@ -316,8 +316,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET THE FONT OF THE HEALTH LABEL
         healthBar.setFont(FONT_USED);
-        
-        
+
         //SET THE FONT AND COLORS OF THE SCORE BUTTON
         score.setFont(FONT_USED);
         score.setForeground(Color.MAGENTA);
@@ -391,7 +390,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }.start(); 
     }
 
-    
     /**
      * The action listener that handles events for each button.
      * Start button will start the game. Reset button will
@@ -403,91 +401,85 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         //WHEN THE BUTTON PRESSED IS THE START OR RESTART BUTTONS
         if(e.getSource().equals(startOrRestart)) {
             //IF THE BUTTON CURRENTLY SAYS START (WHEN THE GAME BEGINS)
             if(startOrRestart.getText().equals("Start")) { 
-                //THE GAME HAS STARTED
-                gameStarted = true;
-
-                //THE TOWER STARTS WITH MAXIMUM HEALTH
-                towerHealth = START_HEALTH;
-
-                //THE DIFFICULTY BUTTONS BECOME VISIBLE
-                easyRound.setVisible(true);
-                mediumRound.setVisible(true);
-                hardRound.setVisible(true);
-
-                //THE AMOUNT OF HEALTH LEFT BECOMES VISIBLE
-                healthBar.setVisible(true);
-
-                //THE SCORE BUTTON BECOMES VISIBLE
-                score.setVisible(true);
-
-                //THE START BUTTON BECOMES THE RESTART BUTTON
-                startOrRestart.setText("Restart");
+                startGame();
             } else {
-                //IF THE BUTTON CURRENTLY SAYS RESTART (WHEN THE GAME HAS ALREADY BEGUN OR HAS ENDED)
-                
-                //END THE GAME
-                gameStarted = false;
-
-                //RESET THE BUTTON TO SAY START
-                startOrRestart.setText("Start");
-
-                //THE DIFFICULTY BUTTONS ARE HIDDEN
-                easyRound.setVisible(false);
-                mediumRound.setVisible(false);
-                hardRound.setVisible(false);
-
-                //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
-                healthBar.setVisible(false);
-
-                //THE SCORE BUTTON IS HIDDEN
-                score.setVisible(false);
-
-                //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
-                weaponList.clear();
-                soldierArmyList.clear();
+                endGame();
             }
-        }
-
-        //IF THE PLAYER CHOOSES AN EASY ROUND
-        if (e.getSource().equals(easyRound))
+            
+        }else if (e.getSource().equals(easyRound))
         {
-            //AN EASY TO DEFEAT ARMY WILL BE CREATED, ADDED TO THE LIST, AND STARTED 
-            SoldierArmy easy = new SoldierArmy(EASY, panel, this);
-            soldierArmyList.add(easy);
-            easy.start();
-        }
-
-        //IF THE PLAYER CHOOSES A MEDIUM ROUND
-        if (e.getSource().equals(mediumRound))
+            //IF THE PLAYER CHOOSES AN EASY ROUND AN EASY LEVEL WILL BE STARTED
+            startRound(EASY);
+        }else if (e.getSource().equals(mediumRound))
         {
-            //A MEDIUM LEVEL ARMY WILL BE CREATED, ADDED TO THE LIST, AND STARTED 
-            SoldierArmy medium = new SoldierArmy(MEDIUM, panel, this);
-            soldierArmyList.add(medium);
-            medium.start();
-        }
-
-        //IF THE PLAYER CHOOSES A HARD ROUND
-        if (e.getSource().equals(hardRound))
+            //IF THE PLAYER CHOOSES A MEDIUM ROUND A MEDIUM LEVEL WILL BE STARTED
+            startRound(MEDIUM);
+        }else if (e.getSource().equals(hardRound))
         {
-            //A HARD TO DEFEAT ARMY WILL BE CREATED, ADDED TO THE LIST, AND STARTED 
-            SoldierArmy hard = new SoldierArmy(HARD, panel, this);
-            soldierArmyList.add(hard);
-            hard.start();
-        }
-
-        //IF THE SCORE IS TO BE SAVED
-        if(e.getSource().equals(score)) {
+            //IF THE PLAYER CHOOSES A HARD ROUND A HARD LEVEL WILL BE STARTED
+            startRound(HARD);
+        }else if(e.getSource().equals(score)) {
             //THE DIALOG BOX WILL POP UP TO SAVE THE SCORE
             scoreboard.show();
         }
     }
 
-    
+    private void startGame(){
+        //THE GAME HAS STARTED
+        gameStarted = true;
+
+        //THE TOWER STARTS WITH MAXIMUM HEALTH
+        towerHealth = START_HEALTH;
+
+        //THE DIFFICULTY BUTTONS BECOME VISIBLE
+        easyRound.setVisible(true);
+        mediumRound.setVisible(true);
+        hardRound.setVisible(true);
+
+        //THE AMOUNT OF HEALTH LEFT BECOMES VISIBLE
+        healthBar.setVisible(true);
+
+        //THE SCORE BUTTON BECOMES VISIBLE
+        score.setVisible(true);
+
+        //THE START BUTTON BECOMES THE RESTART BUTTON
+        startOrRestart.setText("Restart");
+    }
+
+    private void endGame(){
+        //END THE GAME
+        gameStarted = false;
+
+        //RESET THE BUTTON TO SAY START
+        startOrRestart.setText("Start");
+
+        //THE DIFFICULTY BUTTONS ARE HIDDEN
+        easyRound.setVisible(false);
+        mediumRound.setVisible(false);
+        hardRound.setVisible(false);
+
+        //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
+        healthBar.setVisible(false);
+
+        //THE SCORE BUTTON IS HIDDEN
+        score.setVisible(false);
+
+        //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
+        weaponList.clear();
+        soldierArmyList.clear();
+    }
+
+    private void startRound(int difficulty){
+        //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
+        SoldierArmy army = new SoldierArmy(EASY, panel, this);
+        soldierArmyList.add(army);
+        army.start();
+    }
+
     /**
      * The mouse press event that will set up a weapon
      * to be launched upon release, if the game has begun.
@@ -516,7 +508,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         if(gameStarted) {
             //SAVE THE DRAG POINT FOR PAINT METHOD
             dragPoint = e.getPoint();
-            
+
             //SET DRAG TO FALSE FOR PAINT METHOD
             dragging = true;
         }
@@ -545,10 +537,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 //ADD THE NEW WEAPON TO THE LIST
                 weaponList.add(newWeapon);
             }
-            
+
             //START THE NEW WEAPON NOW THAT IT HAS BEEN ADDED
             newWeapon.start();
-            
+
             //RESET DRAGGING TO FALSE FOR PAINT METHOD
             dragging = false;
         }
