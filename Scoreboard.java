@@ -15,9 +15,11 @@ import java.awt.geom.*;
  */
 public class Scoreboard extends Thread implements ActionListener
 {
-    //THE DELAY TIME FOR THE SLEEP METHOD
-    private static final int DELAY_TIME = 33;
-
+    private static final int WINDOW_WIDTH = 500;
+    private static final int WINDOW_HEIGHT = 175;
+    private static final int TEXTFIELD_WIDTH = 100;
+    private static final int TEXTFIELD_HEIGHT = 20;
+    
     private JDialog saveScoreDialog;
     private JDialog addFriendDialog;
     private JDialog addPlayerDialog;
@@ -53,7 +55,7 @@ public class Scoreboard extends Thread implements ActionListener
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
         saveScoreDialog.setTitle("Add New Highscore");
-        saveScoreDialog.setSize(new Dimension(500,500));
+        saveScoreDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
         yourNameSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
@@ -69,6 +71,10 @@ public class Scoreboard extends Thread implements ActionListener
         exitButton = new JButton("Exit");
         savePanel.add(exitButton);
 
+        JLabel selectFriendHighscoreLabel = 
+            new JLabel("Select a friend's name to see their highscore: ");
+        savePanel.add(selectFriendHighscoreLabel);
+            
         String yourName = (String)yourNameSelect.getSelectedItem();
         if(yourName != null){
             selectAFriendSelect = new JComboBox<String>(DatabaseDriver.getFriends(yourName));
@@ -82,24 +88,24 @@ public class Scoreboard extends Thread implements ActionListener
             selectAFriendSelect = new JComboBox<String>();
         }
         savePanel.add(selectAFriendSelect);
-        
+
         friendScoreLabel = new JLabel();
         String friendName = (String)selectAFriendSelect.getSelectedItem();
         friendScoreLabel.setText("Your Friend's Highscore: " + 
-        (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
-        
+            (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
+
         savePanel.add(friendScoreLabel);
         saveScoreDialog.add(savePanel);
 
         //dialog box for adding a new player
         addPlayerDialog = new JDialog();
         addPlayerDialog.setTitle("Add New Player");
-        addPlayerDialog.setSize(new Dimension(500,500));
+        addPlayerDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a player
         addPlayerPanel = new JPanel();
         addPlayerPanel.add(new JLabel("Enter Your Name: "));
         newPlayerName = new JTextField("");
-        newPlayerName.setPreferredSize(new Dimension(100,20));
+        newPlayerName.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
         addPlayerPanel.add(newPlayerName);
         saveNameButton = new JButton("Save Player Name");
         addPlayerPanel.add(saveNameButton);
@@ -110,7 +116,7 @@ public class Scoreboard extends Thread implements ActionListener
         //dialog box for adding a friend
         addFriendDialog = new JDialog();
         addFriendDialog.setTitle("Add Friend");
-        addFriendDialog.setSize(new Dimension(500,500));
+        addFriendDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a friend
         addFriendPanel = new JPanel();
         addFriendPanel.add(new JLabel("Select Your Player Name: "));
@@ -207,9 +213,9 @@ public class Scoreboard extends Thread implements ActionListener
 
     private void refreshFriendScore(){
         String friendName = (String)selectAFriendSelect.getSelectedItem();
-        
+
         friendScoreLabel.setText("Your Friend's Highscore: " + 
-        (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
+            (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
     }
 
     private void saveScore(){
@@ -225,14 +231,14 @@ public class Scoreboard extends Thread implements ActionListener
 
     private void saveName(){
         String yourName = newPlayerName.getText();
-        
+
         if(yourName.length() != 0 ){
             DatabaseDriver.addPlayer(newPlayerName.getText());
-        lastAddedPlayerName = newPlayerName.getText();
-        newPlayerName.setText("");
-        addPlayerDialog.setVisible(false);
-        refreshYourNameSelect();
-        refreshAddFriend();
+            lastAddedPlayerName = newPlayerName.getText();
+            newPlayerName.setText("");
+            addPlayerDialog.setVisible(false);
+            refreshYourNameSelect();
+            refreshAddFriend();
         } else {
             JOptionPane.showMessageDialog(null,"A man has a name!","What is your name? What is your quest...",JOptionPane.ERROR_MESSAGE);
         }
@@ -251,7 +257,7 @@ public class Scoreboard extends Thread implements ActionListener
             friendNameSelect.addItem(name);
         }
     }
-    
+
     private void addFriend(){
         addFriendDialog.setVisible(true);
 
@@ -260,12 +266,12 @@ public class Scoreboard extends Thread implements ActionListener
         }catch(IllegalArgumentException exc){
             yourNameWithFriendSelect.setSelectedItem(null);
         }
-        
+
         try{
-                friendNameSelect.setSelectedIndex(0);
-            }catch(IllegalArgumentException exc){
-                friendNameSelect.setSelectedItem(null);
-            }
+            friendNameSelect.setSelectedIndex(0);
+        }catch(IllegalArgumentException exc){
+            friendNameSelect.setSelectedItem(null);
+        }
     }
 
     private void exitScoreboard(){
@@ -296,9 +302,9 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendDialog.setVisible(false);
 
         refreshSelectAFriendSelect();
-        
+
         yourNameSelect.setSelectedItem(yourName);
-        
+
         selectAFriendSelect.setSelectedItem(friendName);
     }
 
