@@ -140,23 +140,6 @@ public class Scoreboard extends Thread implements ActionListener
         exitButton.addActionListener(this);
         cancelAddPlayerButton.addActionListener(this);
         cancelAddFriendButton.addActionListener(this);
-
-        Scoreboard thisScoreBoard = this;
-        //REPAINT THE SCENE AFTER A SET AMOUNT OF TIME
-        new Thread() {
-            @Override
-            public void run() {
-                while(true){
-                    try{
-                        sleep(DELAY_TIME);
-                    } catch (InterruptedException e){
-                        System.out.print(e);
-                    }
-
-                    thisScoreBoard.paint();
-                }
-            }
-        }.start(); 
     }
 
     public void actionPerformed(ActionEvent e){
@@ -348,11 +331,5 @@ public class Scoreboard extends Thread implements ActionListener
     public void setScore(int score){
         this.score = score;
         yourScoreLabel.setText("Your Highscore: " + score);
-    }
-
-    public void paint(){
-        savePanel.repaint();
-        addFriendPanel.repaint();
-        addPlayerPanel.repaint();
     }
 }
