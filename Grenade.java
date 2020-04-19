@@ -23,7 +23,7 @@ public class Grenade extends Weapon
 
     //HOW LONG THE EXPLOSION IS ON SCREEN FOR
     private static final int EXPLOSION_TIME = 250;
-    
+
     //WHEN THE GRENADE EXPLODES
     private static final int WHEN_TO_EXPLODE = 10;
 
@@ -60,42 +60,42 @@ public class Grenade extends Weapon
     public void paint(Graphics g) {
 
         //IF THE GRENADE HAS NOT EXPLODED, DRAW IT.
-            if (!explodedInAir)
-            {
-                g.drawImage(type, (int)position.x, (int)position.y, null);
-            }
-            else
-            {
-                //DRAW THE EXPLOSION
-                g.setColor(Color.RED);
-                g.fillOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
-                g.setColor(Color.BLACK);
-                g.drawOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
+        if (!explodedInAir)
+        {
+            g.drawImage(type, (int)position.x, (int)position.y, null);
+        }
+        else
+        {
+            //DRAW THE EXPLOSION
+            g.setColor(Color.RED);
+            g.fillOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
 
-                g.setColor(Color.RED);
-                g.fillOval((int)position.x - SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
-                g.setColor(Color.BLACK);
-                g.drawOval((int)position.x- SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
+            g.setColor(Color.RED);
+            g.fillOval((int)position.x - SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x- SIZE/2, (int)position.y- SIZE/2, SIZE, SIZE);
 
-                g.setColor(Color.RED);
-                g.fillOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
-                g.setColor(Color.BLACK);
-                g.drawOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
+            g.setColor(Color.RED);
+            g.fillOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x + SIZE/2, (int)position.y - SIZE/2, SIZE, SIZE);
 
-                g.setColor(Color.RED);
-                g.fillOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
-                g.setColor(Color.BLACK);
-                g.drawOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+            g.setColor(Color.RED);
+            g.fillOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x + SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
 
-                g.setColor(Color.RED);
-                g.fillOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
-                g.setColor(Color.BLACK);
-                g.drawOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+            g.setColor(Color.RED);
+            g.fillOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x - SIZE/2, (int)position.y + SIZE/2, SIZE, SIZE);
 
-                velocity.x = 0;
-                velocity.y = 0;
+            velocity.x = 0;
+            velocity.y = 0;
 
-            }
+        }
 
     }
 
@@ -149,11 +149,11 @@ public class Grenade extends Weapon
 
         //THIS IS HOW LONG THE GRENADE EXPLODES FOR ON SCREEN.
         try {
-                sleep(EXPLOSION_TIME);
-            }
-            catch (InterruptedException e) {
-            }
-        
+            sleep(EXPLOSION_TIME);
+        }
+        catch (InterruptedException e) {
+        }
+
         done = true;
 
     }
