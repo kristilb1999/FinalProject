@@ -151,6 +151,7 @@ public class Scoreboard extends Thread implements ActionListener
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(yourNameSelect)){
             refreshSelectAFriendSelect();
+            refreshAddFriend();
         }else if(e.getSource().equals(selectAFriendSelect)){
             refreshFriendScore();
         }else if(e.getSource().equals(saveScoreButton)){
@@ -249,6 +250,7 @@ public class Scoreboard extends Thread implements ActionListener
         friendNameSelect.removeAllItems();
         Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
 
+        //reset
         for(String name : allPlayers){
             yourNameWithFriendSelect.addItem(name);
         }
@@ -256,22 +258,24 @@ public class Scoreboard extends Thread implements ActionListener
         for(String name : allPlayers){
             friendNameSelect.addItem(name);
         }
-    }
 
-    private void addFriend(){
-        addFriendDialog.setVisible(true);
-
+        //reset selected names
         try{
-            yourNameWithFriendSelect.setSelectedItem(yourNameSelect.getSelectedItem());
+            yourNameWithFriendSelect.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
             yourNameWithFriendSelect.setSelectedItem(null);
         }
+        yourNameWithFriendSelect.setSelectedItem(yourNameSelect.getSelectedItem());
 
         try{
             friendNameSelect.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
             friendNameSelect.setSelectedItem(null);
         }
+    }
+
+    private void addFriend(){
+        addFriendDialog.setVisible(true);
     }
 
     private void exitScoreboard(){
