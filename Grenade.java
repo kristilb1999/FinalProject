@@ -14,8 +14,6 @@ import java.awt.geom.*;
  */
 public class Grenade extends Weapon
 {
-    //THE STRENGTH OF EVERY GRENADE WEAPON
-    private static final int STRENGTH = 10;
 
     //THE WEIGHT OF EVERY GRENADE WEAPON
     private static final int WEIGHT = 10;
@@ -23,10 +21,10 @@ public class Grenade extends Weapon
     //THE SIZE OF EVERY GRENADE WEAPON
     private static final int SIZE = 50;
 
-    //THE SIZE OF EVERY GRENADE WEAPON
+    //HOW LONG THE EXPLOSION IS ON SCREEN FOR
     private static final int EXPLOSION_TIME = 250;
     
-    //THE SIZE OF EVERY GRENADE WEAPON
+    //WHEN THE GRENADE EXPLODES
     private static final int WHEN_TO_EXPLODE = 10;
 
     //DETERMINES WHEN GRENADE EXPLODES
@@ -61,14 +59,14 @@ public class Grenade extends Weapon
     @Override
     public void paint(Graphics g) {
 
-        //if (!done)
-        //{
+        //IF THE GRENADE HAS NOT EXPLODED, DRAW IT.
             if (!explodedInAir)
             {
                 g.drawImage(type, (int)position.x, (int)position.y, null);
             }
             else
             {
+                //DRAW THE EXPLOSION
                 g.setColor(Color.RED);
                 g.fillOval((int)position.x - SIZE/4, (int)position.y - SIZE/4, SIZE * 3/2, SIZE * 3/2);
                 g.setColor(Color.BLACK);
@@ -96,15 +94,9 @@ public class Grenade extends Weapon
 
                 velocity.x = 0;
                 velocity.y = 0;
-                //done = true;
 
-                
             }
 
-        //}
-
-        //container.repaint();
-        System.out.println("DONE " + done);
     }
 
     /**
@@ -124,8 +116,6 @@ public class Grenade extends Weapon
             //EVERY ITERATION, UPDATE COORDINATES
             position.x += velocity.x;
             position.y += velocity.y;
-
-            //bounced = false;
 
             //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
@@ -157,7 +147,7 @@ public class Grenade extends Weapon
             velocity.y += GRAVITY;
         }
 
-        //container.repaint();
+        //THIS IS HOW LONG THE GRENADE EXPLODES FOR ON SCREEN.
         try {
                 sleep(EXPLOSION_TIME);
             }
@@ -166,16 +156,6 @@ public class Grenade extends Weapon
         
         done = true;
 
-    }
-
-    /**
-     * Returns the strength of the Grenade weapon.
-     * 
-     * @return The strength of the Grenade weapon.
-     */
-    @Override
-    public int getStrength(){
-        return STRENGTH;   
     }
 
     /**
