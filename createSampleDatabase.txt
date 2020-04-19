@@ -5,3 +5,8 @@ CREATE TABLE Friendship(Name1 VARCHAR(255), Name2 VARCHAR(255), FOREIGN KEY(Name
 INSERT INTO Player values ('Player1',0)
 INSERT INTO Player values ('Player2',0)
 INSERT INTO Player values ('Player3',0)
+INSERT INTO Friendship values ('Player1','Player2')
+INSERT INTO Friendship values ('Player1','Player3')
+INSERT INTO Friendship values ('Player2','Player3')
+INSERT INTO Friendship values ('Player3','Player2')
+INSERT INTO Friendship values ('Player3','Player1')
