@@ -93,8 +93,8 @@ public class DatabaseDriver
         return score;
     }
 
-    public static ArrayList<String> getFriends(String playerName){
-        ArrayList friends = new ArrayList<String>();
+    public static Vector<String> getFriends(String playerName){
+        Vector friends = new Vector<String>();
         String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(query);
