@@ -145,4 +145,15 @@ abstract public class Weapon extends Thread
     public boolean done() {
         return done;
     }
+    
+    //Based on:
+    //https://www.tutorialspoint.com/design_pattern/visitor_pattern.htm
+    /**
+     * Accepts a WeaponVisitor to visit this weapon.
+     * 
+     * @param g The WeaponVisitor to visit this weapon.
+     */
+    public void accept(WeaponVisitor weaponVisitor){
+        weaponVisitor.visit(this);
+    }
 }

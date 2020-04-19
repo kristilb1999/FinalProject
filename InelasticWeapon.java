@@ -73,4 +73,16 @@ abstract public class InelasticWeapon extends Weapon
     {
         weaponHit = hit;
     }
+    
+    //Based on:
+    //https://www.tutorialspoint.com/design_pattern/visitor_pattern.htm
+    /**
+     * Accepts a WeaponVisitor to visit this weapon.
+     * 
+     * @param g The WeaponVisitor to visit this weapon.
+     */
+    @Override
+    public void accept(WeaponVisitor weaponVisitor){
+        weaponVisitor.visit(this);
+    }
 }
