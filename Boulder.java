@@ -14,8 +14,6 @@ import java.awt.geom.*;
  */
 public class Boulder extends Weapon
 {
-    //THE STRENGTH OF EVERY BOULDER WEAPON
-    private static final int STRENGTH = 10;
 
     //THE WEIGHT OF EVERY BOULDER WEAPON
     private static final int WEIGHT = 10;
@@ -51,16 +49,6 @@ public class Boulder extends Weapon
         
             g.drawImage(type, (int)position.x, (int)position.y, null);
         
-    }
-
-    /**
-     * Returns the strength of the Boulder weapon.
-     * 
-     * @return The strength of the Boulder weapon.
-     */
-    @Override
-    public int getStrength(){
-        return STRENGTH;   
     }
 
     /**

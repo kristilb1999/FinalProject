@@ -18,7 +18,7 @@ public class BigEye extends Soldier
     private static final int SIZE = 80;
     
     //THE STRENGTH OF THE AVERAGEZOMBIE SOLDIER
-    private static final int STRENGTH = 10;
+    private static final int STRENGTH = 3;
     
     //THE SPEED OF THE AVERAGEZOMBIE SOLDIER
     private static final int SPEED = 7;

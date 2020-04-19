@@ -21,9 +21,6 @@ abstract public class Soldier extends Thread
     //THE AMOUNT OF DISPLACEMENT TO STOP A ZOMBIE ENEMY AT
     protected static final int STOP_ZOMB = 300;
 
-    //THE AMOUNT OF DAMAGE DONE BY EACH ZOMBIE
-    protected static final int DAMAGE_DONE = 1;
-
     //THE AMOUNT OF TIME BEFORE THE SOLDIER NEXT MOVES
     public static final int DELAY_TIME = 200;
 
@@ -121,7 +118,7 @@ abstract public class Soldier extends Thread
             //MAYBE THEY SHOULD JUST DO DAMAGE UNTIL THEY ARE KILLED?
             if (position.x > container.getWidth() - STOP_ZOMB)
             {
-                tower.modifyTowerHealth(DAMAGE_DONE);
+                tower.modifyTowerHealth(getStrength());
                 done = true;
             }
 

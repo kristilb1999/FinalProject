@@ -18,7 +18,7 @@ public class Pirate extends Soldier
     private static final int SIZE = 80;
     
     //THE STRENGTH OF THE PIRATE SOLDIER
-    private static final int STRENGTH = 10;
+    private static final int STRENGTH = 5;
 
     //THE SPEED OF THE PIRATE SOLDIER
     private static final int SPEED = 10;
