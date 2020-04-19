@@ -131,13 +131,6 @@ abstract public class Weapon extends Thread
     abstract public void paint(Graphics g);
 
     /**
-     * Returns the strength of the weapon.
-     * 
-     * @return The strength of the weapon.
-     */
-    abstract public int getStrength();
-
-    /**
      * Returns the weight of the weapon.
      * 
      * @return The weight of the weapon object.

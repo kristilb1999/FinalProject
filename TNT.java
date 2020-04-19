@@ -14,8 +14,6 @@ import java.awt.geom.*;
  */
 public class TNT extends InelasticWeapon
 {
-    //THE STRENGTH OF EVERY TNT WEAPON
-    private static final int STRENGTH = 10;
 
     //THE WEIGHT OF EVERY TNT WEAPON
     private static final int WEIGHT = 10;
@@ -49,16 +47,6 @@ public class TNT extends InelasticWeapon
     @Override
     public void paint(Graphics g) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
-    }
-
-    /**
-     * Returns the strength of the TNT weapon.
-     * 
-     * @return The strength of the TNT weapon.
-     */
-    @Override
-    public int getStrength(){
-        return STRENGTH;   
     }
 
     /**
