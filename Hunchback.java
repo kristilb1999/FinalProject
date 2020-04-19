@@ -18,7 +18,7 @@ public class Hunchback extends Soldier
     private static final int SIZE = 80;
     
     //THE STRENGTH OF THE HUNCHBACK SOLDIER
-    private static final int STRENGTH = 10;
+    private static final int STRENGTH = 2;
     
     //THE SPEED OF THE HUNCHBACK SOLDIER
     private static final int SPEED = 5;
