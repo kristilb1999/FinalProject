@@ -103,6 +103,11 @@ abstract public class Soldier extends Thread
                 contains(w);
                 if (hit){
                     numHits++;
+                    if (w instanceof InelasticWeapon)
+                    {
+                        InelasticWeapon weapon = (InelasticWeapon) w;
+                        weapon.setWeaponHit(true);
+                    }
                 }
                 i++;
             }
