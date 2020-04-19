@@ -88,7 +88,7 @@ abstract public class Soldier extends Thread
 
             //EVERY ITERATION, UPDATE THE COORDINATES
             position.x += speed;
-            container.repaint();
+            //container.repaint();
 
             //THE INITIAL NUMBER OF HITS THE ZOMBIE RECIEVES EACH TIME IT WALKS IS ZERO
             int numHits = 0;
@@ -134,10 +134,10 @@ abstract public class Soldier extends Thread
             }
 
             //REPAINT THE SCENE
-            container.repaint();
+            //container.repaint();
         }
         //REPAINT THE SCENE
-        container.repaint();
+        //container.repaint();
     }
 
     /**
