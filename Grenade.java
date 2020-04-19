@@ -24,6 +24,9 @@ public class Grenade extends Weapon
     private static final int SIZE = 50;
 
     //THE SIZE OF EVERY GRENADE WEAPON
+    private static final int EXPLOSION_TIME = 250;
+    
+    //THE SIZE OF EVERY GRENADE WEAPON
     private static final int WHEN_TO_EXPLODE = 10;
 
     //DETERMINES WHEN GRENADE EXPLODES
@@ -93,7 +96,7 @@ public class Grenade extends Weapon
 
                 velocity.x = 0;
                 velocity.y = 0;
-                done = true;
+                //done = true;
 
                 
             }
@@ -156,7 +159,7 @@ public class Grenade extends Weapon
 
         //container.repaint();
         try {
-                sleep(5000);
+                sleep(EXPLOSION_TIME);
             }
             catch (InterruptedException e) {
             }
