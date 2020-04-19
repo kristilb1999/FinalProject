@@ -82,12 +82,12 @@ public class Scoreboard extends Thread implements ActionListener
             selectAFriendSelect = new JComboBox<String>();
         }
         savePanel.add(selectAFriendSelect);
-        friendScoreLabel = new JLabel("Your Friend's Score: ");
+        
+        friendScoreLabel = new JLabel();
         String friendName = (String)selectAFriendSelect.getSelectedItem();
-        if(friendName != null){
-
-            friendScoreLabel.setText("Your Friend's Score: " + DatabaseDriver.getScore(friendName));
-        }
+        friendScoreLabel.setText("Your Friend's Highscore: " + 
+        (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
+        
         savePanel.add(friendScoreLabel);
         saveScoreDialog.add(savePanel);
 
@@ -224,12 +224,9 @@ public class Scoreboard extends Thread implements ActionListener
 
     private void refreshFriendScore(){
         String friendName = (String)selectAFriendSelect.getSelectedItem();
-        if(friendName != null){
-
-            friendScoreLabel.setText("Your Friend's Score: " + DatabaseDriver.getScore(friendName));
-        } else {
-            friendScoreLabel.setText("Your Friend's Score: ");
-        }
+        
+        friendScoreLabel.setText("Your Friend's Highscore: " + 
+        (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
     }
 
     private void saveScore(){
