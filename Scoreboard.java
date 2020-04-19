@@ -313,6 +313,10 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendDialog.setVisible(false);
 
         refreshSelectAFriendSelect();
+        
+        yourNameSelect.setSelectedItem(yourName);
+        
+        selectAFriendSelect.setSelectedItem(friendName);
     }
 
     private void cancelAddPlayer(){
