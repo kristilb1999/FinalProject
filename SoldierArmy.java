@@ -49,13 +49,13 @@ public class SoldierArmy extends Thread
 
     //THE LIST OF SOLDIERS TO POPULATE
     private Vector<Soldier> soldierList;
-    
+
     //THE LIST OF WEAPONS CURRENTLY ON THE SCREEN
     private Vector<Weapon> wList;
 
     //THE TOWERDEFENSE GAME REFERENCE
     private TowerDefense tower;
-    
+
     /**
      * Creates an army of enemy Soldiers.
      * 
@@ -69,19 +69,19 @@ public class SoldierArmy extends Thread
         this.difficultyLevel = difficultyLevel;
 
         //THE NUMBER OF ENEMIES IS DECIDED BY WHICH DIFFICULTY IS CHOSEN
-        numOfEnemies = (difficultyLevel + 1) * 10;
-        
+        this.numOfEnemies = (difficultyLevel + 1) * 10;
+
         //SET THE CONTAINER TO REPAINT IN
         this.container = container;
-        
+
         //INITIALIZE THE SOLDIER ARMY LIST
-        soldierList = new Vector<Soldier>();
-        
+        this.soldierList = new Vector<Soldier>();
+
         //NOT ALL OF THE ENEMIES ARE FINISHED YET
-        done = false;
-        
+        this.done = false;
+
         //NOT ALL OF THE ENEMIEST HAVE STARTED YET
-        allStarted = false;
+        this.allStarted = false;
 
         //SET THE TOWER GAME REFERENCE
         this.tower = tower;
@@ -104,13 +104,14 @@ public class SoldierArmy extends Thread
     public void paint(Graphics g)
     {
         //IF THE ARMY HAS BEEN WIPED OUT, DO NOTHING
-        if (done) return;
+        if (!done){
 
-        //IF THERE ARE SOLDIERS LEFT, PAINT EACH ONE AND SET THE LIST OF WEAPONS ON SCREEN
-        //TO EACH ONE SO THEY WILL KNOW WHEN THEY HAVE BEEN HIT LATER
-        for (Soldier soldier : soldierList) {
-            soldier.paint(g);
-            soldier.getWeapons(wList);
+            //IF THERE ARE SOLDIERS LEFT, PAINT EACH ONE AND SET THE LIST OF WEAPONS ON SCREEN
+            //TO EACH ONE SO THEY WILL KNOW WHEN THEY HAVE BEEN HIT LATER
+            for (Soldier soldier : soldierList) {
+                soldier.paint(g);
+                soldier.getWeapons(wList);
+            }
         }
     }
 
@@ -118,6 +119,34 @@ public class SoldierArmy extends Thread
      * Create the army of Soldiers based on the difficulty of the wave.
      */
     public void run(){
+        //PERIODICALLY CHECK IF ALL OF THE SOLDIERS ARE DONE
+        SoldierArmy thisSA = this;
+        new Thread() {
+            @Override
+            public void run() {
+                boolean allDone;
+                while(!thisSA.done){
+                    try{
+                        sleep(DELAY_TIME);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+
+                    //IF THEY HAVEN'T ALL STARTED, THEY CANNOT ALL BE DONE
+                    if(allStarted){
+                        allDone = true;
+
+                        //THIS ARMY IS DONE WHEN ALL OF ITS SOLDIERS ARE DONE
+                        for (Soldier soldier : soldierList) {
+                            if (!soldier.done()) allDone = false;
+                        }
+
+                        if(allDone) thisSA.done = true;
+                    }
+                    
+                }
+            }
+        }.start(); 
 
         //CREATE A RANDOM OBJET TO GIVE VARIETY
         Random r = new Random();
@@ -133,57 +162,56 @@ public class SoldierArmy extends Thread
 
             //GIVE EACH ENEMY A RANDOM Y POSITION SO THE ENEMIES ARE STAGGERED
             int yCoord = (r.nextInt(container.getHeight() / 4 - Y_STOP) + 3 * container.getHeight() / 4 - Y_STOP / 2 );
-            
+
             //THE STARTING POSITION OF THE ENEMY
             Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
 
             //THE TYPE OF SOLDIER TO BE CHOSEN
-            int soldierType = 0;
-            
-            //DIFFERENT TYPES OF ENEMIES CAN SPAWN DEPENDING ON THE DIFFICULTY LEVEL OF
-            //EACH INDIVIDUAL WAVE
-            if(difficultyLevel == EASY) {
-                //ONLY WEAKEST TWO OPTIONS
+            int soldierType;
+            /* DIFFERENT TYPES OF ENEMIES CAN SPAWN DEPENDING ON THE DIFFICULTY LEVEL OF
+            EACH INDIVIDUAL WAVE:
+            EASY IS ONLY WEAKEST TWO OPTIONS
+            MEDIUM IS ALL BUT THE STRONGEST OPTION
+            HARD IS EVERY TYPE OF SOLDIER CAN SPAWN
+             */
+            switch(difficultyLevel){
+                case EASY:
                 soldierType = r.nextInt(2);
-            }else if(difficultyLevel == MEDIUM){
-                //ALL BUT THE STRONGEST OPTION
+                break;
+                case MEDIUM:
                 soldierType = r.nextInt(3);
-            }else if(difficultyLevel == HARD) {
-                //EVERY TYPE OF SOLDIER CAN SPAWN
+                break;
+                case HARD:
                 soldierType = r.nextInt(4);
+                break;
+                default:
+                soldierType = r.nextInt(2);
             }
 
-            //THE TYPES OF SOLDIERS BEING CREATED BASED ON THEIR SPEED
-            if(soldierType == AVG_ZOMB)
-            {
-                //WEAKEST SOLDIER
-                Soldier soldier = new AverageZombie(startSpot, container, tower);
-                soldierList.add(soldier);
-                soldier.start();
-            }
-            else if  (soldierType == HUNCHBACK)
-            {
+            //THE TYPES OF SOLDIERS BEING CREATED BASED ON THEIR SPEEDS
+            Soldier soldier;
+            switch(soldierType){
+                case 1:
                 //A LITTLE FASTER THAN THE AVERAGE ZOMBIE
-                Soldier soldier = new Hunchback(startSpot, container, tower);
-                soldierList.add(soldier);
-                soldier.start();
-            }
-            else if  (soldierType == BIG_EYE)
-            {
+                soldier = new Hunchback(startSpot, container, tower);
+                break;
+                case 2:
                 //THIS GUY ISN'T A SLOUCH WHEN IT COMES TO SPEED WALKING
-                Soldier soldier = new BigEye(startSpot, container, tower);
-                soldierList.add(soldier);
-                soldier.start();
-            }
-            else if  (soldierType == PIRATE)
-            {
+                soldier = new BigEye(startSpot, container, tower);
+                break;
+                case 3:
                 //ARR, HE'S COMING TO GET YOUR BOOTY
-                Soldier soldier = new Pirate(startSpot, container, tower);
-                soldierList.add(soldier);
-                soldier.start();
+                soldier = new Pirate(startSpot, container, tower);
+                break;
+                default:
+                //WEAKEST SOLDIER
+                soldier = new AverageZombie(startSpot, container, tower);
             }
+            soldierList.add(soldier);
+
+            soldier.start();
         }
-        
+
         //ALL OF THE ENEMIES HAVE BEEN CREATED
         allStarted = true;
     }
@@ -193,19 +221,7 @@ public class SoldierArmy extends Thread
      */
     public boolean done()
     {
-        //IF THEY HAVEN'T ALL STARTED, THEY CANNOT ALL BE DONE
-        if (!allStarted) return false;
-
         //IF THEY ARE ALL DONE, THEN THEY ARE ALL DONE
-        if (done) return true;
-
-        //THIS ARMY IS DONE WHEN ALL OF ITS SOLDIERS ARE DONE
-        for (Soldier soldier : soldierList) {
-            if (!soldier.done()) return false;
-        }
-        done = true;
-        
-        //BY DEFAULT, WE WILL SAY THAT THEY ARE ALL DONE
-        return true;
+        return this.done;
     }
 }
