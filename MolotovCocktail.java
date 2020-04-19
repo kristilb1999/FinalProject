@@ -20,6 +20,9 @@ public class MolotovCocktail extends InelasticWeapon
 
     //THE SIZE OF EVERY MOLOTOV COCKTAIL WEAPON
     private static final int SIZE = 50;
+    
+    //THE COLOR OF THE EXPLOSION
+    private static final Color EXPLOSION_COLOR = new Color(201, 66, 28);
 
     /**
      * Creates a MolotovCocktail InelasticWeapon.
@@ -46,7 +49,35 @@ public class MolotovCocktail extends InelasticWeapon
      */
     @Override
     public void paint(Graphics g) {
+        //IF THE COCKTAIL HAS NOT HIT ANYTHING, DRAW IT.
+        if (!weaponHit)
+        {
             g.drawImage(type, (int)position.x, (int)position.y, null);
+        }
+        else
+        {
+            //DRAW THE EXPLOSION
+            g.setColor(EXPLOSION_COLOR);
+            g.fillOval((int)position.x - SIZE/4, (int)position.y - SIZE/2, SIZE * 3/2, SIZE * 3/2);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x - SIZE/4, (int)position.y - SIZE/2, SIZE * 3/2, SIZE * 3/2);
+
+            g.setColor(EXPLOSION_COLOR);
+            g.fillOval((int)position.x + SIZE/20, (int)position.y + SIZE/10, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x + SIZE/20, (int)position.y + SIZE/10, SIZE, SIZE);         
+
+            g.setColor(EXPLOSION_COLOR);
+            g.fillOval((int)position.x + SIZE, (int)position.y + SIZE/10, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x + SIZE, (int)position.y + SIZE/10, SIZE, SIZE);
+
+            g.setColor(EXPLOSION_COLOR);
+            g.fillOval((int)position.x - SIZE, (int)position.y + SIZE/10, SIZE, SIZE);
+            g.setColor(Color.BLACK);
+            g.drawOval((int)position.x - SIZE, (int)position.y + SIZE/10, SIZE, SIZE);
+
+        }
     }
 
     /**
