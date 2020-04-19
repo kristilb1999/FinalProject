@@ -16,7 +16,7 @@ public class Boulder extends Weapon
 {
 
     //THE WEIGHT OF EVERY BOULDER WEAPON
-    private static final int WEIGHT = 10;
+    private static final int WEIGHT = 8;
 
     //THE SIZE OF EVERY BOULDER WEAPON
     private static final int SIZE = 50;
