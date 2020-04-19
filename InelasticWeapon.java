@@ -14,6 +14,12 @@ import java.awt.geom.*;
  */
 abstract public class InelasticWeapon extends Weapon
 {
+    //HOW LONG THE EXPLOSION LASTS FOR
+    public static final int EXPLODE_TIME = 250;
+    
+    //DETERMINES IF A WEAPON HAS HIT AND NEEDS TO EXPLODE
+    protected boolean weaponHit;
+  
     /**
      * Creates a weapon with the inability to bounce.
      */
@@ -29,7 +35,7 @@ abstract public class InelasticWeapon extends Weapon
      */
     @Override
     public void run(){
-        while (!done) {
+        while (!weaponHit) {
             //SLEEP BETWEEN FRAMES
             try {
                 sleep(DELAY_TIME);
@@ -44,14 +50,27 @@ abstract public class InelasticWeapon extends Weapon
             //BREAK WHEN THE WEAPON REACHES THE FLOOR
             if (position.y > yMax) {
                 position.y = yMax;
-                done = true;
                 velocity.x = 0;
                 velocity.y = 0;
+                weaponHit = true;
             }
 
             // gravity factor also
             velocity.y += GRAVITY;
         }
+        
+        try {
+                sleep(EXPLODE_TIME);
+            }
+            catch (InterruptedException e) {
+            }
+            
+            done = true;
 
+    }
+    
+    public void setWeaponHit(boolean hit)
+    {
+        weaponHit = hit;
     }
 }
