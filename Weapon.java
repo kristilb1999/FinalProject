@@ -146,6 +146,26 @@ abstract public class Weapon extends Thread
         return done;
     }
     
+    /**
+     * Returns the Weapon's current position.
+     * 
+     * @return the Weapon's current position.
+     */
+    public Point2D.Double getPosition(){
+        return position;
+    }
+    
+    /**
+     * Returns the Weapon's current position.
+     * 
+     * @return the Weapon's current position.
+     */
+    public Point2D.Double getUpperLeft(){
+        return new Point2D.Double(
+        position.x - getSize()/ 2.0 , 
+        position.y - getSize() / 2.0);
+    }
+    
     //Based on:
     //https://www.tutorialspoint.com/design_pattern/visitor_pattern.htm
     /**

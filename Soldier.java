@@ -33,9 +33,6 @@ abstract public class Soldier extends Thread
     //INDICATES WHEN A SOLDIER HAS LEFT THE ARMY
     protected boolean done;
 
-    //INDICATES WHETHER THE SOLDIER HAS BEEN HIT BY A WEAPON
-    protected boolean hit;
-
     //THE IMAGE OF EACH TYPE OF SOLDIER
     protected Image type;
 
@@ -100,17 +97,8 @@ abstract public class Soldier extends Thread
             //OF HITS TAKEN BY THAT ZOMBIE INCREASES BY THAT NUMBER OF WEAPONS
             while (i < projectiles.size()) {
                 Weapon w = projectiles.get(i);
-                contains(w);
-                if (hit){
+                if (contains(w)){
                     numHits++;
-                    // if (w instanceof InelasticWeapon)
-                    // {
-                        // InelasticWeapon weapon = (InelasticWeapon) w;
-                        // weapon.setWeaponHit(true);
-                    // }
-                    
-                    //Visitor pattern structure based on:
-                    //https://www.tutorialspoint.com/design_pattern/visitor_pattern.htm
                     w.accept(new WeaponCollisionVisitor());
                 }
                 i++;
@@ -118,9 +106,6 @@ abstract public class Soldier extends Thread
 
             //UPDATE THE HEALTH OF THAT ZOMBIE BASED ON HOW MUCH IT WAS HIT
             hitsUntilDeath -= numHits;
-
-            //RESET HIT TO FALSE FOR NEXT MOVEMENT
-            hit = false;
 
             //IF THE ZOMBIE HAS REACHED THE TOWER, STOP MOVING AND DIE
             //MAYBE WE CAN MAKE IT SO THAT THEY DO NOT DIE WHEN THEY REACH THE TOWER,
@@ -133,15 +118,10 @@ abstract public class Soldier extends Thread
 
             //IF THE ZOMBIE IS DEAD, THEN HE HAS OUTRUN HIS USEFULNESS AND
             //IS BANISHED FROM THE ARMY
-            if( hitsUntilDeath <= 0) {
+            if(hitsUntilDeath <= 0) {
                 done = true;
             }
-
-            //REPAINT THE SCENE
-            //container.repaint();
         }
-        //REPAINT THE SCENE
-        //container.repaint();
     }
 
     /**
@@ -179,35 +159,39 @@ abstract public class Soldier extends Thread
      * 
      * @param weapon Check if the Soldier was hit by this weapon.
      */
-    public void contains(Weapon weapon){
+    public boolean contains(Weapon weapon){
         //THE WEAPON CANNOT ARBITRARILY HIT THE SOLDIER
-        hit = false;
-        
+        boolean hit = false;
+
         //THE POSITION OF THE CENTER OF THE WEAPON
-        Point2D.Double damage = weapon.position;
-        
+        Point2D.Double wPos = weapon.getUpperLeft();
+        Point2D.Double sPos = position;
+        int sSize = getSize();
+        int wSize = weapon.getSize();
         //THIS METHOD NEEDS TO BE FIXED, IT IS WORKING ON THE ASSUMPTION THAT THE WEAPON
         //POSITION IS THE UPPERLEFT CORNER, BUT THE WEAPON CLASS ASSIGNS THE CENTER
         //OF THE WEAPON TO THE POSITION INSTANCE VARIABLE
-        
+
         //WE SHOULD ALSO ADD AN IF STATEMENT TO CHECK IF THE CENTER OF THE WEAPON HIT 
         //THE TARGET SO THAT WE GET THE FIVE MAIN POINTS OF THE WEAPON
-        
+
         //CHECK IF ANY OF THE FOUR CORNERS OF THE WEAPON HIT THE ENEMY
-        if(damage.x >= position.x && damage.x <= position.x + getSize()){
-            if(damage.y >= position.y && damage.y <= position.y + (3 * getSize() / 2)){
+
+        if(wPos.x >= sPos.x && wPos.x <= sPos.x + sSize){
+            if(wPos.y >= sPos.y && wPos.y <= sPos.y + (3 * sSize / 2)){
                 hit = true;
-            } else if (damage.y + weapon.getSize() >= position.y && damage.y + weapon.getSize() <= position.y + (3 * getSize() / 2)){
+            } else if (wPos.y + wSize >= sPos.y && wPos.y + wSize <= sPos.y + (3 * sSize / 2)){
                 hit = true;
             }
-        } else if (damage.x + weapon.getSize() >= position.x && damage.x + weapon.getSize() <= position.x + getSize()){
-            if(damage.y >= position.y && damage.y <= position.y + (3 * getSize() / 2)){
+        } else if (wPos.x + wSize >= sPos.x && wPos.x + wSize <= sPos.x + sSize){
+            if(wPos.y >= sPos.y && wPos.y <= sPos.y + (3 * sSize / 2)){
                 hit = true;
-            } else if (damage.y + weapon.getSize() >= position.y && damage.y + weapon.getSize() <= position.y + (3 * getSize() / 2)){
+            } else if (wPos.y + wSize >= sPos.y && wPos.y + wSize <= sPos.y + (3 * sSize / 2)){
                 hit = true;
             }
         } 
 
+        return hit;
     }
 
     /**
