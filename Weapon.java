@@ -25,7 +25,7 @@ abstract public class Weapon extends Thread
     public static final double GRAVITY = 0.5;
 
     //HOW MUCH MOMENTUM IS LOST ON BOUNCE
-    public static final double DAMPING = 0.5;
+    public static final double DAMPING = 0.8;
 
     //THE CONTAINER TO REPAINT
     protected JComponent container;
