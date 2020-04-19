@@ -168,16 +168,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }
 
         //COLOR THE TOWER HEALTH MESSAGE BASED ON AMOUNT OF HEALTH LEFT
+        Color newHealthBarColor;
         if(towerHealth >= 2 * START_HEALTH / 3) {
-            healthBar.setForeground(FULL_HEALTH);
-            healthBar.setText("Tower Health: " + towerHealth);
+            newHealthBarColor = FULL_HEALTH;
         } else if(towerHealth > START_HEALTH / 3) {
-            healthBar.setForeground(MED_HEALTH);
-            healthBar.setText("Tower Health: " + towerHealth);
+            newHealthBarColor = MED_HEALTH;
         } else {
-            healthBar.setForeground(LOW_HEALTH);
-            healthBar.setText("Tower Health: " + towerHealth);
+            newHealthBarColor = LOW_HEALTH;
         }
+        healthBar.setForeground(newHealthBarColor);
+        healthBar.setText("Tower Health: " + towerHealth);
 
         //USE THIS LOCAL VARIABLE FOR INDEXING
         int i = 0;
