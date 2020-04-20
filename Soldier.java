@@ -172,26 +172,29 @@ abstract public class Soldier extends Thread
         //POSITION IS THE UPPERLEFT CORNER, BUT THE WEAPON CLASS ASSIGNS THE CENTER
         //OF THE WEAPON TO THE POSITION INSTANCE VARIABLE
 
-        //WE SHOULD ALSO ADD AN IF STATEMENT TO CHECK IF THE CENTER OF THE WEAPON HIT 
-        //THE TARGET SO THAT WE GET THE FIVE MAIN POINTS OF THE WEAPON
-
-        //CHECK IF ANY OF THE FOUR CORNERS OF THE WEAPON HIT THE ENEMY
-
-        if(wPos.x >= sPos.x && wPos.x <= sPos.x + sSize){
-            if(wPos.y >= sPos.y && wPos.y <= sPos.y + (3 * sSize / 2)){
-                hit = true;
-            } else if (wPos.y + wSize >= sPos.y && wPos.y + wSize <= sPos.y + (3 * sSize / 2)){
-                hit = true;
-            }
-        } else if (wPos.x + wSize >= sPos.x && wPos.x + wSize <= sPos.x + sSize){
-            if(wPos.y >= sPos.y && wPos.y <= sPos.y + (3 * sSize / 2)){
-                hit = true;
-            } else if (wPos.y + wSize >= sPos.y && wPos.y + wSize <= sPos.y + (3 * sSize / 2)){
-                hit = true;
-            }
-        } 
-
-        return hit;
+        //untested
+        //need to check if upperleft issue exists for Soldier class
+        double upperDiff = wPos.y - sPos.y;
+        double bottomDiff = (wPos.y + wSize) - sPos.y;
+        double leftDiff = wPos.x - sPos.x;
+        double rightDiff = (wPos.x + wSize) - sPos.x;
+        double vertSSize = (3 * sSize / 2);
+        //in case the Weapon has greater dimensions than the Soldier
+        double greaterVertSize = (vertSSize > wSize ? vertSSize : wSize);
+        double greaterHorizSize = (sSize > wSize ? sSize : wSize);
+        return ((
+        //checking if Weapon trailing y edge is in the Soldier's y bounds
+        (vertSSize > upperDiff && upperDiff >= 0) || 
+        //checking if Weapon leading y edge is in the Soldier's y bounds
+        //checking if Soldier trailing y edge is in the Weapon's y bounds
+        (greaterVertSize >= bottomDiff && bottomDiff >= 0)
+        ) && (
+        //checking if Weapon trailing x edge is in the Soldier's x bounds
+        (sSize > leftDiff && leftDiff >= 0) ||
+        //checking if Weapon leading x edge is in the Soldier's x bounds
+        //checking if Soldier trailing x edge is in the Weapon's x bounds
+        (greaterHorizSize >= rightDiff && rightDiff >= 0)
+        ));
     }
 
     /**
