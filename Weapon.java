@@ -81,7 +81,7 @@ abstract public class Weapon extends Thread
      */
     public void run(){
         while (!done) {
-            
+            //WHEN THE WEAPON HAS NOT BEEN RELEASED ONTO THE SCREEN
             while(!released) {
                 container.repaint();
             }
@@ -97,8 +97,6 @@ abstract public class Weapon extends Thread
             position.x += velocity.x;
             position.y += velocity.y;
 
-            //bounced = false;
-
             //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
                 position.y = yMax;
@@ -110,7 +108,6 @@ abstract public class Weapon extends Thread
             if (bounced) {
                 velocity.x *= DAMPING;
                 velocity.y *= DAMPING;
-                
             }
 
             //IF WE'VE ALMOST STOPPED MOVING, LET'S END

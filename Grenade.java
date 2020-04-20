@@ -106,7 +106,7 @@ public class Grenade extends Weapon
     @Override
     public void run(){
         while (!explodedInAir) {
-            
+            //WHILE THE WEAPON HAS NOT BEEN RELEASED ONTO THE SCREEN
             while(!released) {
                 container.repaint();
             }
@@ -135,10 +135,12 @@ public class Grenade extends Weapon
                 velocity.y *= DAMPING;
             }
 
+            //KEEP COUNTING FOR EACH FRAME
             if(bounced){
                 countTillExplosion++;
             }
 
+            //WHEN THE COUNT REACHES OUR CONSTANT, THE GRENADE WILL EXPLODE
             if (countTillExplosion == WHEN_TO_EXPLODE){
                 explodedInAir = true;
             }
