@@ -106,6 +106,11 @@ public class Grenade extends Weapon
     @Override
     public void run(){
         while (!explodedInAir) {
+            
+            while(!released) {
+                container.repaint();
+            }
+            
             //SLEEP BETWEEN REDRAWING FRAMES
             try {
                 sleep(DELAY_TIME);

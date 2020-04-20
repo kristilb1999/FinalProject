@@ -36,6 +36,11 @@ abstract public class InelasticWeapon extends Weapon
     @Override
     public void run(){
         while (!weaponHit) {
+            
+            while(!released) {
+                container.repaint();
+            }
+            
             //SLEEP BETWEEN FRAMES
             try {
                 sleep(DELAY_TIME);
