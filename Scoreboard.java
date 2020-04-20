@@ -433,6 +433,7 @@ public class Scoreboard extends Thread implements ActionListener
     public void updateScore(int score){
         synchronized(scoreLock){
             this.score += score;
+            yourScoreLabel.setText("Your Highscore: " + score);
         }
     }
 
