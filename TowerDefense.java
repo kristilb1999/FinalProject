@@ -34,7 +34,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE AMOUNT THE TOWER WILL BE DISPLACED FROM THE WIDTH AND HEIGHT OF THE PANEL
     private static final int TOWER_X_DISPLACEMENT = 325;
-    private static final int TOWER_Y_DISPLACEMENT = 475;
+    private static final int TOWER_Y_DISPLACEMENT = 490;
+
+    //THE AMOUNT THE CLICKABLE SQUARE WILL BE DISPLACED FROM THE HEIGHT OF THE PANEL
+    private static final int CLICKABLE_X_DISPLACEMENT = 285;
+    private static final int CLICKABLE_Y_DISPLACEMENT = 680;
+
+    //THE SIZE OF THE CLICKABLE AREA
+    private static final int CLICKABLE_SIZE = 250;
 
     //THE START HEALTH OF THE TOWER
     private static final int START_HEALTH = 15;
@@ -83,6 +90,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //HAS THE GAME STARTED OR NOT?
     private boolean gameStarted;
 
+    //IF THE WEAPON WAS MADE IN THE BOX
+    private boolean weaponMade;
+
     //IS THE MOUSE BEING DRAGGED OR NOT?
     private boolean dragging;
 
@@ -108,6 +118,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE BUTTON THAT SAVES THE SCORE
     private JButton score;
 
+    //THE BUTTON THAT SETS THE TIME OF DAY
+    private JButton timeOfDay;
+
     //THE LABEL THAT DISPLAYS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
     private JLabel healthBar;
 
@@ -117,6 +130,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE POINTS THAT KEEP TRACK OF PRESSING AND DRAGGING TO LAUNCH THE WEAPONS
     private Point pressPoint;
     private Point dragPoint;
+
+    //THE WEAPON TO BE LAUNCHED
+    private Weapon newWeapon;
 
     // OBJECTS THAT SERVVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
     private Object weaponLock = new Object();
@@ -143,12 +159,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //PAINT THE BACKGROUND AS NIGHT OR AS DAY
         if(!nightTime) {
+            //DAY TIME
             g.setColor(DAY_SKY);
             g.fillRect(0, 0, width, height - grassLine);
 
             g.setColor(DAY_GRASS);
             g.fillRect(0, height - grassLine, width, height);
         } else {
+            //NIGHT TIME
             g.setColor(NIGHT_SKY);
             g.fillRect(0, 0, width, height - grassLine);
 
@@ -159,7 +177,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //DRAW THE TOWER IN THE GRASS
         g.drawImage(towerPic, towerXPos, towerYPos, null);
 
-        // if we are currently dragging, draw a sling line
+        //THE CLICKABLE SPACE TO LAUNCH A WEAPON FROM
+        g.setColor(Color.BLACK);
+        g.drawRect(width - CLICKABLE_X_DISPLACEMENT, height - CLICKABLE_Y_DISPLACEMENT, CLICKABLE_SIZE, CLICKABLE_SIZE);
+
         //IF WE ARE CURRENTLY DRAGGING, DRAW THE SLING LINE
         if (dragging) {
             g.setColor(Color.BLACK);
@@ -263,6 +284,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         mediumRound = new JButton("Medium");
         hardRound = new JButton("Hard");
 
+        //CREATES THE DAY TIME BUTTON
+        timeOfDay = new JButton("Night");
+
         //CREATE THE LABEL THAT DISPLAYS THE HEALTH
         healthBar = new JLabel();
 
@@ -284,7 +308,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         };
 
         //CREATE THE SCOREBOARD OBJECT AND START THE THREAD
-        scoreboard = new Scoreboard();
+        scoreboard = new Scoreboard(panelHolder);
         scoreboard.start();
 
         //CREATE A PANEL FOR THE GAME
@@ -322,6 +346,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         score.setForeground(Color.MAGENTA);
         score.setBackground(Color.BLACK);
 
+        //SET THE FONT AND COLORS OF THE DAY TIME BUTTON
+        timeOfDay.setFont(FONT_USED);
+        timeOfDay.setForeground(Color.YELLOW);
+        timeOfDay.setBackground(Color.BLACK);
+
         //ADD THE START BUTTON TO THE BUTTON PANEL
         startPanel.add(startOrRestart);
 
@@ -336,6 +365,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //ADD THE SCORE BUTTON TO THE BUTTON PANEL
         startPanel.add(score);
 
+        //ADD THE TIME OF DAY BUTTON TO THE BUTTON PANEL
+        startPanel.add(timeOfDay);
+
         //SET DIFFICULTY BUTTONS INVISIBLE
         easyRound.setVisible(false);
         mediumRound.setVisible(false);
@@ -343,6 +375,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET SCORE BUTTON INVISIBLE
         score.setVisible(false);
+
+        //SET TIME OF DAY BUTTON INVISIBLE
+        timeOfDay.setVisible(false);
 
         //SET HEALTH LABEL INVISIBLE
         healthBar.setVisible(false);
@@ -353,6 +388,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE MOUSELISTENER TO THE GAME PANEL
         panel.addMouseListener(this);
+        panel.addMouseMotionListener(this);
 
         //ADD THE ACTION LISTENER TO THE START BUTTON
         startOrRestart.addActionListener(this);
@@ -364,6 +400,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE ACTION LISTENER TO THE SCORE BUTTON
         score.addActionListener(this);
+
+        //ADD THE ACTION LISTENER TO THE TIME OF DAY BUTTON
+        timeOfDay.addActionListener(this);
 
         //INITIALIZE THE WEAPONS AND ENEMY LISTS
         weaponList = new Vector<Weapon>();
@@ -409,7 +448,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             } else {
                 endGame();
             }
-            
         }else if (e.getSource().equals(easyRound))
         {
             //IF THE PLAYER CHOOSES AN EASY ROUND AN EASY LEVEL WILL BE STARTED
@@ -425,9 +463,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }else if(e.getSource().equals(score)) {
             //THE DIALOG BOX WILL POP UP TO SAVE THE SCORE
             scoreboard.show();
+        } else if(e.getSource().equals(timeOfDay)) {
+            //THE TIME OF DAY WILL CHANGE AND THE BUTTON WILL BE SET TO THE OPPOSITE TIME
+            setTime();
         }
     }
 
+    /**
+     * Starts the game by setting booleans and adding buttons.
+     */
     private void startGame(){
         //THE GAME HAS STARTED
         gameStarted = true;
@@ -446,10 +490,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE SCORE BUTTON BECOMES VISIBLE
         score.setVisible(true);
 
+        //THE TIME OF DAY BUTTON BECOMES VISIBLE
+        timeOfDay.setVisible(true);
+
         //THE START BUTTON BECOMES THE RESTART BUTTON
         startOrRestart.setText("Restart");
     }
 
+    /**
+     * Ends the current game and allows a new one to begin.
+     */
     private void endGame(){
         //END THE GAME
         gameStarted = false;
@@ -468,16 +518,54 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE SCORE BUTTON IS HIDDEN
         score.setVisible(false);
 
+        //THE TIME OF DAY BUTTON BECOMES VISIBLE
+        timeOfDay.setVisible(false);
+
+        //ENDS LEFTOVER ENEMIES THREADS
+        for(SoldierArmy sa : soldierArmyList) {
+            sa.killSoldiers();
+        }
+
         //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
         weaponList.clear();
         soldierArmyList.clear();
     }
 
+    /**
+     * Sets the difficulty of the next army wave.
+     */
     private void startRound(int difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
-        SoldierArmy army = new SoldierArmy(EASY, panel, this);
+        SoldierArmy army = new SoldierArmy(difficulty, panel, this);
         soldierArmyList.add(army);
         army.start();
+    }
+
+    /**
+     * Sets the time of day. Can be changed by user at any time
+     * after the game has been started.
+     */
+    private void setTime() {
+        //THE TIME ALWAYS STARTS AS DAY
+        if(nightTime) {
+            nightTime = false;
+            timeOfDay.setText("Night");
+        }else {
+            //IF THE DAY IS NIGHT TIME
+            nightTime = true;
+            timeOfDay.setText(" Day ");
+        }
+    }
+
+    /**
+     * Calculates whether or not the click is within the launching
+     * box above the tower.
+     * 
+     * @param clickedPoint The point that has been clicked on the screen.
+     */
+    public boolean clickedInBox(Point clickedPoint) {
+        return (clickedPoint.x > panel.getWidth() - CLICKABLE_X_DISPLACEMENT && clickedPoint.x < panel.getWidth() - CLICKABLE_X_DISPLACEMENT + CLICKABLE_SIZE
+            && clickedPoint.y > panel.getHeight() - CLICKABLE_Y_DISPLACEMENT && clickedPoint.y < panel.getHeight() - CLICKABLE_Y_DISPLACEMENT + CLICKABLE_SIZE);
     }
 
     /**
@@ -490,8 +578,33 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public void mousePressed(MouseEvent e) {
         //IF THE START BUTTON HAS BEEN PRESSED
         if(gameStarted) {
+            //THE WEAPON HAS NOT YET BEEN MADE
+            weaponMade = false;
+
             //SAVE THE ORIGINAL PRESS POINT
             pressPoint = e.getPoint();
+            if(clickedInBox(pressPoint)) {
+
+                //CREATE A NEW WEAPON TO ADD TO THE WEAPON LIST
+                newWeapon = QuarterMaster.getRandomWeapon(panel,
+                    new Point2D.Double(e.getPoint().x, e.getPoint().y),
+                    new Point2D.Double( 
+                        SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                        SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
+                    ) );
+
+                //LOCK ACCESS TO THE LIST IN CASE paintComponent IS USING IT CONCURRENTLY
+                synchronized (weaponLock) {
+                    //ADD THE NEW WEAPON TO THE LIST
+                    weaponList.add(newWeapon);
+                }
+
+                //START THE NEW WEAPON NOW THAT IT HAS BEEN ADDED
+                newWeapon.start();
+
+                //THE WEAPON HAS BEEN MADE
+                weaponMade = true;
+            }
         }
     }
 
@@ -505,9 +618,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         //IS THE START BUTTON HAS BEEN PRESSED
-        if(gameStarted) {
+        if(weaponMade) {
             //SAVE THE DRAG POINT FOR PAINT METHOD
             dragPoint = e.getPoint();
+
+            //RESET THE POSITION AND INERTIA OF THE WEAPON
+            newWeapon.setWeaponPosition(new Point2D.Double(e.getPoint().x, e.getPoint().y));
+            newWeapon.setWeaponInertia(new Point2D.Double( 
+                    SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                    SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
+                ));
 
             //SET DRAG TO FALSE FOR PAINT METHOD
             dragging = true;
@@ -523,27 +643,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void mouseReleased(MouseEvent e) {
         //AS LONG AS THE START BUTTON HAS BEEN PRESSED
-        if(gameStarted) {
-            //CREATE A NEW WEAPON TO ADD TO THE WEAPON LIST
-            Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,
-                    new Point2D.Double(e.getPoint().x , e.getPoint().y),
-                    new Point2D.Double( 
-                        SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
-                        SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
-                    ) );
-
-            //LOCK ACCESS TO THE LIST IN CASE paintComponent IS USING IT CONCURRENTLY
-            synchronized (weaponLock) {
-                //ADD THE NEW WEAPON TO THE LIST
-                weaponList.add(newWeapon);
-            }
-
-            //START THE NEW WEAPON NOW THAT IT HAS BEEN ADDED
-            newWeapon.start();
-
+        if(weaponMade) {
             //RESET DRAGGING TO FALSE FOR PAINT METHOD
             dragging = false;
-        }
+            newWeapon.setReleased(true);
+        } 
     }
 
     /**

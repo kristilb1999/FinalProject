@@ -45,6 +45,9 @@ abstract public class Weapon extends Thread
 
     //WHETHER OR NOT THE WEAPON HAS COMPLETED ITS FUNCTION
     protected boolean done;
+    
+    //WHETHER THE WEAPON IS STILL BEING DRAGGED ON THE SCREEN OR NOT
+    protected boolean released;
 
     //MAX COORDINATES THE UPPER LEFT COORDINATE CAN REACH
     protected int xMax, yMax;
@@ -78,6 +81,11 @@ abstract public class Weapon extends Thread
      */
     public void run(){
         while (!done) {
+            //WHEN THE WEAPON HAS NOT BEEN RELEASED ONTO THE SCREEN
+            while(!released) {
+                container.repaint();
+            }
+            
             //SLEEP BETWEEN REDRAWING FRAMES
             try {
                 sleep(DELAY_TIME);
@@ -88,8 +96,6 @@ abstract public class Weapon extends Thread
             //EVERY ITERATION, UPDATE COORDINATES
             position.x += velocity.x;
             position.y += velocity.y;
-
-            //bounced = false;
 
             //BOUNCE OFF OF THE FLOOR
             if (position.y > yMax) {
@@ -102,7 +108,6 @@ abstract public class Weapon extends Thread
             if (bounced) {
                 velocity.x *= DAMPING;
                 velocity.y *= DAMPING;
-                
             }
 
             //IF WE'VE ALMOST STOPPED MOVING, LET'S END
@@ -144,6 +149,33 @@ abstract public class Weapon extends Thread
      */
     public boolean done() {
         return done;
+    }
+    
+    /**
+     * Sets the released boolean of the weapon.
+     * 
+     * @param released Whether or not the weapon has been released.
+     */
+    public void setReleased(boolean released) {
+        this.released = released;
+    }
+    
+    /**
+     * Sets the position of the weapon.
+     * 
+     * @param position The position of the weapon.
+     */
+    public void setWeaponPosition(Point2D.Double position) {
+        this.position = new Point2D.Double(position.x - getSize()/2 , position.y - getSize()/2);
+    }
+    
+    /**
+     * Sets the velocity of the weapon based on inertia.
+     * 
+     * @param intertia The inertia of the weapon.
+     */
+    public void setWeaponInertia(Point2D.Double inertia){
+        velocity = new Point2D.Double( inertia.x / getWeight() , inertia.y / getWeight() );
     }
     
     /**

@@ -36,6 +36,11 @@ abstract public class InelasticWeapon extends Weapon
     @Override
     public void run(){
         while (!weaponHit) {
+            //WHILE THE WEAPON HAS NOT BEEN RELEASED ONTO THE SCREEN
+            while(!released) {
+                container.repaint();
+            }
+            
             //SLEEP BETWEEN FRAMES
             try {
                 sleep(DELAY_TIME);
@@ -55,7 +60,7 @@ abstract public class InelasticWeapon extends Weapon
                 weaponHit = true;
             }
 
-            // gravity factor also
+            //ADD GRAVITY TO THE VELOCITY
             velocity.y += GRAVITY;
         }
         
@@ -69,6 +74,11 @@ abstract public class InelasticWeapon extends Weapon
 
     }
     
+    /**
+     * Sets when a weapon hits a soldier.
+     * 
+     * @param hit Whether or not the weapon was hit.
+     */
     public void setWeaponHit(boolean hit)
     {
         weaponHit = hit;

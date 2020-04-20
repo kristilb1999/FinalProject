@@ -196,6 +196,14 @@ abstract public class Soldier extends Thread
         (greaterHorizSize >= rightDiff && rightDiff >= 0)
         ));
     }
+    
+    /**
+     * Kills each soldier thread.
+     */
+    public void kill() {
+        //KILLS EVERY SOLDIER THREAD
+        done = true;
+    }
 
     /**
      * Returns whether or not the Soldier is done.
