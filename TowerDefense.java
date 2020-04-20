@@ -297,7 +297,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         healthBar = new JLabel();
         
         //CREATE THE LABEL THAT DISPLAYS THE SCORE
-        scoreLabel = new JLabel("Player score: " + playerScore);
+        scoreLabel = new JLabel(" Player score: " + playerScore);
 
         //CREATE A PANEL WITH A FLOWLAYOUT TO HOLD THE GAME AND THE BUTTONS PANEL AND ADD IT TO THE FRAME
         JPanel panelHolder = new JPanel(new FlowLayout());
@@ -444,6 +444,22 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                     }
 
                     panel.repaint();
+                }
+            }
+        }.start(); 
+        
+        //UPDATE THE SCOREBOARD PERIODICALLY
+        new Thread() {
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        sleep(DELAY_TIME);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+
+                    scoreLabel.setText(" Player score: " + scoreboard.getScore());
                 }
             }
         }.start(); 
