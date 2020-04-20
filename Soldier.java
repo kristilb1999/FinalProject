@@ -106,6 +106,9 @@ abstract public class Soldier extends Thread
 
             //UPDATE THE HEALTH OF THAT ZOMBIE BASED ON HOW MUCH IT WAS HIT
             hitsUntilDeath -= numHits;
+            
+            //GETS THE SCOREBOARD AND UPDATES THE SCORE
+            tower.getScoreboard().updateScore(getPoints() * numHits);
 
             //IF THE ZOMBIE HAS REACHED THE TOWER, STOP MOVING AND DIE
             //MAYBE WE CAN MAKE IT SO THAT THEY DO NOT DIE WHEN THEY REACH THE TOWER,
@@ -204,7 +207,14 @@ abstract public class Soldier extends Thread
         //KILLS EVERY SOLDIER THREAD
         done = true;
     }
-
+    
+    /**
+     * Gets the amount of points each soldier is worth.
+     * 
+     * @return The amount of points each soldier is worth.
+     */
+    abstract public int getPoints();
+    
     /**
      * Returns whether or not the Soldier is done.
      * 

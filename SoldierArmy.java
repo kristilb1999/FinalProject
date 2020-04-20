@@ -84,7 +84,7 @@ public class SoldierArmy extends Thread
         this.allStarted = false;
 
         //SET THE TOWER GAME REFERENCE
-        this.tower = tower;
+        this.tower = tower; 
     } 
 
     /**
@@ -143,7 +143,7 @@ public class SoldierArmy extends Thread
 
                         if(allDone) thisSA.done = true;
                     }
-                    
+
                 }
             }
         }.start(); 
@@ -215,7 +215,7 @@ public class SoldierArmy extends Thread
         //ALL OF THE ENEMIES HAVE BEEN CREATED
         allStarted = true;
     }
-    
+
     /**
      * Kills all soldiers in the army.
      */
@@ -224,10 +224,10 @@ public class SoldierArmy extends Thread
         for(Soldier s : soldierList) {
             s.kill();
         }
-        
+
         //CLEAR THE LIST
         soldierList.clear();
-        
+
         //SET DONE TO TRUE BECAUSE THE SOLDIER ARMY IS DEAD
         done = true;
     }
