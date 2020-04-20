@@ -542,6 +542,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void endGame(){
         //END THE GAME
         gameStarted = false;
+        
+        //SET SCORE BACK TO ZERO
+        scoreboard.setScore(0);
 
         //RESET THE BUTTON TO SAY START
         startOrRestart.setText("Start");
