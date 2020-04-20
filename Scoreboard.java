@@ -425,14 +425,17 @@ public class Scoreboard extends Thread implements ActionListener
         saveScoreDialog.setVisible(true);
     }
 
-    public void setScore(int score){
-        this.score = score;
-        yourScoreLabel.setText("Your Highscore: " + score);
+    public void setScore(int scoreIn){
+        synchronized(scoreLock){
+            score = scoreIn;
+            yourScoreLabel.setText("Your Highscore: " + score);
+        }
     }
 
-    public void updateScore(int score){
+    public void updateScore(int scoreIn){
         synchronized(scoreLock){
-            this.score += score;
+            score += scoreIn;
+            System.out.println(score + "updated");
             yourScoreLabel.setText("Your Highscore: " + score);
         }
     }
