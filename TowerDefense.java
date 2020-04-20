@@ -123,6 +123,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE BUTTON THAT SETS THE TIME OF DAY
     private JButton timeOfDay;
+    
+    //THE BUTTON TO QUIT THE GAME
+    private JButton quit;
 
     //THE LABEL THAT DISPLAYS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
     private JLabel healthBar;
@@ -292,6 +295,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATES THE DAY TIME BUTTON
         timeOfDay = new JButton("Night");
+        
+        //CREATES THE QUIT BUTTON
+        quit = new JButton("Quit Game");
 
         //CREATE THE LABEL THAT DISPLAYS THE HEALTH
         healthBar = new JLabel();
@@ -364,6 +370,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         timeOfDay.setFont(FONT_USED);
         timeOfDay.setForeground(Color.YELLOW);
         timeOfDay.setBackground(Color.BLACK);
+        
+        //SET THE FONT AND COLORS OF THE QUIT BUTTON
+        quit.setFont(FONT_USED);
+        quit.setForeground(Color.PINK);
+        quit.setBackground(Color.BLACK);
 
         //ADD THE START BUTTON TO THE BUTTON PANEL
         startPanel.add(startOrRestart);
@@ -384,6 +395,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE TIME OF DAY BUTTON TO THE BUTTON PANEL
         startPanel.add(timeOfDay);
+        
+        //ADD THE QUIT BUTTON TO THE BUTTON PANEL
+        startPanel.add(quit);
 
         //SET DIFFICULTY BUTTONS INVISIBLE
         easyRound.setVisible(false);
@@ -395,6 +409,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET TIME OF DAY BUTTON INVISIBLE
         timeOfDay.setVisible(false);
+        
+        //SET QUIT BUTTON INVISIBLE
+        quit.setVisible(false);
 
         //SET HEALTH LABEL INVISIBLE
         healthBar.setVisible(false);
@@ -423,6 +440,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE ACTION LISTENER TO THE TIME OF DAY BUTTON
         timeOfDay.addActionListener(this);
+        
+        //ADD THE ACTION LISTENER TO THE QUIT BUTTON
+        quit.addActionListener(this);
 
         //INITIALIZE THE WEAPONS AND ENEMY LISTS
         weaponList = new Vector<Weapon>();
@@ -502,6 +522,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         } else if(e.getSource().equals(timeOfDay)) {
             //THE TIME OF DAY WILL CHANGE AND THE BUTTON WILL BE SET TO THE OPPOSITE TIME
             setTime();
+        } else if(e.getSource().equals(quit)) {
+            System.exit(0);
         }
     }
 
@@ -531,6 +553,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(true);
+        
+        //THE QUIT BUTTON BECOMES VISIBLE
+        quit.setVisible(true);
 
         //THE START BUTTON BECOMES THE RESTART BUTTON
         startOrRestart.setText("Restart");
@@ -563,8 +588,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE SCORE BUTTON IS HIDDEN
         scoreButton.setVisible(false);
 
-        //THE TIME OF DAY BUTTON BECOMES VISIBLE
+        //THE TIME OF DAY BUTTON BECOMES INVISIBLE
         timeOfDay.setVisible(false);
+        
+        //THE QUIT BUTTON BECOMES INVISIBLE
+        quit.setVisible(false);
 
         //ENDS LEFTOVER ENEMIES THREADS
         for(SoldierArmy sa : soldierArmyList) {
