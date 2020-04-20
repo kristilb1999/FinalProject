@@ -475,7 +475,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     private void startRound(int difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
-        SoldierArmy army = new SoldierArmy(EASY, panel, this);
+        SoldierArmy army = new SoldierArmy(difficulty, panel, this);
         soldierArmyList.add(army);
         army.start();
     }
