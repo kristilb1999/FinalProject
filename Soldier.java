@@ -164,7 +164,7 @@ abstract public class Soldier extends Thread
         boolean hit = false;
 
         //THE POSITION OF THE CENTER OF THE WEAPON
-        Point2D.Double wPos = weapon.getUpperLeft();
+        Point2D.Double wPos = weapon.getPosition();
         Point2D.Double sPos = position;
         int sSize = getSize();
         int wSize = weapon.getSize();

@@ -156,14 +156,14 @@ abstract public class Weapon extends Thread
     }
     
     /**
-     * Returns the Weapon's current position.
+     * Returns the center of the Weapon.
      * 
-     * @return the Weapon's current position.
+     * @return the center of the Weapon.
      */
-    public Point2D.Double getUpperLeft(){
+    public Point2D.Double getCenter(){
         return new Point2D.Double(
-        position.x - getSize()/ 2.0 , 
-        position.y - getSize() / 2.0);
+        position.x + getSize()/ 2.0 , 
+        position.y + getSize() / 2.0);
     }
     
     //Based on:
