@@ -215,6 +215,22 @@ public class SoldierArmy extends Thread
         //ALL OF THE ENEMIES HAVE BEEN CREATED
         allStarted = true;
     }
+    
+    /**
+     * Kills all soldiers in the army.
+     */
+    public void killSoldiers() {
+        //KILL EVERY SOLDIER IN THE ARMY
+        for(Soldier s : soldierList) {
+            s.kill();
+        }
+        
+        //CLEAR THE LIST
+        soldierList.clear();
+        
+        //SET DONE TO TRUE BECAUSE THE SOLDIER ARMY IS DEAD
+        done = true;
+    }
 
     /**
      * Returns true when all of the enemies in this army are done with their undead lives.
