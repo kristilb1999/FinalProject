@@ -19,7 +19,7 @@ public class Scoreboard extends Thread implements ActionListener
     private static final int WINDOW_HEIGHT = 175;
     private static final int TEXTFIELD_WIDTH = 100;
     private static final int TEXTFIELD_HEIGHT = 20;
-    
+
     private JDialog saveScoreDialog;
     private JDialog addFriendDialog;
     private JDialog addPlayerDialog;
@@ -30,11 +30,12 @@ public class Scoreboard extends Thread implements ActionListener
     private String lastAddedPlayerName;
     private JLabel yourScoreLabel;
     private JLabel friendScoreLabel;
+    private JLabel selectFriendHighscoreLabel;
     private JTextField newPlayerName;
-    private JComboBox<String> yourNameSelect;
-    private JComboBox<String> friendNameSelect;
-    private JComboBox<String> yourNameWithFriendSelect;
-    private JComboBox<String> selectAFriendSelect;
+    private JComboBox<String> yourNameScoreCombo;
+    private JComboBox<String> friendNameAddCombo;
+    private JComboBox<String> yourNameAddCombo;
+    private JComboBox<String> friendNameScoreCombo;
     private JButton saveScoreButton;
     private JButton addPlayerButton;
     private JButton saveNameButton;
@@ -43,10 +44,12 @@ public class Scoreboard extends Thread implements ActionListener
     private JButton exitButton;
     private JButton cancelAddPlayerButton;
     private JButton cancelAddFriendButton;
+    private JComponent container;
 
-    public Scoreboard(){
+    public Scoreboard(JComponent container){
         this.score = 0;
         this.lastAddedPlayerName = "";
+        this.container = container;
     }
 
     public void run(){
@@ -58,8 +61,8 @@ public class Scoreboard extends Thread implements ActionListener
         saveScoreDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
-        yourNameSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
-        savePanel.add(yourNameSelect);
+        yourNameScoreCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
+        savePanel.add(yourNameScoreCombo);
         yourScoreLabel = new JLabel("Your Highscore: 0");
         savePanel.add(yourScoreLabel);
         saveScoreButton = new JButton("Save Highscore");
@@ -71,26 +74,26 @@ public class Scoreboard extends Thread implements ActionListener
         exitButton = new JButton("Exit");
         savePanel.add(exitButton);
 
-        JLabel selectFriendHighscoreLabel = 
-            new JLabel("Select a friend's name to see their highscore: ");
+        selectFriendHighscoreLabel = 
+        new JLabel("Select a friend's name to see their highscore: ");
         savePanel.add(selectFriendHighscoreLabel);
-            
-        String yourName = (String)yourNameSelect.getSelectedItem();
+
+        String yourName = (String)yourNameScoreCombo.getSelectedItem();
         if(yourName != null){
-            selectAFriendSelect = new JComboBox<String>(DatabaseDriver.getFriends(yourName));
+            friendNameScoreCombo = new JComboBox<String>(DatabaseDriver.getFriends(yourName));
 
             try{
-                selectAFriendSelect.setSelectedIndex(0);
+                friendNameScoreCombo.setSelectedIndex(0);
             }catch(IllegalArgumentException exc){
-                selectAFriendSelect.setSelectedItem(null);
+                friendNameScoreCombo.setSelectedItem(null);
             }
         } else {
-            selectAFriendSelect = new JComboBox<String>();
+            friendNameScoreCombo = new JComboBox<String>();
         }
-        savePanel.add(selectAFriendSelect);
+        savePanel.add(friendNameScoreCombo);
 
         friendScoreLabel = new JLabel();
-        String friendName = (String)selectAFriendSelect.getSelectedItem();
+        String friendName = (String)friendNameScoreCombo.getSelectedItem();
         friendScoreLabel.setText("Your Friend's Highscore: " + 
             (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
 
@@ -120,23 +123,31 @@ public class Scoreboard extends Thread implements ActionListener
         //fields for adding a friend
         addFriendPanel = new JPanel();
         addFriendPanel.add(new JLabel("Select Your Player Name: "));
-        yourNameWithFriendSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
-        addFriendPanel.add(yourNameWithFriendSelect);
+        yourNameAddCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
+        addFriendPanel.add(yourNameAddCombo);
         addFriendPanel.add(new JLabel("Select Your Friend's Player Name: "));
-        friendNameSelect = new JComboBox<String>(DatabaseDriver.getAllPlayers());
-        addFriendPanel.add(friendNameSelect);
+        friendNameAddCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
+        addFriendPanel.add(friendNameAddCombo);
         saveFriendButton = new JButton("Add Friend");
         addFriendPanel.add(saveFriendButton);
         cancelAddFriendButton = new JButton("Cancel");
         addFriendPanel.add(cancelAddFriendButton);
         addFriendDialog.add(addFriendPanel);
 
+        //based on:
+        //https://stackoverflow.com/questions/10030947/center-jdialog-over-parent
+        saveScoreDialog.pack();
+        addPlayerDialog.pack();
+        saveScoreDialog.pack();
+        saveScoreDialog.setLocationRelativeTo(this.container);
+        addPlayerDialog.setLocationRelativeTo(this.container);
+        addFriendDialog.setLocationRelativeTo(this.container);
         saveScoreDialog.setVisible(false);
         addPlayerDialog.setVisible(false);
         addFriendDialog.setVisible(false);
 
-        yourNameSelect.addActionListener(this);
-        selectAFriendSelect.addActionListener(this);
+        yourNameScoreCombo.addActionListener(this);
+        friendNameScoreCombo.addActionListener(this);
 
         saveScoreButton.addActionListener(this);
         addPlayerButton.addActionListener(this);
@@ -149,10 +160,10 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     public void actionPerformed(ActionEvent e){
-        if(e.getSource().equals(yourNameSelect)){
-            refreshSelectAFriendSelect();
+        if(e.getSource().equals(yourNameScoreCombo)){
+            refreshFriendNameScoreCombo();
             refreshAddFriend();
-        }else if(e.getSource().equals(selectAFriendSelect)){
+        }else if(e.getSource().equals(friendNameScoreCombo)){
             refreshFriendScore();
         }else if(e.getSource().equals(saveScoreButton)){
             saveScore();
@@ -173,56 +184,74 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
-    private void refreshYourNameSelect(){
-        yourNameSelect.removeAllItems();
+    private void refreshYourNameScoreCombo(){
+        yourNameScoreCombo.removeAllItems();
         Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
 
         for(String name : allPlayers){
-            yourNameSelect.addItem(name);
+            yourNameScoreCombo.addItem(name);
         }
 
         try{
-            yourNameSelect.setSelectedIndex(0);
-            yourNameSelect.setSelectedItem(lastAddedPlayerName);
+            yourNameScoreCombo.setSelectedIndex(0);
+            yourNameScoreCombo.setSelectedItem(lastAddedPlayerName);
         }catch(IllegalArgumentException exc){
-            yourNameSelect.setSelectedItem(null);
+            yourNameScoreCombo.setSelectedItem(null);
         }
 
-        refreshSelectAFriendSelect();
+        refreshFriendNameScoreCombo();
     }
 
-    private void refreshSelectAFriendSelect(){
-        selectAFriendSelect.removeAllItems();
-        String yourName = (String)yourNameSelect.getSelectedItem();
+    private void refreshFriendNameScoreCombo(){
+        friendNameScoreCombo.removeAllItems();
+        String yourName = (String)yourNameScoreCombo.getSelectedItem();
         if(yourName != null){
             Vector<String> yourFriends = DatabaseDriver.getFriends(yourName);
 
-            for(String name : yourFriends){
-                selectAFriendSelect.addItem(name);
-            }
+            if(yourFriends.size() == 0){
+                friendScoreLabel.setVisible(false);
+                friendNameScoreCombo.setVisible(false);
+                selectFriendHighscoreLabel.setVisible(false);
+            }else {
+                friendScoreLabel.setVisible(true);
+                friendNameScoreCombo.setVisible(true);  
+                selectFriendHighscoreLabel.setVisible(true);
+                for(String name : yourFriends){
+                    friendNameScoreCombo.addItem(name);
+                }
 
-            try{
-                selectAFriendSelect.setSelectedIndex(0);
-            }catch(IllegalArgumentException exc){
-                yourNameWithFriendSelect.setSelectedItem(null);
+                try{
+                    friendNameScoreCombo.setSelectedIndex(0);
+                }catch(IllegalArgumentException exc){
+                    yourNameAddCombo.setSelectedItem(null);
+                }
             }
-
         }
 
         refreshFriendScore();
     }
 
     private void refreshFriendScore(){
-        String friendName = (String)selectAFriendSelect.getSelectedItem();
+        String friendName = (String)friendNameScoreCombo.getSelectedItem();
 
         friendScoreLabel.setText("Your Friend's Highscore: " + 
             (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
     }
 
     private void saveScore(){
-        String yourName = (String)yourNameSelect.getSelectedItem();
+        String yourName = (String)yourNameScoreCombo.getSelectedItem();
         if(yourName != null){
-            DatabaseDriver.setScore(yourName,this.score);
+            if(!DatabaseDriver.setScore(yourName,this.score)){
+                JOptionPane.showMessageDialog(null,
+                    "Error: Highscore not saved.",
+                    "Highscore Not Saved",
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                    "Highscore Saved!",
+                    "Highscore Saved",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 
@@ -234,82 +263,128 @@ public class Scoreboard extends Thread implements ActionListener
         String yourName = newPlayerName.getText();
 
         if(yourName.length() != 0 ){
-            DatabaseDriver.addPlayer(newPlayerName.getText());
-            lastAddedPlayerName = newPlayerName.getText();
-            newPlayerName.setText("");
-            addPlayerDialog.setVisible(false);
-            refreshYourNameSelect();
-            refreshAddFriend();
+
+            int exitCode = DatabaseDriver.addPlayer(newPlayerName.getText());
+            if(exitCode == 0){
+                lastAddedPlayerName = newPlayerName.getText();
+                newPlayerName.setText("");
+                addPlayerDialog.setVisible(false);
+                refreshYourNameScoreCombo();
+                refreshAddFriend();
+            } else if(exitCode == 1) {
+                JOptionPane.showMessageDialog(null,
+                    "A player with that name already exists, please pick another player name.",
+                    "Player Already Exists",
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                    "Error: Player name not saved.\nExit Code: " + exitCode,
+                    "Player Name Not Saved",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null,"A man has a name!","What is your name? What is your quest...",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                "A man has a name!",
+                "What is your name? What is your quest...",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void refreshAddFriend(){
-        yourNameWithFriendSelect.removeAllItems();
-        friendNameSelect.removeAllItems();
+        yourNameAddCombo.removeAllItems();
+        friendNameAddCombo.removeAllItems();
         Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
-
         //reset
         for(String name : allPlayers){
-            yourNameWithFriendSelect.addItem(name);
+            yourNameAddCombo.addItem(name);
         }
 
         for(String name : allPlayers){
-            friendNameSelect.addItem(name);
+            friendNameAddCombo.addItem(name);
         }
 
         //reset selected names
         try{
-            yourNameWithFriendSelect.setSelectedIndex(0);
+            yourNameAddCombo.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
-            yourNameWithFriendSelect.setSelectedItem(null);
+            yourNameAddCombo.setSelectedItem(null);
         }
-        yourNameWithFriendSelect.setSelectedItem(yourNameSelect.getSelectedItem());
+        yourNameAddCombo.setSelectedItem(yourNameScoreCombo.getSelectedItem());
+
+        Vector<String> yourFriends = DatabaseDriver.getFriends((String)yourNameScoreCombo.getSelectedItem());
+
+        for(String name : yourFriends){
+            friendNameAddCombo.removeItem(name);
+        }
 
         try{
-            friendNameSelect.setSelectedIndex(0);
+            friendNameAddCombo.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
-            friendNameSelect.setSelectedItem(null);
+            friendNameAddCombo.setSelectedItem(null);
         }
     }
 
     private void addFriend(){
-        addFriendDialog.setVisible(true);
+        Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
+        Vector<String> yourFriends = DatabaseDriver.getFriends((String)yourNameScoreCombo.getSelectedItem());
+
+        for(String name : yourFriends){
+            allPlayers.remove(name);
+        }
+
+        if(allPlayers.size() == 0){
+            JOptionPane.showMessageDialog(null,
+                "You are already friends with everyone.",
+                "All Friendships Already Exist",
+                JOptionPane.ERROR_MESSAGE);
+        } else {
+            addFriendDialog.setVisible(true);
+        }
     }
 
     private void exitScoreboard(){
         try{
-            yourNameSelect.setSelectedIndex(0);
+            yourNameScoreCombo.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
-            yourNameSelect.setSelectedItem(null);
+            yourNameScoreCombo.setSelectedItem(null);
         }
 
         saveScoreDialog.setVisible(false);
     }
 
     private void saveFriend(){
-        String yourName = (String)yourNameWithFriendSelect.getSelectedItem();
+        String yourName = (String)yourNameAddCombo.getSelectedItem();
 
-        String friendName = (String)friendNameSelect.getSelectedItem();
+        String friendName = (String)friendNameAddCombo.getSelectedItem();
 
         if(yourName != null && friendName != null){
-            DatabaseDriver.addFriendship(yourName,friendName);
+            int exitCode = DatabaseDriver.addFriendship(yourName,friendName);
+            if(exitCode == 0){
+
+                try{
+                    friendNameAddCombo.setSelectedIndex(0);
+                }catch(IllegalArgumentException exc){
+                    friendNameAddCombo.setSelectedItem(null);
+                }
+
+                addFriendDialog.setVisible(false);
+                refreshFriendNameScoreCombo();
+                yourNameScoreCombo.setSelectedItem(yourName);
+                friendNameScoreCombo.setSelectedItem(friendName);
+
+            } else if(exitCode == 1) {
+                JOptionPane.showMessageDialog(null,
+                    "You are already friends with " + friendName + ".",
+                    "Friendship Already Exists",
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                    "Error: Friend not added.\nExit Code: " + exitCode,
+                    "Friend Not Added",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        try{
-            friendNameSelect.setSelectedIndex(0);
-        }catch(IllegalArgumentException exc){
-            friendNameSelect.setSelectedItem(null);
-        }
-
-        addFriendDialog.setVisible(false);
-
-        refreshSelectAFriendSelect();
-
-        yourNameSelect.setSelectedItem(yourName);
-
-        selectAFriendSelect.setSelectedItem(friendName);
     }
 
     private void cancelAddPlayer(){
@@ -319,19 +394,18 @@ public class Scoreboard extends Thread implements ActionListener
 
     private void cancelAddFriend(){
         try{
-            friendNameSelect.setSelectedIndex(0);
+            friendNameAddCombo.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
-            friendNameSelect.setSelectedItem(null);
+            friendNameAddCombo.setSelectedItem(null);
         }
 
         try{
-            yourNameWithFriendSelect.setSelectedIndex(0);
+            yourNameAddCombo.setSelectedIndex(0);
         }catch(IllegalArgumentException exc){
-            yourNameWithFriendSelect.setSelectedItem(null);
+            yourNameAddCombo.setSelectedItem(null);
         }
 
         addFriendDialog.setVisible(false);
-
     }
 
     public void show(){

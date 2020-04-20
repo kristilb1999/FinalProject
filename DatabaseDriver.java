@@ -36,10 +36,12 @@ public class DatabaseDriver
     }
 
     public static int addPlayer(String playerName){
+        if(playerName == null || playerName == "") return 3;
         return insert("INSERT INTO Player values ('" + playerName + "',0)");
     }
 
     public static int addFriendship(String name1,String name2){
+        if(name1 == null || name1 == "" || name2 == null|| name2 == "") return 3;
         return insert("INSERT INTO Friendship values ('" + name1 + "','" + name2 + "')");
     }
 
@@ -62,14 +64,18 @@ public class DatabaseDriver
 
     public static boolean setScore(String playerName,int score){
         boolean successful = true;
-        String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.executeUpdate();
-        }catch(SQLException e){
-            System.err.println("SQL Error: " + e); 
-            e.printStackTrace();
-            successful = false;
+        if(playerName == null || playerName == "") successful = false;
+
+        if(successful){
+            String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.executeUpdate();
+            }catch(SQLException e){
+                System.err.println("SQL Error: " + e); 
+                e.printStackTrace();
+                successful = false;
+            }
         }
 
         return successful;
@@ -77,17 +83,20 @@ public class DatabaseDriver
 
     public static int getScore(String playerName){
         int score = 0;
-        String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rset = stmt.executeQuery();
 
-            rset.next();
-            score = rset.getInt("Score");
-        }catch(SQLException e){
-            System.err.println("SQL Error: " + e); 
-            e.printStackTrace();
-            score = -1;
+        if(playerName != null && playerName != ""){
+            String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rset = stmt.executeQuery();
+
+                rset.next();
+                score = rset.getInt("Score");
+            }catch(SQLException e){
+                System.err.println("SQL Error: " + e); 
+                e.printStackTrace();
+                score = -1;
+            }
         }
 
         return score;
@@ -95,23 +104,26 @@ public class DatabaseDriver
 
     public static Vector<String> getFriends(String playerName){
         Vector friends = new Vector<String>();
-        String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rset = stmt.executeQuery();
 
-            while(rset.next()){
+        if(playerName != null && playerName != ""){
+            String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rset = stmt.executeQuery();
 
-                friends.add(rset.getString("Name2"));
+                while(rset.next()){
+
+                    friends.add(rset.getString("Name2"));
+                }
+            }catch(SQLException e){
+                System.err.println("SQL Error: " + e); 
+                e.printStackTrace();
             }
-        }catch(SQLException e){
-            System.err.println("SQL Error: " + e); 
-            e.printStackTrace();
         }
 
         return friends;
     }
-    
+
     public static Vector<String> getAllPlayers(){
         Vector players= new Vector<String>();
         String query = "SELECT Name FROM Player";
@@ -217,27 +229,27 @@ public class DatabaseDriver
         }catch(IndexOutOfBoundsException e){
             count++;
         }
-        
+
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Not Will")){
             count++;
         };
-        
+
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Will")){
             count++;
         };
-        
+
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Not Not Will")){
             count++;
         };
-        
+
         maxCount++;
         if(!DatabaseDriver.getAllPlayers().contains("Very Much Not Will")){
             count++;
         };
-        
+
         maxCount++;
         if(!DatabaseDriver.getAllPlayers().contains("Very Much Will")){
             count++;
