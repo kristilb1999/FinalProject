@@ -83,6 +83,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE AMOUNT OF HEALTH THE TOWER HAS
     private int towerHealth;
+    
+    //THE PLAYER SCORE
+    private int playerScore;
 
     //FALSE WHEN IT IS DAYTIME, TRUE WHEN IT IS NIGHTTIME ON SCREEN
     private boolean nightTime;
@@ -116,13 +119,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private JButton startOrRestart;
 
     //THE BUTTON THAT SAVES THE SCORE
-    private JButton score;
+    private JButton scoreButton;
 
     //THE BUTTON THAT SETS THE TIME OF DAY
     private JButton timeOfDay;
 
     //THE LABEL THAT DISPLAYS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
     private JLabel healthBar;
+    
+    //THE LABEL THAT DISPLAYS THE PLAYER SCORE 
+    private JLabel scoreLabel;
 
     //THE SCOREBOARD OBJECT THAT WILL STORE THE SCORE IN THE DATABASE
     private Scoreboard scoreboard;
@@ -277,7 +283,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         startOrRestart = new JButton("Start");
 
         //CREATE THE SCORE BUTTON
-        score = new JButton("Save score");
+        scoreButton = new JButton("Save score");
 
         //CREATE THE DIFFICULTY LEVEL BUTTONS
         easyRound = new JButton("Easy");      
@@ -289,6 +295,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATE THE LABEL THAT DISPLAYS THE HEALTH
         healthBar = new JLabel();
+        
+        //CREATE THE LABEL THAT DISPLAYS THE SCORE
+        scoreLabel = new JLabel("Player score: " + playerScore);
 
         //CREATE A PANEL WITH A FLOWLAYOUT TO HOLD THE GAME AND THE BUTTONS PANEL AND ADD IT TO THE FRAME
         JPanel panelHolder = new JPanel(new FlowLayout());
@@ -340,11 +349,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET THE FONT OF THE HEALTH LABEL
         healthBar.setFont(FONT_USED);
+        
+        //SET FONT AND COLORS OF THE SCORE LABEL
+        scoreLabel.setFont(FONT_USED);
+        scoreLabel.setForeground(Color.BLUE);
+        scoreLabel.setBackground(Color.BLACK);
 
         //SET THE FONT AND COLORS OF THE SCORE BUTTON
-        score.setFont(FONT_USED);
-        score.setForeground(Color.MAGENTA);
-        score.setBackground(Color.BLACK);
+        scoreButton.setFont(FONT_USED);
+        scoreButton.setForeground(Color.MAGENTA);
+        scoreButton.setBackground(Color.BLACK);
 
         //SET THE FONT AND COLORS OF THE DAY TIME BUTTON
         timeOfDay.setFont(FONT_USED);
@@ -361,9 +375,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE HEALTH LABEL TO THE BUTTON PANEL
         startPanel.add(healthBar);
+        
+        //ADD THE SCORE LABEL TO THE BUTTON PANEL
+        startPanel.add(scoreLabel);
 
         //ADD THE SCORE BUTTON TO THE BUTTON PANEL
-        startPanel.add(score);
+        startPanel.add(scoreButton);
 
         //ADD THE TIME OF DAY BUTTON TO THE BUTTON PANEL
         startPanel.add(timeOfDay);
@@ -374,13 +391,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         hardRound.setVisible(false);
 
         //SET SCORE BUTTON INVISIBLE
-        score.setVisible(false);
+        scoreButton.setVisible(false);
 
         //SET TIME OF DAY BUTTON INVISIBLE
         timeOfDay.setVisible(false);
 
         //SET HEALTH LABEL INVISIBLE
         healthBar.setVisible(false);
+        
+        //SET SCORE LABEL INVISBLE
+        scoreLabel.setVisible(false);
 
         //ADD THE GAME PANEL AND THE BUTTONS PANEL TO THE PANEL HOLDER ON THE JFRAME
         panelHolder.add(panel);
@@ -399,7 +419,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         hardRound.addActionListener(this);
 
         //ADD THE ACTION LISTENER TO THE SCORE BUTTON
-        score.addActionListener(this);
+        scoreButton.addActionListener(this);
 
         //ADD THE ACTION LISTENER TO THE TIME OF DAY BUTTON
         timeOfDay.addActionListener(this);
@@ -460,7 +480,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         {
             //IF THE PLAYER CHOOSES A HARD ROUND A HARD LEVEL WILL BE STARTED
             startRound(HARD);
-        }else if(e.getSource().equals(score)) {
+        }else if(e.getSource().equals(scoreButton)) {
             //THE DIALOG BOX WILL POP UP TO SAVE THE SCORE
             scoreboard.show();
         } else if(e.getSource().equals(timeOfDay)) {
@@ -487,8 +507,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE AMOUNT OF HEALTH LEFT BECOMES VISIBLE
         healthBar.setVisible(true);
 
+        //SET SCORE LABEL VISIBLE
+        scoreLabel.setVisible(true);
+        
         //THE SCORE BUTTON BECOMES VISIBLE
-        score.setVisible(true);
+        scoreButton.setVisible(true);
 
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(true);
@@ -514,9 +537,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
         healthBar.setVisible(false);
+        
+        //SET SCORE LABEL INVISBLE
+        scoreLabel.setVisible(false);
 
         //THE SCORE BUTTON IS HIDDEN
-        score.setVisible(false);
+        scoreButton.setVisible(false);
 
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(false);
@@ -555,6 +581,24 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             nightTime = true;
             timeOfDay.setText(" Day ");
         }
+    }
+    
+    /**
+     * Updates the player's score.
+     * 
+     * @param points The amount to increase the score by.
+     */
+    public void updateScore(int points) {
+        playerScore += points;
+    }
+    
+    /**
+     * Returns the scoreboard object.
+     * 
+     * @return The scoreboard.
+     */
+    public Scoreboard getScoreboard() {
+        return scoreboard;
     }
 
     /**
