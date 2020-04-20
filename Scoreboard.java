@@ -31,7 +31,7 @@ public class Scoreboard extends Thread implements ActionListener
     private JLabel yourScoreLabel;
     private JLabel friendScoreLabel;
     private JLabel selectFriendHighscoreLabel;
-    private JTextField newPlayerName;
+    private JTextField newPlayerNameField;
     private JComboBox<String> yourNameScoreCombo;
     private JComboBox<String> friendNameAddCombo;
     private JComboBox<String> yourNameAddCombo;
@@ -45,6 +45,7 @@ public class Scoreboard extends Thread implements ActionListener
     private JButton cancelAddPlayerButton;
     private JButton cancelAddFriendButton;
     private JComponent container;
+    private Object scoreLock = new Object();
 
     public Scoreboard(JComponent container){
         this.score = 0;
@@ -58,7 +59,7 @@ public class Scoreboard extends Thread implements ActionListener
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
         saveScoreDialog.setTitle("Add New Highscore");
-        saveScoreDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
+        saveScoreDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         savePanel = new JPanel();
         savePanel.add(new JLabel("Select Your Player Name: "));
         yourNameScoreCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
@@ -77,10 +78,20 @@ public class Scoreboard extends Thread implements ActionListener
         selectFriendHighscoreLabel = 
         new JLabel("Select a friend's name to see their highscore: ");
         savePanel.add(selectFriendHighscoreLabel);
+        friendScoreLabel = new JLabel();
 
         String yourName = (String)yourNameScoreCombo.getSelectedItem();
         if(yourName != null){
-            friendNameScoreCombo = new JComboBox<String>(DatabaseDriver.getFriends(yourName));
+            Vector<String> yourFriends = DatabaseDriver.getFriends(yourName);
+
+            if(yourFriends.size() == 0){
+                friendNameScoreCombo = new JComboBox<String>();
+                friendScoreLabel.setVisible(false);
+                friendNameScoreCombo.setVisible(false);
+                selectFriendHighscoreLabel.setVisible(false);
+            } else {
+                friendNameScoreCombo = new JComboBox<String>(yourFriends);
+            }
 
             try{
                 friendNameScoreCombo.setSelectedIndex(0);
@@ -89,10 +100,12 @@ public class Scoreboard extends Thread implements ActionListener
             }
         } else {
             friendNameScoreCombo = new JComboBox<String>();
+            friendScoreLabel.setVisible(false);
+            friendNameScoreCombo.setVisible(false);
+            selectFriendHighscoreLabel.setVisible(false);
         }
         savePanel.add(friendNameScoreCombo);
 
-        friendScoreLabel = new JLabel();
         String friendName = (String)friendNameScoreCombo.getSelectedItem();
         friendScoreLabel.setText("Your Friend's Highscore: " + 
             (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
@@ -107,9 +120,9 @@ public class Scoreboard extends Thread implements ActionListener
         //fields for adding a player
         addPlayerPanel = new JPanel();
         addPlayerPanel.add(new JLabel("Enter Your Name: "));
-        newPlayerName = new JTextField("");
-        newPlayerName.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
-        addPlayerPanel.add(newPlayerName);
+        newPlayerNameField = new JTextField("");
+        newPlayerNameField.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
+        addPlayerPanel.add(newPlayerNameField);
         saveNameButton = new JButton("Save Player Name");
         addPlayerPanel.add(saveNameButton);
         cancelAddPlayerButton = new JButton("Cancel");
@@ -260,14 +273,14 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     private void saveName(){
-        String yourName = newPlayerName.getText();
+        String yourName = newPlayerNameField.getText();
 
         if(yourName.length() != 0 ){
 
-            int exitCode = DatabaseDriver.addPlayer(newPlayerName.getText());
+            int exitCode = DatabaseDriver.addPlayer(newPlayerNameField.getText());
             if(exitCode == 0){
-                lastAddedPlayerName = newPlayerName.getText();
-                newPlayerName.setText("");
+                lastAddedPlayerName = newPlayerNameField.getText();
+                newPlayerNameField.setText("");
                 addPlayerDialog.setVisible(false);
                 refreshYourNameScoreCombo();
                 refreshAddFriend();
@@ -388,7 +401,7 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     private void cancelAddPlayer(){
-        newPlayerName.setText("");
+        newPlayerNameField.setText("");
         addPlayerDialog.setVisible(false);
     }
 
@@ -415,5 +428,15 @@ public class Scoreboard extends Thread implements ActionListener
     public void setScore(int score){
         this.score = score;
         yourScoreLabel.setText("Your Highscore: " + score);
+    }
+
+    public void updateScore(int score){
+        synchronized(scoreLock){
+            this.score += score;
+        }
+    }
+
+    public int getScore(){
+        return this.score;
     }
 }
