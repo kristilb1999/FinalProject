@@ -22,6 +22,9 @@ public class AverageZombie extends Soldier
     
     //THE SPEED OF THE AVERAGEZOMBIE SOLDIER
     private static final int SPEED = 2;
+    
+    //THE AMOUNT OF POINTS THE AVERAGEZOMBIE SOLDIER IS WORTH
+    private static final int POINTS = 100;
 
     /**
      * Creates a AverageZombie Soldier object.
@@ -61,6 +64,16 @@ public class AverageZombie extends Soldier
             if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
         }
+    }
+    
+    /**
+     * Gets the amount of points each soldier is worth.
+     * 
+     * @return The amount of points each soldier is worth.
+     */
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
     
     /**

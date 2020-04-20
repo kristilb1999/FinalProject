@@ -23,6 +23,9 @@ public class Pirate extends Soldier
     //THE SPEED OF THE PIRATE SOLDIER
     private static final int SPEED = 10;
     
+    //THE AMOUNT OF POINTS THE PIRATE SOLDIER IS WORTH
+    private static final int POINTS = 500;
+    
     /**
      * Creates a Pirate Soldier object.
      * 
@@ -61,6 +64,16 @@ public class Pirate extends Soldier
             if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
         }
+    }
+    
+    /**
+     * Gets the amount of points each soldier is worth.
+     * 
+     * @return The amount of points each soldier is worth.
+     */
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
     
     /**

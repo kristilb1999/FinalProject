@@ -22,6 +22,9 @@ public class Hunchback extends Soldier
     
     //THE SPEED OF THE HUNCHBACK SOLDIER
     private static final int SPEED = 5;
+    
+    //THE AMOUNT OF POINTS THE HUNCHBACK SOLDIER IS WORTH
+    private static final int POINTS = 200;
 
     /**
      * Creates a Hunchback Soldier object.
@@ -61,6 +64,16 @@ public class Hunchback extends Soldier
             if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
         }
+    }
+    
+    /**
+     * Gets the amount of points each soldier is worth.
+     * 
+     * @return The amount of points each soldier is worth.
+     */
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
     
     /**

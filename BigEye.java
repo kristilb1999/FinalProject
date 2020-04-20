@@ -14,14 +14,17 @@ import java.awt.geom.*;
  */
 public class BigEye extends Soldier
 {
-    //THE SIZE OF THE AVERAGEZOMBIE SOLDIER
+    //THE SIZE OF THE BIGEYE SOLDIER
     private static final int SIZE = 80;
     
-    //THE STRENGTH OF THE AVERAGEZOMBIE SOLDIER
+    //THE STRENGTH OF THE BIGEYE SOLDIER
     private static final int STRENGTH = 3;
     
-    //THE SPEED OF THE AVERAGEZOMBIE SOLDIER
+    //THE SPEED OF THE BIGEYE SOLDIER
     private static final int SPEED = 7;
+    
+    //THE AMOUNT OF POINTS THE BIGEYE SOLDIER IS WORTH
+    private static final int POINTS = 300;
 
     /**
      * Creates a BigEye Soldier object.
@@ -61,6 +64,16 @@ public class BigEye extends Soldier
         if(!done) {
             g.drawImage(type, (int)position.x, (int)position.y, null);
         }
+    }
+    
+    /**
+     * Gets the amount of points each soldier is worth.
+     * 
+     * @return The amount of points each soldier is worth.
+     */
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
     
     /**
