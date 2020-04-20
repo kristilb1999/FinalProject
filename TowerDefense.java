@@ -34,7 +34,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE AMOUNT THE TOWER WILL BE DISPLACED FROM THE WIDTH AND HEIGHT OF THE PANEL
     private static final int TOWER_X_DISPLACEMENT = 325;
-    private static final int TOWER_Y_DISPLACEMENT = 475;
+    private static final int TOWER_Y_DISPLACEMENT = 490;
+
+    //THE AMOUNT THE CLICKABLE SQUARE WILL BE DISPLACED FROM THE HEIGHT OF THE PANEL
+    private static final int CLICKABLE_X_DISPLACEMENT = 285;
+    private static final int CLICKABLE_Y_DISPLACEMENT = 680;
+
+    //THE SIZE OF THE CLICKABLE AREA
+    private static final int CLICKABLE_SIZE = 250;
 
     //THE START HEALTH OF THE TOWER
     private static final int START_HEALTH = 15;
@@ -82,6 +89,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //HAS THE GAME STARTED OR NOT?
     private boolean gameStarted;
+    
+    //IF THE WEAPON WAS MADE IN THE BOX
+    private boolean weaponMade;
 
     //IS THE MOUSE BEING DRAGGED OR NOT?
     private boolean dragging;
@@ -117,6 +127,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE POINTS THAT KEEP TRACK OF PRESSING AND DRAGGING TO LAUNCH THE WEAPONS
     private Point pressPoint;
     private Point dragPoint;
+
+    //THE WEAPON TO BE LAUNCHED
+    private Weapon newWeapon;
 
     // OBJECTS THAT SERVVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
     private Object weaponLock = new Object();
@@ -158,6 +171,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //DRAW THE TOWER IN THE GRASS
         g.drawImage(towerPic, towerXPos, towerYPos, null);
+
+        //THE CLICKABLE SPACE TO LAUNCH A WEAPON FROM
+        g.setColor(Color.BLACK);
+        g.drawRect(width - CLICKABLE_X_DISPLACEMENT, height - CLICKABLE_Y_DISPLACEMENT, CLICKABLE_SIZE, CLICKABLE_SIZE);
 
         // if we are currently dragging, draw a sling line
         //IF WE ARE CURRENTLY DRAGGING, DRAW THE SLING LINE
@@ -353,6 +370,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE MOUSELISTENER TO THE GAME PANEL
         panel.addMouseListener(this);
+        panel.addMouseMotionListener(this);
 
         //ADD THE ACTION LISTENER TO THE START BUTTON
         startOrRestart.addActionListener(this);
@@ -409,7 +427,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             } else {
                 endGame();
             }
-            
+
         }else if (e.getSource().equals(easyRound))
         {
             //IF THE PLAYER CHOOSES AN EASY ROUND AN EASY LEVEL WILL BE STARTED
@@ -481,6 +499,17 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     }
 
     /**
+     * Calculates whether or not the click is within the launching
+     * box above the tower.
+     * 
+     * @param clickedPoint The point that has been clicked on the screen.
+     */
+    public boolean clickedInBox(Point clickedPoint) {
+        return (clickedPoint.x > panel.getWidth() - CLICKABLE_X_DISPLACEMENT && clickedPoint.x < panel.getWidth() - CLICKABLE_X_DISPLACEMENT + CLICKABLE_SIZE
+            && clickedPoint.y > panel.getHeight() - CLICKABLE_Y_DISPLACEMENT && clickedPoint.y < panel.getHeight() - CLICKABLE_Y_DISPLACEMENT + CLICKABLE_SIZE);
+    }
+
+    /**
      * The mouse press event that will set up a weapon
      * to be launched upon release, if the game has begun.
      * 
@@ -490,8 +519,33 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public void mousePressed(MouseEvent e) {
         //IF THE START BUTTON HAS BEEN PRESSED
         if(gameStarted) {
+            //THE WEAPON HAS NOT YET BEEN MADE
+            weaponMade = false;
+            
             //SAVE THE ORIGINAL PRESS POINT
             pressPoint = e.getPoint();
+            if(clickedInBox(pressPoint)) {
+
+                //CREATE A NEW WEAPON TO ADD TO THE WEAPON LIST
+                newWeapon = QuarterMaster.getRandomWeapon(panel,
+                    new Point2D.Double(e.getPoint().x, e.getPoint().y),
+                    new Point2D.Double( 
+                        SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                        SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
+                    ) );
+
+                //LOCK ACCESS TO THE LIST IN CASE paintComponent IS USING IT CONCURRENTLY
+                synchronized (weaponLock) {
+                    //ADD THE NEW WEAPON TO THE LIST
+                    weaponList.add(newWeapon);
+                }
+
+                //START THE NEW WEAPON NOW THAT IT HAS BEEN ADDED
+                newWeapon.start();
+                
+                //THE WEAPON HAS BEEN MADE
+                weaponMade = true;
+            }
         }
     }
 
@@ -505,9 +559,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         //IS THE START BUTTON HAS BEEN PRESSED
-        if(gameStarted) {
+        if(weaponMade) {
             //SAVE THE DRAG POINT FOR PAINT METHOD
             dragPoint = e.getPoint();
+
+            //RESET THE POSITION AND INERTIA OF THE WEAPON
+            newWeapon.setWeaponPosition(new Point2D.Double(e.getPoint().x, e.getPoint().y));
+            newWeapon.setWeaponInertia(new Point2D.Double( 
+                    SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
+                    SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
+                ));
 
             //SET DRAG TO FALSE FOR PAINT METHOD
             dragging = true;
@@ -523,27 +584,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void mouseReleased(MouseEvent e) {
         //AS LONG AS THE START BUTTON HAS BEEN PRESSED
-        if(gameStarted) {
-            //CREATE A NEW WEAPON TO ADD TO THE WEAPON LIST
-            Weapon newWeapon = QuarterMaster.getRandomWeapon(panel,
-                    new Point2D.Double(e.getPoint().x , e.getPoint().y),
-                    new Point2D.Double( 
-                        SLING_FACTOR * (pressPoint.x - e.getPoint().x) , 
-                        SLING_FACTOR * (pressPoint.y - e.getPoint().y) 
-                    ) );
-
-            //LOCK ACCESS TO THE LIST IN CASE paintComponent IS USING IT CONCURRENTLY
-            synchronized (weaponLock) {
-                //ADD THE NEW WEAPON TO THE LIST
-                weaponList.add(newWeapon);
-            }
-
-            //START THE NEW WEAPON NOW THAT IT HAS BEEN ADDED
-            newWeapon.start();
-
+        if(weaponMade) {
             //RESET DRAGGING TO FALSE FOR PAINT METHOD
             dragging = false;
-        }
+            newWeapon.setReleased(true);
+        } 
     }
 
     /**
