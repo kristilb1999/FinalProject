@@ -44,7 +44,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private static final int CLICKABLE_SIZE = 250;
 
     //THE START HEALTH OF THE TOWER
-    private static final int START_HEALTH = 15;
+    private static final int START_HEALTH = 30;
 
     //THE THREE LEVELS OF THE GAME
     private static final int EASY = 0;
