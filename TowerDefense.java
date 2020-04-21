@@ -46,11 +46,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE START HEALTH OF THE TOWER
     private static final int START_HEALTH = 30;
 
-    //THE THREE LEVELS OF THE GAME
-    private static final int EASY = 0;
-    private static final int MEDIUM = 1;
-    private static final int HARD = 2;
-
     //THE SLING FACTOR FOR THROWING THE WEAPONS
     public static final double SLING_FACTOR = 2.5;
 
@@ -539,15 +534,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }else if (e.getSource().equals(easyRound))
         {
             //IF THE PLAYER CHOOSES AN EASY ROUND AN EASY LEVEL WILL BE STARTED
-            startRound(EASY);
+            startRound(Difficulty.EASY);
         }else if (e.getSource().equals(mediumRound))
         {
             //IF THE PLAYER CHOOSES A MEDIUM ROUND A MEDIUM LEVEL WILL BE STARTED
-            startRound(MEDIUM);
+            startRound(Difficulty.MEDIUM);
         }else if (e.getSource().equals(hardRound))
         {
             //IF THE PLAYER CHOOSES A HARD ROUND A HARD LEVEL WILL BE STARTED
-            startRound(HARD);
+            startRound(Difficulty.HARD);
         }else if(e.getSource().equals(scoreButton)) {
             //THE DIALOG BOX WILL POP UP TO SAVE THE SCORE
             scoreboard.show();
@@ -636,7 +631,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     /**
      * Sets the difficulty of the next army wave.
      */
-    private void startRound(int difficulty){
+    private void startRound(Difficulty difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
         SoldierArmy army = new SoldierArmy(difficulty, panel, this);
         soldierArmyList.add(army);
@@ -760,7 +755,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             newWeapon.setReleased(true);
         } 
     }
-    
+
     /**
      * Returns the HealthBar for the tower.
      * 

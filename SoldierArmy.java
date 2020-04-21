@@ -28,7 +28,7 @@ public class SoldierArmy extends Thread
     private static final int Y_STOP = 52;
 
     //THE DIFFICULTY LEVEL
-    private int difficultyLevel;
+    private Difficulty difficultyLevel;
 
     //THE NUMBER OF ENEMIES TO SPAWN IN THIS ARMY WAVE
     private int numOfEnemies;
@@ -58,13 +58,13 @@ public class SoldierArmy extends Thread
      * @param container The container to put the enemies in.
      * @param tower The tower game reference.
      */
-    public SoldierArmy(int difficultyLevel, JComponent container, TowerDefense tower)
+    public SoldierArmy(Difficulty difficultyLevel, JComponent container, TowerDefense tower)
     {
         //SETS THE DIFFICULTY LEVEL OF THIS PARTICULAR ARMY
         this.difficultyLevel = difficultyLevel;
 
         //THE NUMBER OF ENEMIES IS DECIDED BY WHICH DIFFICULTY IS CHOSEN
-        this.numOfEnemies = (difficultyLevel + 1) * 10;
+        this.numOfEnemies = (difficultyLevel.getValue() + 1) * 10;
 
         //SET THE CONTAINER TO REPAINT IN
         this.container = container;

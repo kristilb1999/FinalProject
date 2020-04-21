@@ -14,12 +14,7 @@ import java.awt.geom.*;
  * @version Spring 2020
  */
 public class SoldierProvider
-{
-    //THE THREE DIFFICULTY LEVELS
-    private static final int EASY = 0;
-    private static final int MEDIUM = 1;
-    private static final int HARD = 2;
-    
+{    
     /**
      * Returns a random Soldier from our four options.
      * 
@@ -30,7 +25,7 @@ public class SoldierProvider
      * 
      * @return The Weapon that the QuarterMaster has chosen for the user.
      */
-    public static Soldier getRandom(JComponent container, TowerDefense tower, int x_start, int y_stop, int difficultyLevel){
+    public static Soldier getRandom(JComponent container, TowerDefense tower, int x_start, int y_stop, Difficulty difficultyLevel){
         //CREATE A RANDOM OBJECT
         Random r = new Random();
 
