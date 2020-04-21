@@ -19,10 +19,19 @@ public class Scoreboard extends Thread implements ActionListener
 {
     //constants for window dimensions
     private static final int WINDOW_WIDTH = 500;
-    private static final int WINDOW_HEIGHT = 175;
+    private static final int WINDOW_HEIGHT = 250;
     //constants for text field dimensions
     private static final int TEXTFIELD_WIDTH = 100;
     private static final int TEXTFIELD_HEIGHT = 20;
+    //constants for font sizes
+    private static final int FONT_SIZE_LARGE = 25;
+    private static final int FONT_SIZE_SMALL = 16;
+    //constants for colors used
+    private static final Color COLOR_TEXT = Color.WHITE;
+    private static final Color COLOR_BUTTON = Color.BLUE;
+    private static final Color COLOR_BACK = Color.BLACK;
+    //constant for font name
+    private static final String TEXT_FONT = "Rockwell";
 
     //instance variables
     //variables for storing information
@@ -32,7 +41,7 @@ public class Scoreboard extends Thread implements ActionListener
     private JDialog saveScoreDialog;
     private JDialog addFriendDialog;
     private JDialog addPlayerDialog;
-    private JPanel savePanel;
+    private JPanel saveScorePanel;
     private JPanel addPlayerPanel;
     private JPanel addFriendPanel;
     private JLabel yourScoreLabel;
@@ -65,7 +74,7 @@ public class Scoreboard extends Thread implements ActionListener
         this.lastAddedPlayerName = "";
         this.container = container;
     }
-    
+
     /**
      * Constructs a new Scoreboard.
      * 
@@ -87,24 +96,25 @@ public class Scoreboard extends Thread implements ActionListener
         saveScoreDialog = new JDialog();
         saveScoreDialog.setTitle("Add New Highscore");
         saveScoreDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
-        savePanel = new JPanel();
-        savePanel.add(new JLabel("Select Your Player Name: "));
+        saveScorePanel = new JPanel();
+        JLabel selectPlayerNameLabel = new JLabel("Select Your Player Name: ");
+        saveScorePanel.add(selectPlayerNameLabel);
         yourNameScoreCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
-        savePanel.add(yourNameScoreCombo);
+        saveScorePanel.add(yourNameScoreCombo);
         yourScoreLabel = new JLabel("Your Highscore: 0");
-        savePanel.add(yourScoreLabel);
+        saveScorePanel.add(yourScoreLabel);
         saveScoreButton = new JButton("Save Highscore");
-        savePanel.add(saveScoreButton);
+        saveScorePanel.add(saveScoreButton);
         addPlayerButton = new JButton("Add New Player");
-        savePanel.add(addPlayerButton);
+        saveScorePanel.add(addPlayerButton);
         addFriendButton = new JButton("Add Friend");
-        savePanel.add(addFriendButton);
+        saveScorePanel.add(addFriendButton);
         exitButton = new JButton("Exit");
-        savePanel.add(exitButton);
+        saveScorePanel.add(exitButton);
 
         selectFriendHighscoreLabel = 
         new JLabel("Select a friend's name to see their highscore: ");
-        savePanel.add(selectFriendHighscoreLabel);
+        saveScorePanel.add(selectFriendHighscoreLabel);
         friendScoreLabel = new JLabel();
 
         String yourName = (String)yourNameScoreCombo.getSelectedItem();
@@ -131,14 +141,14 @@ public class Scoreboard extends Thread implements ActionListener
             friendNameScoreCombo.setVisible(false);
             selectFriendHighscoreLabel.setVisible(false);
         }
-        savePanel.add(friendNameScoreCombo);
+        saveScorePanel.add(friendNameScoreCombo);
 
         String friendName = (String)friendNameScoreCombo.getSelectedItem();
         friendScoreLabel.setText("Your Friend's Highscore: " + 
             (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
 
-        savePanel.add(friendScoreLabel);
-        saveScoreDialog.add(savePanel);
+        saveScorePanel.add(friendScoreLabel);
+        saveScoreDialog.add(saveScorePanel);
 
         //dialog box for adding a new player
         addPlayerDialog = new JDialog();
@@ -147,7 +157,8 @@ public class Scoreboard extends Thread implements ActionListener
         //addPlayerDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a player
         addPlayerPanel = new JPanel();
-        addPlayerPanel.add(new JLabel("Enter Your Name: "));
+        JLabel enterYourNameLabel = new JLabel("Enter Your Name: ");
+        addPlayerPanel.add(enterYourNameLabel);
         newPlayerNameField = new JTextField("");
         newPlayerNameField.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
         addPlayerPanel.add(newPlayerNameField);
@@ -163,10 +174,12 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a friend
         addFriendPanel = new JPanel();
-        addFriendPanel.add(new JLabel("Select Your Player Name: "));
+        JLabel selectYourNameAddLabel = new JLabel("Select Your Player Name: ");
+        addFriendPanel.add(selectYourNameAddLabel);
         yourNameAddCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
         addFriendPanel.add(yourNameAddCombo);
-        addFriendPanel.add(new JLabel("Select Your Friend's Player Name: "));
+        JLabel selectFriendAddLabel = new JLabel("Select Your Friend's Player Name: ");
+        addFriendPanel.add(selectFriendAddLabel);
         friendNameAddCombo = new JComboBox<String>(DatabaseDriver.getAllPlayers());
         addFriendPanel.add(friendNameAddCombo);
         saveFriendButton = new JButton("Add Friend");
@@ -175,31 +188,68 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendPanel.add(cancelAddFriendButton);
         addFriendDialog.add(addFriendPanel);
 
+        //change background colors of panels
+        saveScorePanel.setForeground(COLOR_TEXT);
+        saveScorePanel.setBackground(COLOR_BACK);
+        addPlayerPanel.setForeground(COLOR_TEXT);
+        addPlayerPanel.setBackground(COLOR_BACK);
+        addFriendPanel.setForeground(COLOR_TEXT);
+        addFriendPanel.setBackground(COLOR_BACK);
+        //change colors of labels
+        yourScoreLabel.setForeground(COLOR_TEXT);
+        friendScoreLabel.setForeground(COLOR_TEXT);
+        selectFriendHighscoreLabel.setForeground(COLOR_TEXT);
+        selectPlayerNameLabel.setForeground(COLOR_TEXT);
+        selectPlayerNameLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        enterYourNameLabel.setForeground(COLOR_TEXT);
+        selectYourNameAddLabel.setForeground(COLOR_TEXT);
+        selectFriendAddLabel.setForeground(COLOR_TEXT);
+        //change fonts of labels
+        yourScoreLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        friendScoreLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        selectFriendHighscoreLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        selectPlayerNameLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        enterYourNameLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        selectYourNameAddLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        selectFriendAddLabel.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        //make comobo boxes look nice
+        yourNameScoreCombo.setForeground(COLOR_TEXT);
+        friendNameAddCombo.setForeground(COLOR_TEXT);
+        yourNameAddCombo.setForeground(COLOR_TEXT);
+        friendNameScoreCombo.setForeground(COLOR_TEXT);
+        yourNameScoreCombo.setBackground(COLOR_BACK);
+        friendNameAddCombo.setBackground(COLOR_BACK);
+        yourNameAddCombo.setBackground(COLOR_BACK);
+        friendNameScoreCombo.setBackground(COLOR_BACK);
+        yourNameScoreCombo.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        friendNameAddCombo.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        yourNameAddCombo.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
+        friendNameScoreCombo.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_SMALL));
         //make the buttons look nice
-        saveScoreButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        addPlayerButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        saveNameButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        addFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        saveFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        exitButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        cancelAddPlayerButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        cancelAddFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
-        saveScoreButton.setForeground(Color.WHITE);
-        addPlayerButton.setForeground(Color.WHITE);
-        saveNameButton.setForeground(Color.WHITE);
-        addFriendButton.setForeground(Color.WHITE);
-        saveFriendButton.setForeground(Color.WHITE);
-        exitButton.setForeground(Color.WHITE);
-        cancelAddPlayerButton.setForeground(Color.WHITE);
-        cancelAddFriendButton.setForeground(Color.WHITE);
-        saveScoreButton.setBackground(Color.BLUE);
-        addPlayerButton.setBackground(Color.BLUE);
-        saveNameButton.setBackground(Color.BLUE);
-        addFriendButton.setBackground(Color.BLUE);
-        saveFriendButton.setBackground(Color.BLUE);
-        exitButton.setBackground(Color.BLUE);
-        cancelAddPlayerButton.setBackground(Color.BLUE);
-        cancelAddFriendButton.setBackground(Color.BLUE);
+        saveScoreButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        addPlayerButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        saveNameButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        addFriendButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        saveFriendButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        exitButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        cancelAddPlayerButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        cancelAddFriendButton.setFont(new Font(TEXT_FONT, Font.BOLD, FONT_SIZE_LARGE));
+        saveScoreButton.setForeground(COLOR_TEXT);
+        addPlayerButton.setForeground(COLOR_TEXT);
+        saveNameButton.setForeground(COLOR_TEXT);
+        addFriendButton.setForeground(COLOR_TEXT);
+        saveFriendButton.setForeground(COLOR_TEXT);
+        exitButton.setForeground(COLOR_TEXT);
+        cancelAddPlayerButton.setForeground(COLOR_TEXT);
+        cancelAddFriendButton.setForeground(COLOR_TEXT);
+        saveScoreButton.setBackground(COLOR_BUTTON);
+        addPlayerButton.setBackground(COLOR_BUTTON);
+        saveNameButton.setBackground(COLOR_BUTTON);
+        addFriendButton.setBackground(COLOR_BUTTON);
+        saveFriendButton.setBackground(COLOR_BUTTON);
+        exitButton.setBackground(COLOR_BUTTON);
+        cancelAddPlayerButton.setBackground(COLOR_BUTTON);
+        cancelAddFriendButton.setBackground(COLOR_BUTTON);
 
         //based on:
         //https://stackoverflow.com/questions/10030947/center-jdialog-over-parent
