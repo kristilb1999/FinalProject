@@ -161,7 +161,7 @@ public class SoldierArmy extends Thread
             }
 
             //GIVE EACH ENEMY A RANDOM Y POSITION SO THE ENEMIES ARE STAGGERED
-            int yCoord = (r.nextInt(container.getHeight() / 4 - Y_STOP) + 3 * container.getHeight() / 4 - Y_STOP / 2 );
+            int yCoord = (r.nextInt(container.getHeight() / 4 - Y_STOP) + 3 * container.getHeight() / 4 - Y_STOP / 14 );
 
             //THE STARTING POSITION OF THE ENEMY
             Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
