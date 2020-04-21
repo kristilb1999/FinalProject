@@ -432,7 +432,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         timeOfDay.setVisible(false);
 
         //SET QUIT BUTTON INVISIBLE
-        quit.setVisible(false);
+        //quit.setVisible(false);
 
         //SET HEALTH LABEL INVISIBLE
         healthBar.setVisible(false);
@@ -584,7 +584,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         timeOfDay.setVisible(true);
 
         //THE QUIT BUTTON BECOMES VISIBLE
-        quit.setVisible(true);
+        //quit.setVisible(true);
 
         //THE START BUTTON BECOMES THE RESTART BUTTON
         startOrRestart.setText("Restart");
@@ -621,7 +621,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         timeOfDay.setVisible(false);
 
         //THE QUIT BUTTON BECOMES INVISIBLE
-        quit.setVisible(false);
+        //quit.setVisible(false);
 
         //ENDS LEFTOVER ENEMIES THREADS
         for(SoldierArmy sa : soldierArmyList) {
