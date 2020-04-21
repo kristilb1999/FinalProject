@@ -464,6 +464,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE ACTION LISTENER TO THE QUIT BUTTON
         quit.addActionListener(this);
+        
+        //ADD ACTION LISTENER TO THE INSTRUCTION BUTTON
+        instructionsButton.addActionListener(this);
 
         //INITIALIZE THE WEAPONS AND ENEMY LISTS
         weaponList = new Vector<Weapon>();
