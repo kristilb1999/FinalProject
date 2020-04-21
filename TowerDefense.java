@@ -152,7 +152,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE WEAPON TO BE LAUNCHED
     private Weapon newWeapon;
 
-    // OBJECTS THAT SERVVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
+    // OBJECTS THAT SERVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
     private Object weaponLock = new Object();
     private Object soldierLock = new Object();
     private Object healthLock = new Object();
@@ -306,15 +306,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //CREATES THE QUIT BUTTON
         quit = new JButton("Quit Game");
 
-        //CREATE THE LABEL THAT DISPLAYS THE 
-        //AMOUNT OF HEALTH THE TOWER HAS LEFT
-        JLabel healthBarLabel = new JLabel("Tower Health: ");
-
         //CREATE THE HEALTHBAR TO TRACK THE HEALTH
         //THE TOWER STARTS WITH MAXIMUM HEALTH
-        healthBar = new HealthBar(healthBarLabel,START_HEALTH);
+        healthBar = new HealthBar("Tower Health: ",START_HEALTH,EASY_COLOR,MED_COLOR,HARD_COLOR);
         healthBar.start();
-        healthBar.setColors(EASY_COLOR,MED_COLOR,HARD_COLOR);
 
         //CREATE THE LABEL THAT DISPLAYS THE SCORE
         scoreLabel = new JLabel(" Player score: " + playerScore);
@@ -378,7 +373,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         hardRound.setBackground(Color.BLACK);
 
         //SET THE FONT OF THE HEALTH LABEL
-        healthBarLabel.setFont(FONT_USED);
+        healthBar.getLabel().setFont(FONT_USED);
 
         //SET FONT AND COLORS OF THE SCORE LABEL
         scoreLabel.setFont(FONT_USED);
@@ -417,7 +412,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         startPanel.add(hardRound);
 
         //ADD THE HEALTH LABEL TO THE BUTTON PANEL
-        startPanel.add(healthBarLabel);
+        startPanel.add(healthBar.getLabel());
 
         //ADD THE SCORE LABEL TO THE BUTTON PANEL
         startPanel.add(scoreLabel);
@@ -780,18 +775,14 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             newWeapon.setReleased(true);
         } 
     }
-
+    
     /**
-     * Updates the tower health based on enemy damage.
+     * Returns the HealthBar for the tower.
      * 
-     * @param numDamage The amount of damage done to the tower.
+     * @return the HealthBar for the tower.
      */
-    public void modifyTowerHealth(int numDamage) {
-        //TOWER HEALTH WILL UPDATE AS ENEMIES ATTACK THE TOWER
-        synchronized (healthLock) {
-            //TOWER HEALTH CAN HAVE A MINUMUM OF ZERO
-            healthBar.reduce(numDamage);
-        }
+    public HealthBar getHealthBar() {
+        return this.healthBar;
     }
 
     /**

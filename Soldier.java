@@ -50,6 +50,9 @@ abstract public class Soldier extends Thread
 
     //THE REFERENCE TO THE TOWER IN THE GAME
     protected TowerDefense tower;
+    
+    //THE REFERENCE TO THE TOWER'S HEALTHBAR
+    protected HealthBar towerHealthBar;
 
     /**
      * Creates a Soldier object.
@@ -64,6 +67,7 @@ abstract public class Soldier extends Thread
         this.position = new Point2D.Double(position.x - getSize()/2 , position.y - (3*getSize())/2);
         this.container = container;
         this.tower = tower;
+        this.towerHealthBar = tower.getHealthBar();
 
         //THE SOLDIER IS NOT DEAD YET, HE HAS BARELY EVEN LIVED
         done = false;
@@ -115,7 +119,7 @@ abstract public class Soldier extends Thread
             //MAYBE THEY SHOULD JUST DO DAMAGE UNTIL THEY ARE KILLED?
             if (position.x > container.getWidth() - STOP_ZOMB)
             {
-                tower.modifyTowerHealth(getStrength());
+                damageEnemy(getStrength());
                 done = true;
             }
 
@@ -222,6 +226,16 @@ abstract public class Soldier extends Thread
      */
     public boolean done() {
         return done;
+    }
+    
+    /**
+     * Calls reduce on towerHealthBar to reduce the health stored in the
+     * HealthBar of the enemy.
+     * 
+     * @param damage the amount to reduce the HealthBar of the enemy by
+     */
+    protected void damageEnemy(int damage){
+        towerHealthBar.reduce(damage);
     }
 
 }
