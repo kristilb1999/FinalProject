@@ -387,6 +387,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         quit.setFont(FONT_USED);
         quit.setForeground(Color.PINK);
         quit.setBackground(Color.BLACK);
+        
+        //SET THE FONT AND COLORS OF THE INSTRUCTION BUTTON
+        instructionsButton.setFont(FONT_USED);
+        instructionsButton.setForeground(Color.WHITE);
+        instructionsButton.setBackground(Color.BLACK);
 
         //ADD THE INSTRUCTIONS BUTTON TO THE BUTTON PANEL
         startPanel.add(instructionsButton);
