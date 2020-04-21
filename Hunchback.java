@@ -40,7 +40,7 @@ public class Hunchback extends Soldier
         
         //CREATES THE IMAGE OF THE HUNCHBACK SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeThree.jpg";
+        typeFilePath = "soldierTypeThree.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         
         //SETS THE HEALTH OF THE SOLDIER
