@@ -51,16 +51,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private static final int MEDIUM = 1;
     private static final int HARD = 2;
 
-    //THE COLORS FOR THE DIFFICULTY BUTTONS
-    private static final Color EASY_COLOR = new Color(13, 201, 6);
-    private static final Color MED_COLOR = new Color(245, 243, 110);
-    private static final Color HARD_COLOR = new Color(176, 41, 32);
-
     //THE SLING FACTOR FOR THROWING THE WEAPONS
     public static final double SLING_FACTOR = 2.5;
 
     //THE FILENAME OF THE TOWER IMAGE
     private static final String towerPicFilename = "towerImage.png";
+
+    //THE COLORS FOR THE DIFFICULTY BUTTONS
+    private static final Color EASY_COLOR = new Color(13, 201, 6);
+    private static final Color MED_COLOR = new Color(245, 243, 110);
+    private static final Color HARD_COLOR = new Color(176, 41, 32);
 
     //THE GRASS COLOR BASED ON WHETHER IT IS DAY OR NIGHT
     private static final Color DAY_GRASS = new Color(42, 153, 32);
@@ -69,6 +69,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE SKY COLOR BASED ON WHETHER IT IS DAY OR NIGHT
     private static final Color DAY_SKY = new Color(73, 185, 230);
     private static final Color NIGHT_SKY = new Color(62, 53, 150);
+
+    //THE COLOR OF THE BACKGROUND PANEL
+    private static final Color BACKGROUND_COLOR = new Color(77, 51, 26);
 
     //THE FONTS TO USE THROUHGOUT THE PROGRAM FOR BUTTONS AND LABELS
     private static final Font FONT_USED = new Font("Rockwell", Font.BOLD, 20);
@@ -117,10 +120,10 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE GAME INSTRUCTIONS
     private Instructions instructions;
-    
+
     //THE BUTTON FOR DISPLAYING/HIDING THE INSTRUCTIONS
     private JButton instructionsButton;
-    
+
     //THE BUTTON THAT STARTS THE GAME OR RESTARTS THE GAME SETTINGS
     private JButton startOrRestart;
 
@@ -192,9 +195,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //DRAW THE TOWER IN THE GRASS
         g.drawImage(towerPic, towerXPos, towerYPos, null);
 
+        //BASED OFF OF:
+        //https://stackoverflow.com/questions/16995308/can-you-increase-line-thickness-when-using-java-graphics-for-an-applet-i-dont
+        //https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(3));
+
         //THE CLICKABLE SPACE TO LAUNCH A WEAPON FROM
-        g.setColor(Color.BLACK);
-        g.drawRect(width - CLICKABLE_X_DISPLACEMENT, height - CLICKABLE_Y_DISPLACEMENT, CLICKABLE_SIZE, CLICKABLE_SIZE);
+        g2.setColor(Color.BLACK);
+        g2.drawRect(width - CLICKABLE_X_DISPLACEMENT, height - CLICKABLE_Y_DISPLACEMENT, CLICKABLE_SIZE, CLICKABLE_SIZE);
 
         //IF WE ARE CURRENTLY DRAGGING, DRAW THE SLING LINE
         if (dragging) {
@@ -278,7 +288,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATE THE INSTRUCTIONS BUTTON
         instructionsButton = new JButton("Instructions");
-        
+
         //CREATE THE START BUTTON
         startOrRestart = new JButton("Start");
 
@@ -311,6 +321,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATE A PANEL WITH A FLOWLAYOUT TO HOLD THE GAME AND THE BUTTONS PANEL AND ADD IT TO THE FRAME
         JPanel panelHolder = new JPanel(new FlowLayout());
+        panelHolder.setBackground(BACKGROUND_COLOR);
         frame.add(panelHolder);
 
         // JPANEL WITH A PAINTCOMPONENT METHOD
@@ -325,7 +336,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
 
         };
-        
+
         //CREATE THE GAME INSTRUCTIONS
         instructions = new Instructions(panelHolder);
         instructions.start();
@@ -340,7 +351,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //CREATE A PANEL FOR THE BUTTONS AND SET THE COLOR TO BLACK
         startPanel = new JPanel();
         startPanel.setBackground(Color.BLACK);
-        
+
         //SET THE FONT AND COLORS OF THE INSTRUCTIONS BUTTON
         startOrRestart.setFont(FONT_USED);
         startOrRestart.setForeground(Color.CYAN);
@@ -388,7 +399,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         quit.setFont(FONT_USED);
         quit.setForeground(Color.PINK);
         quit.setBackground(Color.BLACK);
-        
+
         //SET THE FONT AND COLORS OF THE INSTRUCTION BUTTON
         instructionsButton.setFont(FONT_USED);
         instructionsButton.setForeground(Color.WHITE);
@@ -396,7 +407,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE INSTRUCTIONS BUTTON TO THE BUTTON PANEL
         startPanel.add(instructionsButton);
-        
+
         //ADD THE START BUTTON TO THE BUTTON PANEL
         startPanel.add(startOrRestart);
 
@@ -464,7 +475,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE ACTION LISTENER TO THE QUIT BUTTON
         quit.addActionListener(this);
-        
+
         //ADD ACTION LISTENER TO THE INSTRUCTION BUTTON
         instructionsButton.addActionListener(this);
 
@@ -528,7 +539,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }else{
                 instructions.setVisible(false);
             }
-            
+
         }else if(e.getSource().equals(startOrRestart)) {
             //IF THE BUTTON CURRENTLY SAYS START (WHEN THE GAME BEGINS)
             if(startOrRestart.getText().equals("Start")) { 
