@@ -523,7 +523,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //WHEN THE BUTTON PRESSED IS THE START OR RESTART BUTTONS
         if(e.getSource().equals(instructionsButton)){
             //SHOW HIDE GAME INSTRUCTIONS
-            if(instructions.isVisible()){
+            if(!instructions.isVisible()){
                 instructions.setVisible(true);
                 instructionsButton.setText("Hide Instr. ");
             }else{
