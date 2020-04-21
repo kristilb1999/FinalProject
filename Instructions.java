@@ -18,16 +18,16 @@ import java.awt.geom.*;
 public class Instructions extends Thread implements ActionListener
 {
     //THE SIZE OF THE DIALOG BOX
-    private static final int WINDOW_WIDTH = 750;
-    private static final int WINDOW_HEIGHT = 500;
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 600;
 
     //THE SIZE OF THE PANEL HOLDING THE INSTRUCTIONS
     private static final int PANEL_WIDTH = 700;
-    private static final int PANEL_HEIGHT = 350;
+    private static final int PANEL_HEIGHT = 500;
 
     //THE SIZE OF THE PANEL HOLDING THE BUTTONS
     private static final int BUTTON_PANEL_WIDTH = 700;
-    private static final int BUTTON_PANEL_HEIGHT = 150;
+    private static final int BUTTON_PANEL_HEIGHT = 100;
 
     //WHERE TO FIND THE EXTRA INSTRUCTIONS
     private static final String FILENAME = "instructions.txt";
@@ -37,7 +37,7 @@ public class Instructions extends Thread implements ActionListener
     private static final String HUNCHBACK = "soldierTypeThree.png";
     private static final String PIRATE = "soldierTypeFour.png";
     private static final String BIG_EYE = "soldierTypeTwo.png";
-    
+
     //THE FILE NAMES FOR THE WEAPON PICTURES
     private static final String GRENADE = "weaponTypeThree.png";
     private static final String MOLOTOV_COCKTAIL = "weaponTypeTwo.png";
@@ -52,11 +52,17 @@ public class Instructions extends Thread implements ActionListener
     private JPanel picturePanel;
     private JPanel buttonPanel;
 
-    //IMAGES OF EACH TYPE OF SOLDIER
-    private LoadImageApp aveZom;
-    private LoadImageApp bigEye;
-    private LoadImageApp hunchback;
-    private LoadImageApp pirate;
+    //OBJECT THAT CREATES SCALED IMAGE OF EACH TYPE OF SOLDIER
+    private ImageComponent aveZom;
+    private ImageComponent bigEye;
+    private ImageComponent hunchback;
+    private ImageComponent pirate;
+
+    //IMAGES OF EACH SOLDIER
+    private ImageIcon aveZomPic;
+    private ImageIcon bigEyePic;
+    private ImageIcon hunchbackPic;
+    private ImageIcon piratePic;
 
     //LABELS TO HOLD INFO OF EACH SOLDIER
     private JLabel aveZomLabel;
@@ -64,17 +70,35 @@ public class Instructions extends Thread implements ActionListener
     private JLabel hunchbackLabel;
     private JLabel pirateLabel;
 
-    //IMAGES OF EACH TYPE OF WEAPON
-    private LoadImageApp grenade;
-    private LoadImageApp molotovCocktail;
-    private LoadImageApp tnt;
-    private LoadImageApp boulder;
+    //LABELS TO HOLD INFO OF EACH SOLDIER PICTURE
+    private JLabel aveZomPicLabel;
+    private JLabel bigEyePicLabel;
+    private JLabel hunchbackPicLabel;
+    private JLabel piratePicLabel;
+
+    //OBJECT THAT CREATES SCALED IMAGE OF EACH TYPE OF WEAPON
+    private ImageComponent grenade;
+    private ImageComponent molotovCocktail;
+    private ImageComponent tnt;
+    private ImageComponent boulder;
+
+    //IMAGES OF EACH WEAPON
+    private ImageIcon grenadePic;
+    private ImageIcon molotovCocktailPic;
+    private ImageIcon tntPic;
+    private ImageIcon boulderPic;
 
     //LABELS FOR EACH TYPE OF WEAPON
     private JLabel grenadeLabel;
     private JLabel molotovCocktailLabel;
     private JLabel tntLabel;
     private JLabel boulderLabel;
+
+    //LABELS FOR EACH TYPE OF WEAPON PICTURE
+    private JLabel grenadePicLabel;
+    private JLabel molotovCocktailPicLabel;
+    private JLabel tntPicLabel;
+    private JLabel boulderPicLabel;
 
     //TEXT AREA TO HOLD ALL READ IN INSTRUCTIONS
     private JTextArea extraInformation;
@@ -116,7 +140,16 @@ public class Instructions extends Thread implements ActionListener
         instructionPanel = new JPanel();
 
         //CREATES PANEL TO HOLD PICTURES AND LABELS
-        picturePanel = new JPanel();
+        picturePanel =  new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                //CALL THE PAINTCOMPONENT METHOD WE ARE OVERRIDING IN JPANEL
+                super.paintComponent(g);
+
+                //REDRAW THE MAIN SCENE
+                //redrawScene(g);
+            }
+        };
         picturePanel.setLayout(new BoxLayout(picturePanel, BoxLayout.Y_AXIS));
         picturePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
@@ -126,19 +159,19 @@ public class Instructions extends Thread implements ActionListener
 
         //INFO ABOUT AVERAGE ZOMBIE
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
-        aveZom = new LoadImageApp(AVE_ZOM_FILE, 20, 40);
+        aveZom = new ImageComponent(AVE_ZOM_FILE, 20, 40);
 
         //INFO ABOUT HUNCHBACK 
         hunchbackLabel = new JLabel("Hunchback: Speed: 5 Strength: 2 Worth: 200 points");
-        hunchback = new LoadImageApp(HUNCHBACK, 20, 40);
+        hunchback = new ImageComponent(HUNCHBACK, 20, 40);
 
         //INFO ABOUT BIG EYE 
         bigEyeLabel = new JLabel("Big Eye: Speed: 7 Strength: 3 Worth: 300 points");
-        bigEye = new LoadImageApp(BIG_EYE, 20, 40);
+        bigEye = new ImageComponent(BIG_EYE, 20, 40);
 
         //INFO ABOUT PIRATE
         pirateLabel = new JLabel("Pirate: Speed: 10 Strength: 5 Worth: 500 points");
-        pirate = new LoadImageApp(PIRATE, 20, 40);
+        pirate = new ImageComponent(PIRATE, 20, 40);
 
         //ADD SOLDIER LABELS AND IMAGES TO THE PICTURE PANEL
         picturePanel.add(aveZomLabel);
@@ -151,23 +184,23 @@ public class Instructions extends Thread implements ActionListener
         picturePanel.add(bigEye);
 
         picturePanel.add(pirateLabel);
-        picturePanel.add(pirate);
+        picturePanel. add(pirate);
 
         //INFO ABOUT GRENADE
         grenadeLabel = new JLabel("Bounces off of the ground and then explodes shortly after.");
-        grenade = new LoadImageApp(GRENADE, 10, 10);
+        grenade = new ImageComponent(GRENADE, 10, 10);
 
         //INFO ABOUT MOLOTOV COCKTAIL
         molotovCocktailLabel = new JLabel("Explodes on impact with either ground or enemies into red explosion.");
-        molotovCocktail = new LoadImageApp(MOLOTOV_COCKTAIL, 10, 10);
+        molotovCocktail = new ImageComponent(MOLOTOV_COCKTAIL, 10, 10);
 
         //INFO ABOUT TNT
         tntLabel = new JLabel("Explodes on impact with either ground or enemies into orange explosion.");
-        tnt = new LoadImageApp(TNT, 10, 10);
+        tnt = new ImageComponent(TNT, 10, 10);
 
         //INFO ABOUT BOULDER
         boulderLabel = new JLabel("Bounces off of the ground.");
-        boulder = new LoadImageApp(BOULDER, 10, 10);
+        boulder = new ImageComponent(BOULDER, 10, 10);
 
         //ADD WEAPON LABELS AND IMAGES TO PICTURE PANEL
         picturePanel.add(grenadeLabel);
@@ -181,9 +214,7 @@ public class Instructions extends Thread implements ActionListener
 
         picturePanel.add(boulderLabel);
         picturePanel.add(boulder);
-        
-        
-        
+
         //CODE BASED ON:
         // https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel/26426585
         //CREATES A TEXT AREA THAT LOOKS AND ACTS LIKE A JLABEL
@@ -219,10 +250,10 @@ public class Instructions extends Thread implements ActionListener
 
         //ADD THE REST OF THE INSTRUCTIONS TO THE PANEL
         picturePanel.add(extraInformation);
-        
+
         //SET THE ALIGNMENT OF LABELS TO CENTER
         picturePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         aveZomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         hunchbackLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bigEyeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -295,67 +326,39 @@ public class Instructions extends Thread implements ActionListener
     }
 }
 
-//CODE TAKEN FROM:
-// https://docs.oracle.com/javase/tutorial/2d/images/examples/LoadImageApp.java
-
-/*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- *   - Neither the name of Oracle or the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
-
 /**
- * This class demonstrates how to load an Image from an external file
+ * This class loads an image from a File and gives it a new size and paints it.
  */
-class LoadImageApp extends Component {
+class ImageComponent extends JComponent {
+    //THE IMAGE TO PAINTS
+    private Image img;
 
-    BufferedImage img;
+    //THE WIDTH AND HEIGHT OF THE IMAGE
+    private int imgWidth;
+    private int imgHeight;
 
     public void paint(Graphics g) {
-        g.drawImage(img, 0, 0, null);
-    }
-    
-    //EDITED: NOW TAKES IN FILENAME AND SIZE
-    public LoadImageApp(String filename, int width, int height) {
-        try {
-            //EDITED: NOW TAKES IN FILENAME
-            img = ImageIO.read(new File(filename));
-            //EDITED: NOW SETS SIZE OF IMAGES
-            img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
-        } catch (IOException e) {
-        }
+        g.drawImage(img, imgWidth, imgHeight, null);
+        g.drawOval(50, 50, imgWidth, imgHeight);
     }
 
-    public Dimension getPreferredSize() {
-        if (img == null) {
-            return new Dimension(100,100);
-        } else {
-            return new Dimension(img.getWidth(null), img.getHeight(null));
-        }
+    @Override
+    public void paintComponent(Graphics g) {
+        //CALL THE PAINTCOMPONENT METHOD WE ARE OVERRIDING IN JPANEL
+        super.paintComponent(g);
+
+        //g.drawImage(img, imgWidth, imgHeight, null);
+        
+        g.setColor(Color.BLACK);
+        g.drawOval(50, 50, imgWidth, imgHeight);
+    }
+
+    public ImageComponent(String filename, int width, int height) {
+        //CREATES THE IMAGE AND GIVES IT A SIZE
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        img = toolkit.getImage(filename).getScaledInstance(width, height, 0);
+        imgWidth = width;
+        imgHeight = height;
+        setSize(new Dimension(imgWidth, imgHeight));
     }
 }
