@@ -51,16 +51,16 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private static final int MEDIUM = 1;
     private static final int HARD = 2;
 
+    //THE COLORS FOR THE DIFFICULTY BUTTONS
+    private static final Color EASY_COLOR = new Color(13, 201, 6);
+    private static final Color MED_COLOR = new Color(245, 243, 110);
+    private static final Color HARD_COLOR = new Color(176, 41, 32);
+
     //THE SLING FACTOR FOR THROWING THE WEAPONS
     public static final double SLING_FACTOR = 2.5;
 
     //THE FILENAME OF THE TOWER IMAGE
     private static final String towerPicFilename = "towerImage.png";
-
-    //THE COLORS FOR THE TOWER HEALTH LABEL AND THE DIFFICULTY BUTTONS
-    private static final Color FULL_HEALTH = new Color(13, 201, 6);
-    private static final Color MED_HEALTH = new Color(245, 243, 110);
-    private static final Color LOW_HEALTH = new Color(176, 41, 32);
 
     //THE GRASS COLOR BASED ON WHETHER IT IS DAY OR NIGHT
     private static final Color DAY_GRASS = new Color(42, 153, 32);
@@ -82,8 +82,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private int grassLine;
 
     //THE AMOUNT OF HEALTH THE TOWER HAS
-    private int towerHealth;
-    
+    // private int towerHealth;
+
     //THE PLAYER SCORE
     private int playerScore;
 
@@ -123,13 +123,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     //THE BUTTON THAT SETS THE TIME OF DAY
     private JButton timeOfDay;
-    
+
     //THE BUTTON TO QUIT THE GAME
     private JButton quit;
 
-    //THE LABEL THAT DISPLAYS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
-    private JLabel healthBar;
-    
+    //THE HEALTHBAR THAT TRACKS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
+    private HealthBar healthBar;
+
     //THE LABEL THAT DISPLAYS THE PLAYER SCORE 
     private JLabel scoreLabel;
 
@@ -197,18 +197,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 dragPoint.x, dragPoint.y);
         }
 
-        //COLOR THE TOWER HEALTH MESSAGE BASED ON AMOUNT OF HEALTH LEFT
-        Color newHealthBarColor;
-        if(towerHealth >= 2 * START_HEALTH / 3) {
-            newHealthBarColor = FULL_HEALTH;
-        } else if(towerHealth > START_HEALTH / 3) {
-            newHealthBarColor = MED_HEALTH;
-        } else {
-            newHealthBarColor = LOW_HEALTH;
-        }
-        healthBar.setForeground(newHealthBarColor);
-        healthBar.setText("Tower Health: " + towerHealth);
-
         //USE THIS LOCAL VARIABLE FOR INDEXING
         int i = 0;
 
@@ -248,7 +236,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }
 
         //IF THE START BUTTON WAS PRESSED AND THE TOWER IS NOW 
-        if( gameStarted && towerHealth <= 0) {
+        if( gameStarted && healthBar.getHealth() <= 0) {
             int centerX = width/2;
             int centerY = height/2;
 
@@ -295,13 +283,20 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATES THE DAY TIME BUTTON
         timeOfDay = new JButton("Night");
-        
+
         //CREATES THE QUIT BUTTON
         quit = new JButton("Quit Game");
 
-        //CREATE THE LABEL THAT DISPLAYS THE HEALTH
-        healthBar = new JLabel();
-        
+        //CREATE THE LABEL THAT DISPLAYS THE 
+        //AMOUNT OF HEALTH THE TOWER HAS LEFT
+        JLabel healthBarLabel = new JLabel("Tower Health: ");
+
+        //CREATE THE HEALTHBAR TO TRACK THE HEALTH
+        //THE TOWER STARTS WITH MAXIMUM HEALTH
+        healthBar = new HealthBar(healthBarLabel,START_HEALTH);
+        healthBar.start();
+        healthBar.setColors(EASY_COLOR,MED_COLOR,HARD_COLOR);
+
         //CREATE THE LABEL THAT DISPLAYS THE SCORE
         scoreLabel = new JLabel(" Player score: " + playerScore);
 
@@ -340,22 +335,22 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET THE FONT AND COLORS OF THE EASY BUTTON
         easyRound.setFont(FONT_USED);
-        easyRound.setForeground(FULL_HEALTH);
+        easyRound.setForeground(EASY_COLOR);
         easyRound.setBackground(Color.BLACK);
 
         //SET THE FONT AND COLORS OF THE MEDIUM BUTTON
         mediumRound.setFont(FONT_USED);
-        mediumRound.setForeground(MED_HEALTH);
+        mediumRound.setForeground(MED_COLOR);
         mediumRound.setBackground(Color.BLACK);
 
         //SET THE FONT AND COLORS OF THE HARD BUTTON
         hardRound.setFont(FONT_USED);
-        hardRound.setForeground(LOW_HEALTH);
+        hardRound.setForeground(HARD_COLOR);
         hardRound.setBackground(Color.BLACK);
 
         //SET THE FONT OF THE HEALTH LABEL
-        healthBar.setFont(FONT_USED);
-        
+        healthBarLabel.setFont(FONT_USED);
+
         //SET FONT AND COLORS OF THE SCORE LABEL
         scoreLabel.setFont(FONT_USED);
         scoreLabel.setForeground(Color.BLUE);
@@ -370,7 +365,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         timeOfDay.setFont(FONT_USED);
         timeOfDay.setForeground(Color.YELLOW);
         timeOfDay.setBackground(Color.BLACK);
-        
+
         //SET THE FONT AND COLORS OF THE QUIT BUTTON
         quit.setFont(FONT_USED);
         quit.setForeground(Color.PINK);
@@ -385,8 +380,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         startPanel.add(hardRound);
 
         //ADD THE HEALTH LABEL TO THE BUTTON PANEL
-        startPanel.add(healthBar);
-        
+        startPanel.add(healthBarLabel);
+
         //ADD THE SCORE LABEL TO THE BUTTON PANEL
         startPanel.add(scoreLabel);
 
@@ -395,7 +390,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE TIME OF DAY BUTTON TO THE BUTTON PANEL
         startPanel.add(timeOfDay);
-        
+
         //ADD THE QUIT BUTTON TO THE BUTTON PANEL
         startPanel.add(quit);
 
@@ -409,13 +404,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET TIME OF DAY BUTTON INVISIBLE
         timeOfDay.setVisible(false);
-        
+
         //SET QUIT BUTTON INVISIBLE
         quit.setVisible(false);
 
         //SET HEALTH LABEL INVISIBLE
         healthBar.setVisible(false);
-        
+
         //SET SCORE LABEL INVISBLE
         scoreLabel.setVisible(false);
 
@@ -440,7 +435,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //ADD THE ACTION LISTENER TO THE TIME OF DAY BUTTON
         timeOfDay.addActionListener(this);
-        
+
         //ADD THE ACTION LISTENER TO THE QUIT BUTTON
         quit.addActionListener(this);
 
@@ -467,7 +462,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
             }
         }.start(); 
-        
+
         //UPDATE THE SCOREBOARD PERIODICALLY
         new Thread() {
             @Override
@@ -534,9 +529,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE GAME HAS STARTED
         gameStarted = true;
 
-        //THE TOWER STARTS WITH MAXIMUM HEALTH
-        towerHealth = START_HEALTH;
-
         //THE DIFFICULTY BUTTONS BECOME VISIBLE
         easyRound.setVisible(true);
         mediumRound.setVisible(true);
@@ -547,13 +539,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //SET SCORE LABEL VISIBLE
         scoreLabel.setVisible(true);
-        
+
         //THE SCORE BUTTON BECOMES VISIBLE
         scoreButton.setVisible(true);
 
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(true);
-        
+
         //THE QUIT BUTTON BECOMES VISIBLE
         quit.setVisible(true);
 
@@ -567,7 +559,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void endGame(){
         //END THE GAME
         gameStarted = false;
-        
+
         //SET SCORE BACK TO ZERO
         scoreboard.setScore(0);
 
@@ -581,7 +573,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
         healthBar.setVisible(false);
-        
+
         //SET SCORE LABEL INVISBLE
         scoreLabel.setVisible(false);
 
@@ -590,7 +582,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //THE TIME OF DAY BUTTON BECOMES INVISIBLE
         timeOfDay.setVisible(false);
-        
+
         //THE QUIT BUTTON BECOMES INVISIBLE
         quit.setVisible(false);
 
@@ -629,7 +621,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             timeOfDay.setText(" Day ");
         }
     }
-    
+
     /**
      * Updates the player's score.
      * 
@@ -638,7 +630,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public void updateScore(int points) {
         playerScore += points;
     }
-    
+
     /**
      * Returns the scoreboard object.
      * 
@@ -750,7 +742,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //TOWER HEALTH WILL UPDATE AS ENEMIES ATTACK THE TOWER
         synchronized (healthLock) {
             //TOWER HEALTH CAN HAVE A MINUMUM OF ZERO
-            towerHealth = (towerHealth - numDamage < 0 ? 0 : towerHealth - numDamage);
+            healthBar.reduce(numDamage);
         }
     }
 
