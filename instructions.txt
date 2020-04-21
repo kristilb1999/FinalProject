@@ -1,0 +1,5 @@
+Choose the level of the enemy army by clicking on each difficulty level!
+Fire weapons by clicking in the box above the Tower.
+Make weapons sail through the air faster by holding and dragging the mouse to launch weapons!
+Kill all zombies before the Tower Health reaches 0!
+Save your high scores before you leave!
