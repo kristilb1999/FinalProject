@@ -116,7 +116,8 @@ public class Scoreboard extends Thread implements ActionListener
         //dialog box for adding a new player
         addPlayerDialog = new JDialog();
         addPlayerDialog.setTitle("Add New Player");
-        addPlayerDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
+        //Commented for potential addition
+        //addPlayerDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a player
         addPlayerPanel = new JPanel();
         addPlayerPanel.add(new JLabel("Enter Your Name: "));
@@ -132,7 +133,7 @@ public class Scoreboard extends Thread implements ActionListener
         //dialog box for adding a friend
         addFriendDialog = new JDialog();
         addFriendDialog.setTitle("Add Friend");
-        addFriendDialog.setSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
+        addFriendDialog.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //fields for adding a friend
         addFriendPanel = new JPanel();
         addFriendPanel.add(new JLabel("Select Your Player Name: "));
@@ -151,7 +152,7 @@ public class Scoreboard extends Thread implements ActionListener
         //https://stackoverflow.com/questions/10030947/center-jdialog-over-parent
         saveScoreDialog.pack();
         addPlayerDialog.pack();
-        saveScoreDialog.pack();
+        addFriendDialog.pack();
         saveScoreDialog.setLocationRelativeTo(this.container);
         addPlayerDialog.setLocationRelativeTo(this.container);
         addFriendDialog.setLocationRelativeTo(this.container);
