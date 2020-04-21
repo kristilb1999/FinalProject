@@ -126,69 +126,61 @@ public class Instructions extends Thread implements ActionListener
 
         //INFO ABOUT AVERAGE ZOMBIE
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
-        aveZom = new LoadImageApp(AVE_ZOM_FILE);
-        aveZom.setSize(new Dimension(20, 40));
+        aveZom = new LoadImageApp(AVE_ZOM_FILE, 20, 40);
 
         //INFO ABOUT HUNCHBACK 
         hunchbackLabel = new JLabel("Hunchback: Speed: 5 Strength: 2 Worth: 200 points");
-        hunchback = new LoadImageApp(HUNCHBACK);
-        hunchback.setSize(new Dimension(20, 40));
+        hunchback = new LoadImageApp(HUNCHBACK, 20, 40);
 
         //INFO ABOUT BIG EYE 
         bigEyeLabel = new JLabel("Big Eye: Speed: 7 Strength: 3 Worth: 300 points");
-        bigEye = new LoadImageApp(BIG_EYE);
-        bigEye.setSize(new Dimension(20, 40));
+        bigEye = new LoadImageApp(BIG_EYE, 20, 40);
 
         //INFO ABOUT PIRATE
         pirateLabel = new JLabel("Pirate: Speed: 10 Strength: 5 Worth: 500 points");
-        pirate = new LoadImageApp(PIRATE);
-        pirate.setSize(new Dimension(20, 40));
+        pirate = new LoadImageApp(PIRATE, 20, 40);
 
         //ADD SOLDIER LABELS AND IMAGES TO THE PICTURE PANEL
         picturePanel.add(aveZomLabel);
-        //picturePanel.add(aveZom);
+        picturePanel.add(aveZom);
 
         picturePanel.add(hunchbackLabel);
-        //picturePanel.add(hunchback);
+        picturePanel.add(hunchback);
 
         picturePanel.add(bigEyeLabel);
-        //picturePanel.add(bigEye);
+        picturePanel.add(bigEye);
 
         picturePanel.add(pirateLabel);
-        //picturePanel.add(pirate);
+        picturePanel.add(pirate);
 
         //INFO ABOUT GRENADE
         grenadeLabel = new JLabel("Bounces off of the ground and then explodes shortly after.");
-        grenade = new LoadImageApp(GRENADE);
-        grenade.setSize(new Dimension(10, 10));
+        grenade = new LoadImageApp(GRENADE, 10, 10);
 
         //INFO ABOUT MOLOTOV COCKTAIL
         molotovCocktailLabel = new JLabel("Explodes on impact with either ground or enemies into red explosion.");
-        molotovCocktail = new LoadImageApp(MOLOTOV_COCKTAIL);
-        molotovCocktail.setSize(new Dimension(10, 10));
+        molotovCocktail = new LoadImageApp(MOLOTOV_COCKTAIL, 10, 10);
 
         //INFO ABOUT TNT
         tntLabel = new JLabel("Explodes on impact with either ground or enemies into orange explosion.");
-        tnt = new LoadImageApp(TNT);
-        tnt.setSize(new Dimension(10, 10));
+        tnt = new LoadImageApp(TNT, 10, 10);
 
         //INFO ABOUT BOULDER
         boulderLabel = new JLabel("Bounces off of the ground.");
-        boulder = new LoadImageApp(BOULDER);
-        boulder.setSize(new Dimension(10, 10));
+        boulder = new LoadImageApp(BOULDER, 10, 10);
 
         //ADD WEAPON LABELS AND IMAGES TO PICTURE PANEL
         picturePanel.add(grenadeLabel);
-        //picturePanel.add(grenade);
+        picturePanel.add(grenade);
 
         picturePanel.add(molotovCocktailLabel);
-        //picturePanel.add(molotovCocktail);
+        picturePanel.add(molotovCocktail);
 
         picturePanel.add(tntLabel);
-        //picturePanel.add(tnt);
+        picturePanel.add(tnt);
 
         picturePanel.add(boulderLabel);
-        //picturePanel.add(boulder);
+        picturePanel.add(boulder);
         
         
         
@@ -347,10 +339,14 @@ class LoadImageApp extends Component {
     public void paint(Graphics g) {
         g.drawImage(img, 0, 0, null);
     }
-
-    public LoadImageApp(String filename) {
+    
+    //EDITED: NOW TAKES IN FILENAME AND SIZE
+    public LoadImageApp(String filename, int width, int height) {
         try {
+            //EDITED: NOW TAKES IN FILENAME
             img = ImageIO.read(new File(filename));
+            //EDITED: NOW SETS SIZE OF IMAGES
+            img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
         } catch (IOException e) {
         }
     }
