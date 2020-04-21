@@ -18,19 +18,28 @@ import java.awt.geom.*;
 public class Instructions extends Thread implements ActionListener
 {
     //THE SIZE OF THE DIALOG BOX
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_WIDTH = 1000;
+    private static final int WINDOW_HEIGHT = 800;
 
     //THE SIZE OF THE PANEL HOLDING THE INSTRUCTIONS
-    private static final int PANEL_WIDTH = 700;
-    private static final int PANEL_HEIGHT = 500;
+    private static final int PANEL_WIDTH = 900;
+    private static final int PANEL_HEIGHT = 600;
 
     //THE SIZE OF THE PANEL HOLDING THE BUTTONS
-    private static final int BUTTON_PANEL_WIDTH = 700;
+    private static final int BUTTON_PANEL_WIDTH = 900;
     private static final int BUTTON_PANEL_HEIGHT = 100;
 
     //WHERE TO FIND THE EXTRA INSTRUCTIONS
     private static final String FILENAME = "instructions.txt";
+    
+    //THE FONT TO USE
+    private static final Font USE_THIS_FONT = new Font("Rockwell", Font.BOLD, 25);
+    
+    //THE COLOR OF THE BACKGROUND PANEL
+    private static final Color BACKGROUND_COLOR = new Color(77, 51, 26);
+    
+    //THE COLOR OF THE INSIDE PANELS
+    private static final Color BRICK_COLOR = new Color(252, 188, 176);
 
     //THE FILE NAMES FOR THE SOLDIER PICTURES
     private static final String AVE_ZOM_FILE = "soldierTypeOne.png";
@@ -131,13 +140,14 @@ public class Instructions extends Thread implements ActionListener
 
         //CREATES THE CLOSE BUTTON
         closeButton = new JButton("Close");
-        closeButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        closeButton.setFont(USE_THIS_FONT);
         closeButton.setForeground(Color.WHITE);
         closeButton.setBackground(Color.BLACK);
 
         //CREATES THE PANEL THAT GOES INTO THE DIALOG BOX
         //THIS ALLOWS THINGS TO BE DISPLAYED IN DIALOG BOX
         instructionPanel = new JPanel();
+        instructionPanel.setBackground(BACKGROUND_COLOR);
 
         //CREATES PANEL TO HOLD PICTURES AND LABELS
         picturePanel =  new JPanel() {
@@ -152,11 +162,13 @@ public class Instructions extends Thread implements ActionListener
         };
         picturePanel.setLayout(new BoxLayout(picturePanel, BoxLayout.Y_AXIS));
         picturePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        picturePanel.setBackground(BRICK_COLOR);
 
         //CREATES PANEL TO HOLD CLOSE BUTTON
         buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT));
-
+        buttonPanel.setBackground(BRICK_COLOR);
+        
         //INFO ABOUT AVERAGE ZOMBIE
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
         aveZom = new ImageComponent(AVE_ZOM_FILE, 20, 40);
@@ -250,6 +262,19 @@ public class Instructions extends Thread implements ActionListener
 
         //ADD THE REST OF THE INSTRUCTIONS TO THE PANEL
         picturePanel.add(extraInformation);
+        
+        //SETS THE FONT OF ALL TEXT ON SCREEN
+        aveZomLabel.setFont(USE_THIS_FONT);
+        bigEyeLabel.setFont(USE_THIS_FONT);
+        hunchbackLabel.setFont(USE_THIS_FONT);
+        pirateLabel.setFont(USE_THIS_FONT);
+        
+        grenadeLabel.setFont(USE_THIS_FONT);
+        molotovCocktailLabel.setFont(USE_THIS_FONT);
+        boulderLabel.setFont(USE_THIS_FONT);
+        tntLabel.setFont(USE_THIS_FONT);
+        
+        extraInformation.setFont(USE_THIS_FONT);
 
         //SET THE ALIGNMENT OF LABELS TO CENTER
         picturePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
