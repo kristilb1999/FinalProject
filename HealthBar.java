@@ -31,6 +31,9 @@ public class HealthBar extends Thread
 
     //THE AMOUNT OF HEALTH THE TOWER HAS
     private int towerHealth;
+    
+    //THE AMOUNT OF HEALTH THE TOWER HAS
+    private int startHealth = START_HEALTH;
 
     //THE LABEL THAT DISPLAYS THE AMOUNT OF HEALTH THE TOWER HAS LEFT
     private JLabel healthBarLabel;
@@ -51,6 +54,7 @@ public class HealthBar extends Thread
 
     public HealthBar(JLabel healthBarLabel,int startHealth){
         this(healthBarLabel);
+        this.startHealth = startHealth;
         this.towerHealth = startHealth;
     }
 
@@ -104,5 +108,17 @@ public class HealthBar extends Thread
 
     public void setVisible(boolean isVisible){
         this.healthBarLabel.setVisible(isVisible);
+    }
+    
+    public void resetDefaultHealth(){
+        this.towerHealth = START_HEALTH;
+    }
+    
+    public void resetHealth(){
+        this.towerHealth = this.startHealth;
+    }
+    
+    public void resetHealth(int startHealth){
+        this.towerHealth = startHealth;
     }
 }

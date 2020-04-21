@@ -8,26 +8,33 @@ import javax.swing.event.*;
 import java.awt.geom.*;
 
 /**
- * Write a description of class TowerDefense here.
+ * This class keeps track of the current score, handles the
+ * scoreboard dialog boxes, and accesses the database using
+ * the DatabaseDriver class. 
  *
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
 public class Scoreboard extends Thread implements ActionListener
 {
+    //constants for window dimensions
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 175;
+    //constants for text field dimensions
     private static final int TEXTFIELD_WIDTH = 100;
     private static final int TEXTFIELD_HEIGHT = 20;
 
+    //instance variables
+    //variables for storing information
+    private int score;
+    private String lastAddedPlayerName;
+    //variables for user input objects
     private JDialog saveScoreDialog;
     private JDialog addFriendDialog;
     private JDialog addPlayerDialog;
     private JPanel savePanel;
     private JPanel addPlayerPanel;
     private JPanel addFriendPanel;
-    private int score;
-    private String lastAddedPlayerName;
     private JLabel yourScoreLabel;
     private JLabel friendScoreLabel;
     private JLabel selectFriendHighscoreLabel;
@@ -45,14 +52,34 @@ public class Scoreboard extends Thread implements ActionListener
     private JButton cancelAddPlayerButton;
     private JButton cancelAddFriendButton;
     private JComponent container;
+    //lock for score for thread safety
     private Object scoreLock = new Object();
 
+    /**
+     * Constructs a new Scoreboard.
+     * 
+     * @param container The container used for centering the dialog boxes.
+     */
     public Scoreboard(JComponent container){
         this.score = 0;
         this.lastAddedPlayerName = "";
         this.container = container;
     }
+    
+    /**
+     * Constructs a new Scoreboard.
+     * 
+     * @param container The container used for centering the dialog boxes.
+     */
+    public Scoreboard(){
+        this(new JPanel());
+    }
 
+    /**
+     * Constructs a scoreboard dialog box for saving players and scores
+     * as well as friendships between players in a database.
+     * 
+     */
     public void run(){
         //DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
 
@@ -148,6 +175,32 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendPanel.add(cancelAddFriendButton);
         addFriendDialog.add(addFriendPanel);
 
+        //make the buttons look nice
+        saveScoreButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        addPlayerButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        saveNameButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        addFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        saveFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        exitButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        cancelAddPlayerButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        cancelAddFriendButton.setFont(new Font("Rockwell", Font.BOLD, 25));
+        saveScoreButton.setForeground(Color.WHITE);
+        addPlayerButton.setForeground(Color.WHITE);
+        saveNameButton.setForeground(Color.WHITE);
+        addFriendButton.setForeground(Color.WHITE);
+        saveFriendButton.setForeground(Color.WHITE);
+        exitButton.setForeground(Color.WHITE);
+        cancelAddPlayerButton.setForeground(Color.WHITE);
+        cancelAddFriendButton.setForeground(Color.WHITE);
+        saveScoreButton.setBackground(Color.BLUE);
+        addPlayerButton.setBackground(Color.BLUE);
+        saveNameButton.setBackground(Color.BLUE);
+        addFriendButton.setBackground(Color.BLUE);
+        saveFriendButton.setBackground(Color.BLUE);
+        exitButton.setBackground(Color.BLUE);
+        cancelAddPlayerButton.setBackground(Color.BLUE);
+        cancelAddFriendButton.setBackground(Color.BLUE);
+
         //based on:
         //https://stackoverflow.com/questions/10030947/center-jdialog-over-parent
         saveScoreDialog.pack();
@@ -173,6 +226,12 @@ public class Scoreboard extends Thread implements ActionListener
         cancelAddFriendButton.addActionListener(this);
     }
 
+    /**
+     * Checks what button or combo box generated the
+     * actionEvent and calls the appropriate method.
+     * 
+     * @param e the ActionEvent from pressing a button or changing selection in a combo box
+     */
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(yourNameScoreCombo)){
             refreshFriendNameScoreCombo();
@@ -198,6 +257,11 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Resets the selection of the current player name 
+     * selection for saving the score.
+     * 
+     */
     private void refreshYourNameScoreCombo(){
         yourNameScoreCombo.removeAllItems();
         Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
@@ -216,6 +280,11 @@ public class Scoreboard extends Thread implements ActionListener
         refreshFriendNameScoreCombo();
     }
 
+    /**
+     * Resets the selection of the friend name selection
+     * for displaying another player's score.  
+     * 
+     */
     private void refreshFriendNameScoreCombo(){
         friendNameScoreCombo.removeAllItems();
         String yourName = (String)yourNameScoreCombo.getSelectedItem();
@@ -245,6 +314,10 @@ public class Scoreboard extends Thread implements ActionListener
         refreshFriendScore();
     }
 
+    /**
+     * Resets the display of the selected friend's score.  
+     * 
+     */
     private void refreshFriendScore(){
         String friendName = (String)friendNameScoreCombo.getSelectedItem();
 
@@ -252,6 +325,11 @@ public class Scoreboard extends Thread implements ActionListener
             (friendName == null ? "" : DatabaseDriver.getScore(friendName)));
     }
 
+    /**
+     * Updates the selected player's score in the database.
+     * Displays an error message if saving the score fails.
+     * 
+     */
     private void saveScore(){
         String yourName = (String)yourNameScoreCombo.getSelectedItem();
         if(yourName != null){
@@ -269,10 +347,20 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Opensthe Add Player dialog.
+     * 
+     */
     private void addPlayer(){
         addPlayerDialog.setVisible(true);
     }
 
+    /**
+     * Saves a new player with the name specified in the text field,
+     * if a name is specified.  Dislays appropriate error dialogs 
+     * if saving the player fails.  
+     * 
+     */
     private void saveName(){
         String yourName = newPlayerNameField.getText();
 
@@ -304,6 +392,11 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Resets the selections for adding a friend at the
+     * Add Friend dialog.
+     * 
+     */
     private void refreshAddFriend(){
         yourNameAddCombo.removeAllItems();
         friendNameAddCombo.removeAllItems();
@@ -338,6 +431,10 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Opens the dialog for adding a friend and resets the associated fields.
+     * 
+     */
     private void addFriend(){
         Vector<String> allPlayers = DatabaseDriver.getAllPlayers();
         Vector<String> yourFriends = DatabaseDriver.getFriends((String)yourNameScoreCombo.getSelectedItem());
@@ -356,6 +453,10 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Hides the scoreboard and resets the player name selection.
+     * 
+     */
     private void exitScoreboard(){
         try{
             yourNameScoreCombo.setSelectedIndex(0);
@@ -366,6 +467,14 @@ public class Scoreboard extends Thread implements ActionListener
         saveScoreDialog.setVisible(false);
     }
 
+    /**
+     * Saves a friendship in the database between the 
+     * current player and the selected player.
+     * Also resets the fields in the Add Friend as
+     * well as the combo fields in the Save Score
+     * dialog.
+     * 
+     */
     private void saveFriend(){
         String yourName = (String)yourNameAddCombo.getSelectedItem();
 
@@ -401,11 +510,19 @@ public class Scoreboard extends Thread implements ActionListener
 
     }
 
+    /**
+     * Hides the Add Friend dialog box and resets the text field.
+     * 
+     */
     private void cancelAddPlayer(){
         newPlayerNameField.setText("");
         addPlayerDialog.setVisible(false);
     }
 
+    /**
+     * Hides the Add Friend dialog box and resets its the fields.
+     * 
+     */
     private void cancelAddFriend(){
         try{
             friendNameAddCombo.setSelectedIndex(0);
@@ -422,10 +539,19 @@ public class Scoreboard extends Thread implements ActionListener
         addFriendDialog.setVisible(false);
     }
 
+    /**
+     * Shows the scoreboard.
+     * 
+     */
     public void show(){
         saveScoreDialog.setVisible(true);
     }
 
+    /**
+     * Sets the score to the amount specified.
+     * 
+     * @param scoreIn the amount to set the score to
+     */
     public void setScore(int scoreIn){
         synchronized(scoreLock){
             score = scoreIn;
@@ -433,6 +559,11 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Updates the current score by adding the amount specified.
+     * 
+     * @param scoreIn the amount to add to the current score
+     */
     public void updateScore(int scoreIn){
         synchronized(scoreLock){
             score += scoreIn;
@@ -440,6 +571,11 @@ public class Scoreboard extends Thread implements ActionListener
         }
     }
 
+    /**
+     * Returns the current score.
+     * 
+     * @return the score
+     */
     public int getScore(){
         return this.score;
     }
