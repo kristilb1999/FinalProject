@@ -73,6 +73,12 @@ public class Instructions extends Thread implements ActionListener
         
         instructionDialog.add(instructionPanel);
         
+        instructionDialog.pack();
+        instructionDialog.setLocationRelativeTo(this.container);
+        instructionDialog.setVisible(false);
+        
+        closeButton.addActionListener(this);
+        
     }
     
     /**
@@ -83,7 +89,7 @@ public class Instructions extends Thread implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(closeButton)) {
-            instructionDialog.dispose();
+            instructionDialog.setVisible(false);
         }
     }
     
