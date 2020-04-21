@@ -23,11 +23,6 @@ public class SoldierArmy extends Thread
     private static final int BIG_EYE = 2;
     private static final int PIRATE = 3;
 
-    //THE THREE DIFFICULTY LEVELS
-    private static final int EASY = 0;
-    private static final int MEDIUM = 1;
-    private static final int HARD = 2;
-
     //STOP AND START COORDINATES FOR SPAWNING THE ENEMIES
     private static final int X_START = 0;
     private static final int Y_STOP = 52;
@@ -118,6 +113,7 @@ public class SoldierArmy extends Thread
     /**
      * Create the army of Soldiers based on the difficulty of the wave.
      */
+    @Override
     public void run(){
         //PERIODICALLY CHECK IF ALL OF THE SOLDIERS ARE DONE
         SoldierArmy thisSA = this;
@@ -164,56 +160,9 @@ public class SoldierArmy extends Thread
             }
             catch (InterruptedException e) {
             }
-
-            //GIVE EACH ENEMY A RANDOM Y POSITION SO THE ENEMIES ARE STAGGERED
-            int yCoord = (r.nextInt(container.getHeight() / 4 - Y_STOP) + 3 * container.getHeight() / 4 - Y_STOP / 14 );
-
-            //THE STARTING POSITION OF THE ENEMY
-            Point2D.Double startSpot = new Point2D.Double(X_START, yCoord);
-
-            //THE TYPE OF SOLDIER TO BE CHOSEN
-            int soldierType;
-            /* DIFFERENT TYPES OF ENEMIES CAN SPAWN DEPENDING ON THE DIFFICULTY LEVEL OF
-            EACH INDIVIDUAL WAVE:
-            EASY IS ONLY WEAKEST TWO OPTIONS
-            MEDIUM IS ALL BUT THE STRONGEST OPTION
-            HARD IS EVERY TYPE OF SOLDIER CAN SPAWN
-             */
-            switch(difficultyLevel){
-                case EASY:
-                soldierType = r.nextInt(2);
-                break;
-                case MEDIUM:
-                soldierType = r.nextInt(3);
-                break;
-                case HARD:
-                soldierType = r.nextInt(4);
-                break;
-                default:
-                soldierType = r.nextInt(2);
-            }
-
-            //THE TYPES OF SOLDIERS BEING CREATED BASED ON THEIR SPEEDS
-            Soldier soldier;
-            switch(soldierType){
-                case 1:
-                //A LITTLE FASTER THAN THE AVERAGE ZOMBIE
-                soldier = new Hunchback(startSpot, container, tower);
-                break;
-                case 2:
-                //THIS GUY ISN'T A SLOUCH WHEN IT COMES TO SPEED WALKING
-                soldier = new BigEye(startSpot, container, tower);
-                break;
-                case 3:
-                //ARR, HE'S COMING TO GET YOUR BOOTY
-                soldier = new Pirate(startSpot, container, tower);
-                break;
-                default:
-                //WEAKEST SOLDIER
-                soldier = new AverageZombie(startSpot, container, tower);
-            }
+            
+            Soldier soldier = SoldierProvider.getRandom(container, tower, X_START, Y_STOP, difficultyLevel);
             soldierList.add(soldier);
-
             soldier.start();
         }
 
