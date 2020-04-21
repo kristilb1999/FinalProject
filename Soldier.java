@@ -23,6 +23,9 @@ abstract public class Soldier extends Thread
 
     //THE AMOUNT OF TIME BEFORE THE SOLDIER NEXT MOVES
     public static final int DELAY_TIME = 200;
+    
+    //THE AMOUNT OF TIME BEFORE THE SOLDIER NEXT MOVES
+    public static final int DELAY_TIME_LONG = 1000;
 
     //THE HEALTH FOR EACH SOLDIER
     protected int hitsUntilDeath;
@@ -53,6 +56,12 @@ abstract public class Soldier extends Thread
     
     //THE REFERENCE TO THE TOWER'S HEALTHBAR
     protected HealthBar towerHealthBar;
+    
+    //THE REFERENCE TO THE SCOREBOARD
+    protected Scoreboard towerScoreboard;
+    
+    //THE WIDTH OF THE CONTAINER
+    protected int containerWidth;
 
     /**
      * Creates a Soldier object.
@@ -68,9 +77,29 @@ abstract public class Soldier extends Thread
         this.container = container;
         this.tower = tower;
         this.towerHealthBar = tower.getHealthBar();
+        this.towerScoreboard = tower.getScoreboard();
+        this.containerWidth = container.getWidth();
 
         //THE SOLDIER IS NOT DEAD YET, HE HAS BARELY EVEN LIVED
         done = false;
+        
+        //GET REFERENCE TO THIS SOLDIER
+        Soldier thisSoldier = this;        
+        //CHECK THE CONTAINER WIDTH PERIODICALLY
+        new Thread() {
+            @Override
+            public void run() {
+                while(!thisSoldier.done){
+                    try{
+                        sleep(DELAY_TIME_LONG);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+
+                    thisSoldier.containerWidth = container.getWidth();
+                }
+            }
+        }.start(); 
     } 
 
     /**
@@ -89,8 +118,7 @@ abstract public class Soldier extends Thread
 
             //EVERY ITERATION, UPDATE THE COORDINATES
             position.x += speed;
-            //container.repaint();
-
+            
             //THE INITIAL NUMBER OF HITS THE ZOMBIE RECIEVES EACH TIME IT WALKS IS ZERO
             int numHits = 0;
 
@@ -111,13 +139,13 @@ abstract public class Soldier extends Thread
             //UPDATE THE HEALTH OF THAT ZOMBIE BASED ON HOW MUCH IT WAS HIT
             hitsUntilDeath -= numHits;
             
-            //GETS THE SCOREBOARD AND UPDATES THE SCORE
-            tower.getScoreboard().updateScore(getPoints() * numHits);
+            //UPDATES THE SCORE
+            towerScoreboard.updateScore(getPoints() * numHits);
 
             //IF THE ZOMBIE HAS REACHED THE TOWER, STOP MOVING AND DIE
             //MAYBE WE CAN MAKE IT SO THAT THEY DO NOT DIE WHEN THEY REACH THE TOWER,
             //MAYBE THEY SHOULD JUST DO DAMAGE UNTIL THEY ARE KILLED?
-            if (position.x > container.getWidth() - STOP_ZOMB)
+            if (position.x > containerWidth - STOP_ZOMB)
             {
                 damageEnemy(getStrength());
                 done = true;

@@ -124,6 +124,15 @@ public class SoldierArmy extends Thread
         new Thread() {
             @Override
             public void run() {
+                //WAIT UNTIL ALL SOLDIERS HAVE STARTED BEFORE CHECKING IF ANY ARE DONE
+                while(!thisSA.allStarted){
+                    try{
+                        sleep(DELAY_TIME);
+                    } catch (InterruptedException e){
+                        System.out.print(e);
+                    }
+                }
+
                 boolean allDone;
                 while(!thisSA.done){
                     try{
@@ -132,17 +141,13 @@ public class SoldierArmy extends Thread
                         System.out.print(e);
                     }
 
-                    //IF THEY HAVEN'T ALL STARTED, THEY CANNOT ALL BE DONE
-                    if(allStarted){
-                        allDone = true;
-
-                        //THIS ARMY IS DONE WHEN ALL OF ITS SOLDIERS ARE DONE
-                        for (Soldier soldier : soldierList) {
-                            if (!soldier.done()) allDone = false;
-                        }
-
-                        if(allDone) thisSA.done = true;
+                    allDone = true;
+                    //THIS ARMY IS DONE WHEN ALL OF ITS SOLDIERS ARE DONE
+                    for (Soldier soldier : soldierList) {
+                        if (!soldier.done()) allDone = false;
                     }
+
+                    if(allDone) thisSA.done = true;
 
                 }
             }

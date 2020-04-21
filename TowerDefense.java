@@ -84,12 +84,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     //THE Y VALUE OF THE GRASS LINE POSITION
     private int grassLine;
 
-    //THE AMOUNT OF HEALTH THE TOWER HAS
-    // private int towerHealth;
-
-    //THE PLAYER SCORE
-    private int playerScore;
-
     //FALSE WHEN IT IS DAYTIME, TRUE WHEN IT IS NIGHTTIME ON SCREEN
     private boolean nightTime;
 
@@ -312,7 +306,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         healthBar.start();
 
         //CREATE THE LABEL THAT DISPLAYS THE SCORE
-        scoreLabel = new JLabel(" Player score: " + playerScore);
+        scoreLabel = new JLabel(" Player score: ");
 
         //CREATE A PANEL WITH A FLOWLAYOUT TO HOLD THE GAME AND THE BUTTONS PANEL AND ADD IT TO THE FRAME
         JPanel panelHolder = new JPanel(new FlowLayout());
@@ -498,7 +492,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }.start(); 
 
-        //UPDATE THE SCOREBOARD PERIODICALLY
+        //UPDATE THE SCORE LABEL PERIODICALLY
         new Thread() {
             @Override
             public void run() {
@@ -663,15 +657,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             nightTime = true;
             timeOfDay.setText(" Day ");
         }
-    }
-
-    /**
-     * Updates the player's score.
-     * 
-     * @param points The amount to increase the score by.
-     */
-    public void updateScore(int points) {
-        playerScore += points;
     }
 
     /**
