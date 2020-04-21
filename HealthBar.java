@@ -42,6 +42,15 @@ public class HealthBar extends Thread
 
     private String text;
 
+    public HealthBar(){
+        this(new JLabel());
+    }
+    
+    public HealthBar(String text){
+        this(new JLabel());
+        this.setText(text);
+    }
+    
     public HealthBar(JLabel healthBarLabel){
         this(healthBarLabel,START_HEALTH);
     }
@@ -97,13 +106,22 @@ public class HealthBar extends Thread
         return this.towerHealth;
     }
 
-    public void setText(String newText){
-        this.text = newText;
+    public void setText(String text){
+        this.text = text;
         healthBarLabel.setText(this.text);
     }
     
     public String getText(){
         return this.text;
+    }
+    
+    public void setLabel(JLabel label){
+        this.healthBarLabel = label;
+        this.text = this.healthBarLabel.getText();
+    }
+    
+    public JLabel getLabel(){
+        return this.healthBarLabel;
     }
     
     public boolean done(){
