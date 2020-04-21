@@ -40,7 +40,7 @@ public class AverageZombie extends Soldier
         
         //CREATES THE IMAGE OF THE AVERAGEZOMBIE SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeOne.jpg";
+        typeFilePath = "soldierTypeOne.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         
         //SETS THE HEALTH OF THE SOLDIER
