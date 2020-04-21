@@ -61,7 +61,7 @@ abstract public class Soldier extends Thread
     public Soldier(Point2D.Double position, JComponent container, TowerDefense tower)
     {
         //SETTING ALL OF THE REFERENCES
-        this.position = position;
+        this.position = new Point2D.Double(position.x - getSize()/2 , position.y - (3*getSize())/2);
         this.container = container;
         this.tower = tower;
 
