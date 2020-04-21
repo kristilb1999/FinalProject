@@ -568,6 +568,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //THE AMOUNT OF HEALTH LEFT BECOMES VISIBLE
         healthBar.setVisible(true);
+        healthBar.resetHealth();
 
         //SET SCORE LABEL VISIBLE
         scoreLabel.setVisible(true);
