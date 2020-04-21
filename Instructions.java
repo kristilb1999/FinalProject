@@ -17,52 +17,72 @@ import java.awt.geom.*;
  */
 public class Instructions extends Thread implements ActionListener
 {
+    //THE SIZE OF THE DIALOG BOX
     private static final int WINDOW_WIDTH = 750;
     private static final int WINDOW_HEIGHT = 500;
 
+    //THE SIZE OF THE PANEL HOLDING THE INSTRUCTIONS
     private static final int PANEL_WIDTH = 700;
     private static final int PANEL_HEIGHT = 350;
 
+    //THE SIZE OF THE PANEL HOLDING THE BUTTONS
     private static final int BUTTON_PANEL_WIDTH = 700;
     private static final int BUTTON_PANEL_HEIGHT = 150;
 
+    //WHERE TO FIND THE EXTRA INSTRUCTIONS
     private static final String FILENAME = "instructions.txt";
 
+    //THE FILE NAMES FOR THE SOLDIER PICTURES
     private static final String AVE_ZOM_FILE = "soldierTypeOne.png";
     private static final String HUNCHBACK = "soldierTypeThree.png";
     private static final String PIRATE = "soldierTypeFour.png";
     private static final String BIG_EYE = "soldierTypeTwo.png";
+    
+    //THE FILE NAMES FOR THE WEAPON PICTURES
+    private static final String GRENADE = "weaponTypeThree.png";
+    private static final String MOLOTOV_COCKTAIL = "weaponTypeTwo.png";
+    private static final String TNT = "weaponTypeFour.png";
+    private static final String BOULDER = "weaponTypeOne.png";
 
+    //THE JDIALOG BOX TO HOLD THE INSTRUCTIONS
     private JDialog instructionDialog;
 
+    //THE PANELS TO HOLD ALL INFORMATION TO DISPLAY
     private JPanel instructionPanel;
     private JPanel picturePanel;
     private JPanel buttonPanel;
 
+    //IMAGES OF EACH TYPE OF SOLDIER
     private LoadImageApp aveZom;
     private LoadImageApp bigEye;
     private LoadImageApp hunchback;
     private LoadImageApp pirate;
 
+    //LABELS TO HOLD INFO OF EACH SOLDIER
     private JLabel aveZomLabel;
     private JLabel bigEyeLabel;
     private JLabel hunchbackLabel;
     private JLabel pirateLabel;
 
+    //IMAGES OF EACH TYPE OF WEAPON
     private LoadImageApp grenade;
     private LoadImageApp molotovCocktail;
     private LoadImageApp tnt;
     private LoadImageApp boulder;
 
+    //LABELS FOR EACH TYPE OF WEAPON
     private JLabel grenadeLabel;
     private JLabel molotovCocktailLabel;
     private JLabel tntLabel;
     private JLabel boulderLabel;
 
+    //TEXT AREA TO HOLD ALL READ IN INSTRUCTIONS
     private JTextArea extraInformation;
 
+    //BUTTON TO CLOSE INSTRUCTION PANE
     private JButton closeButton;
 
+    //CONTAINER TO PLACE DIALOG BOX OVER
     private JComponent container;
 
     /**
@@ -80,44 +100,51 @@ public class Instructions extends Thread implements ActionListener
      */
     @Override
     public void run(){
+        //CREATES THE DIALOG BOX
         instructionDialog = new JDialog();
         instructionDialog.setTitle("Instructions");
         instructionDialog.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
+        //CREATES THE CLOSE BUTTON
         closeButton = new JButton("Close");
         closeButton.setFont(new Font("Rockwell", Font.BOLD, 25));
         closeButton.setForeground(Color.WHITE);
         closeButton.setBackground(Color.BLACK);
 
+        //CREATES THE PANEL THAT GOES INTO THE DIALOG BOX
+        //THIS ALLOWS THINGS TO BE DISPLAYED IN DIALOG BOX
         instructionPanel = new JPanel();
 
+        //CREATES PANEL TO HOLD PICTURES AND LABELS
         picturePanel = new JPanel();
         picturePanel.setLayout(new BoxLayout(picturePanel, BoxLayout.Y_AXIS));
         picturePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
+        //CREATES PANEL TO HOLD CLOSE BUTTON
         buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT));
 
+        //INFO ABOUT AVERAGE ZOMBIE
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
-
         aveZom = new LoadImageApp(AVE_ZOM_FILE);
         aveZom.setSize(new Dimension(20, 40));
 
+        //INFO ABOUT HUNCHBACK 
         hunchbackLabel = new JLabel("Hunchback: Speed: 5 Strength: 2 Worth: 200 points");
-
         hunchback = new LoadImageApp(HUNCHBACK);
         hunchback.setSize(new Dimension(20, 40));
 
+        //INFO ABOUT BIG EYE 
         bigEyeLabel = new JLabel("Big Eye: Speed: 7 Strength: 3 Worth: 300 points");
-
         bigEye = new LoadImageApp(BIG_EYE);
         bigEye.setSize(new Dimension(20, 40));
 
+        //INFO ABOUT PIRATE
         pirateLabel = new JLabel("Pirate: Speed: 10 Strength: 5 Worth: 500 points");
-
         pirate = new LoadImageApp(PIRATE);
         pirate.setSize(new Dimension(20, 40));
 
+        //ADD SOLDIER LABELS AND IMAGES TO THE PICTURE PANEL
         picturePanel.add(aveZomLabel);
         //picturePanel.add(aveZom);
 
@@ -130,26 +157,27 @@ public class Instructions extends Thread implements ActionListener
         picturePanel.add(pirateLabel);
         //picturePanel.add(pirate);
 
+        //INFO ABOUT GRENADE
         grenadeLabel = new JLabel("Bounces off of the ground and then explodes shortly after.");
-
-        grenade = new LoadImageApp("weaponTypeThree.png");
+        grenade = new LoadImageApp(GRENADE);
         grenade.setSize(new Dimension(10, 10));
 
+        //INFO ABOUT MOLOTOV COCKTAIL
         molotovCocktailLabel = new JLabel("Explodes on impact with either ground or enemies into red explosion.");
-
-        molotovCocktail = new LoadImageApp("weaponTypeTwo.png");
+        molotovCocktail = new LoadImageApp(MOLOTOV_COCKTAIL);
         molotovCocktail.setSize(new Dimension(10, 10));
 
+        //INFO ABOUT TNT
         tntLabel = new JLabel("Explodes on impact with either ground or enemies into orange explosion.");
-
-        tnt = new LoadImageApp("weaponTypeFour.png");
+        tnt = new LoadImageApp(TNT);
         tnt.setSize(new Dimension(10, 10));
 
+        //INFO ABOUT BOULDER
         boulderLabel = new JLabel("Bounces off of the ground.");
-
-        boulder = new LoadImageApp("weaponTypeOne.png");
+        boulder = new LoadImageApp(BOULDER);
         boulder.setSize(new Dimension(10, 10));
 
+        //ADD WEAPON LABELS AND IMAGES TO PICTURE PANEL
         picturePanel.add(grenadeLabel);
         //picturePanel.add(grenade);
 
@@ -162,9 +190,12 @@ public class Instructions extends Thread implements ActionListener
         picturePanel.add(boulderLabel);
         //picturePanel.add(boulder);
         
+        
+        
         //CODE BASED ON:
         // https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel/26426585
-
+        //CREATES A TEXT AREA THAT LOOKS AND ACTS LIKE A JLABEL
+        //THAT HAS WRAP AROUND TEXT 
         extraInformation = new JTextArea();
         extraInformation.setWrapStyleWord(true);
         extraInformation.setLineWrap(true);
@@ -175,10 +206,11 @@ public class Instructions extends Thread implements ActionListener
         extraInformation.setFont(UIManager.getFont("Label.font"));
         extraInformation.setBorder(UIManager.getBorder("Label.border"));
 
+        //IF THE FILE IS VALID, ADD ALL INFO INTO THE TEXT AREA
         try{
             BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 
-            String toAdd = "";
+            String toAdd = "\n\n\n\n";
 
             String line = "";
 
@@ -193,8 +225,12 @@ public class Instructions extends Thread implements ActionListener
             System.err.println("IO Exception: " + e);
         }
 
+        //ADD THE REST OF THE INSTRUCTIONS TO THE PANEL
         picturePanel.add(extraInformation);
+        
+        //SET THE ALIGNMENT OF LABELS TO CENTER
         picturePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         aveZomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         hunchbackLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bigEyeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -207,18 +243,24 @@ public class Instructions extends Thread implements ActionListener
 
         extraInformation.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //ADD PICTURE PANEL TO INSTRUCTION PANEL
         instructionPanel.add(picturePanel);
 
+        //ADD CLOSE BUTTON TO BUTTON PANEL
         buttonPanel.add(closeButton);
 
+        //ADD BUTTON PANEL TO INSTRUCTION PANEL
         instructionPanel.add(buttonPanel);
 
+        //ADD EVERYTHING TO THE DIALOG
         instructionDialog.add(instructionPanel);
 
+        //PACK AND SHOW DIALOG BOX
         instructionDialog.pack();
         instructionDialog.setLocationRelativeTo(this.container);
         instructionDialog.setVisible(false);
 
+        //ADD ACTION LISTENER TO BUTTON
         closeButton.addActionListener(this);
 
     }
