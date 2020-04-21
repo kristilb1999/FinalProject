@@ -19,12 +19,19 @@ public class Instructions extends Thread implements ActionListener
 {
     private static final int WINDOW_WIDTH = 750;
     private static final int WINDOW_HEIGHT = 500;
-    
-    private static final int PANEL_WIDTH = 750;
+
+    private static final int PANEL_WIDTH = 700;
     private static final int PANEL_HEIGHT = 350;
-    
-    private static final int BUTTON_PANEL_WIDTH = 750;
+
+    private static final int BUTTON_PANEL_WIDTH = 700;
     private static final int BUTTON_PANEL_HEIGHT = 150;
+
+    private static final String FILENAME = "instructions.txt";
+
+    private static final String AVE_ZOM_FILE = "soldierTypeOne.png";
+    private static final String HUNCHBACK = "soldierTypeThree.png";
+    private static final String PIRATE = "soldierTypeFour.png";
+    private static final String BIG_EYE = "soldierTypeTwo.png";
 
     private JDialog instructionDialog;
 
@@ -36,21 +43,23 @@ public class Instructions extends Thread implements ActionListener
     private LoadImageApp bigEye;
     private LoadImageApp hunchback;
     private LoadImageApp pirate;
-    
+
     private JLabel aveZomLabel;
     private JLabel bigEyeLabel;
     private JLabel hunchbackLabel;
     private JLabel pirateLabel;
-    
+
     private LoadImageApp grenade;
     private LoadImageApp molotovCocktail;
     private LoadImageApp tnt;
     private LoadImageApp boulder;
-    
+
     private JLabel grenadeLabel;
     private JLabel molotovCocktailLabel;
     private JLabel tntLabel;
     private JLabel boulderLabel;
+
+    private JTextArea extraInformation;
 
     private JButton closeButton;
 
@@ -70,7 +79,7 @@ public class Instructions extends Thread implements ActionListener
      * Creates the dialog panel with all the game information.
      */
     @Override
-    public void run() {
+    public void run(){
         instructionDialog = new JDialog();
         instructionDialog.setTitle("Instructions");
         instructionDialog.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -81,96 +90,129 @@ public class Instructions extends Thread implements ActionListener
         closeButton.setBackground(Color.BLACK);
 
         instructionPanel = new JPanel();
-        
+
         picturePanel = new JPanel();
         picturePanel.setLayout(new BoxLayout(picturePanel, BoxLayout.Y_AXIS));
         picturePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        
+
         buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT));
-        
+
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
-        
-        aveZom = new LoadImageApp("soldierTypeOne.png");
+
+        aveZom = new LoadImageApp(AVE_ZOM_FILE);
         aveZom.setSize(new Dimension(20, 40));
-        
+
         hunchbackLabel = new JLabel("Hunchback: Speed: 5 Strength: 2 Worth: 200 points");
-        
-        hunchback = new LoadImageApp("soldierTypeThree.png");
+
+        hunchback = new LoadImageApp(HUNCHBACK);
         hunchback.setSize(new Dimension(20, 40));
-        
+
         bigEyeLabel = new JLabel("Big Eye: Speed: 7 Strength: 3 Worth: 300 points");
-        
-        bigEye = new LoadImageApp("soldierTypeTwo.png");
+
+        bigEye = new LoadImageApp(BIG_EYE);
         bigEye.setSize(new Dimension(20, 40));
-        
+
         pirateLabel = new JLabel("Pirate: Speed: 10 Strength: 5 Worth: 500 points");
-        
-        pirate = new LoadImageApp("soldierTypeFour.png");
+
+        pirate = new LoadImageApp(PIRATE);
         pirate.setSize(new Dimension(20, 40));
-        
+
         picturePanel.add(aveZomLabel);
         //picturePanel.add(aveZom);
-        
+
         picturePanel.add(hunchbackLabel);
         //picturePanel.add(hunchback);
-        
+
         picturePanel.add(bigEyeLabel);
         //picturePanel.add(bigEye);
-        
+
         picturePanel.add(pirateLabel);
         //picturePanel.add(pirate);
-        
+
         grenadeLabel = new JLabel("Bounces off of the ground and then explodes shortly after.");
-        
+
         grenade = new LoadImageApp("weaponTypeThree.png");
         grenade.setSize(new Dimension(10, 10));
-        
+
         molotovCocktailLabel = new JLabel("Explodes on impact with either ground or enemies into red explosion.");
-        
+
         molotovCocktail = new LoadImageApp("weaponTypeTwo.png");
         molotovCocktail.setSize(new Dimension(10, 10));
-        
+
         tntLabel = new JLabel("Explodes on impact with either ground or enemies into orange explosion.");
-        
+
         tnt = new LoadImageApp("weaponTypeFour.png");
         tnt.setSize(new Dimension(10, 10));
-        
+
         boulderLabel = new JLabel("Bounces off of the ground.");
-        
+
         boulder = new LoadImageApp("weaponTypeOne.png");
         boulder.setSize(new Dimension(10, 10));
-        
+
         picturePanel.add(grenadeLabel);
         //picturePanel.add(grenade);
-        
+
         picturePanel.add(molotovCocktailLabel);
         //picturePanel.add(molotovCocktail);
-        
+
         picturePanel.add(tntLabel);
         //picturePanel.add(tnt);
-        
+
         picturePanel.add(boulderLabel);
         //picturePanel.add(boulder);
         
+        //CODE BASED ON:
+        // https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel/26426585
+
+        extraInformation = new JTextArea();
+        extraInformation.setWrapStyleWord(true);
+        extraInformation.setLineWrap(true);
+        extraInformation.setOpaque(false);
+        extraInformation.setEditable(false);
+        extraInformation.setFocusable(false);
+        extraInformation.setBackground(UIManager.getColor("Label.background"));
+        extraInformation.setFont(UIManager.getFont("Label.font"));
+        extraInformation.setBorder(UIManager.getBorder("Label.border"));
+
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(FILENAME));
+
+            String toAdd = "";
+
+            String line = "";
+
+            while((line = br.readLine()) != null) {
+                toAdd += line + "\n";
+            }
+
+            extraInformation.setText(toAdd);
+        }catch(FileNotFoundException e){
+            System.err.println("File not found: " + FILENAME);
+        } catch(IOException e) {
+            System.err.println("IO Exception: " + e);
+        }
+
+        picturePanel.add(extraInformation);
         picturePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
         aveZomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         hunchbackLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bigEyeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         pirateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         grenadeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         molotovCocktailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tntLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         boulderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
+        extraInformation.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         instructionPanel.add(picturePanel);
 
         buttonPanel.add(closeButton);
-        
+
         instructionPanel.add(buttonPanel);
-        
+
         instructionDialog.add(instructionPanel);
 
         instructionDialog.pack();
@@ -219,6 +261,9 @@ public class Instructions extends Thread implements ActionListener
     }
 }
 
+//CODE TAKEN FROM:
+// https://docs.oracle.com/javase/tutorial/2d/images/examples/LoadImageApp.java
+
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
@@ -254,7 +299,7 @@ public class Instructions extends Thread implements ActionListener
  * This class demonstrates how to load an Image from an external file
  */
 class LoadImageApp extends Component {
-          
+
     BufferedImage img;
 
     public void paint(Graphics g) {
@@ -262,17 +307,17 @@ class LoadImageApp extends Component {
     }
 
     public LoadImageApp(String filename) {
-       try {
-           img = ImageIO.read(new File(filename));
-       } catch (IOException e) {
-       }
+        try {
+            img = ImageIO.read(new File(filename));
+        } catch (IOException e) {
+        }
     }
 
     public Dimension getPreferredSize() {
         if (img == null) {
-             return new Dimension(100,100);
+            return new Dimension(100,100);
         } else {
-           return new Dimension(img.getWidth(null), img.getHeight(null));
-       }
+            return new Dimension(img.getWidth(null), img.getHeight(null));
+        }
     }
 }
