@@ -164,7 +164,11 @@ abstract public class Soldier extends Thread
      * 
      * @param g The graphics object.
      */
-    abstract public void paint(Graphics g);
+    public void paint(Graphics g){
+        if(!done) {
+            g.drawImage(type, (int)position.x, (int)position.y, null);
+        }
+    }
 
     /**
      * Returns the strength of the Soldier.

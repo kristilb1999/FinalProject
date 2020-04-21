@@ -52,19 +52,6 @@ public class AverageZombie extends Soldier
         //SETS THE LOCATION OF THE SOLDIER AT ITS POSITION
         position.setLocation(position.x, position.y - SIZE);
     }
-
-    /**
-     * Paints the AverageZombie Soldier on the container at it's position.
-     * 
-     * @param g The graphics object.
-     */
-    @Override
-    public void paint(Graphics g) 
-    {
-            if(!done) {
-            g.drawImage(type, (int)position.x, (int)position.y, null);
-        }
-    }
     
     /**
      * Gets the amount of points each soldier is worth.
