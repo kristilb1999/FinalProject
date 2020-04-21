@@ -328,6 +328,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         
         //CREATE THE GAME INSTRUCTIONS
         instructions = new Instructions(panelHolder);
+        instructions.start();
 
         //CREATE THE SCOREBOARD OBJECT AND START THE THREAD
         scoreboard = new Scoreboard(panelHolder);
