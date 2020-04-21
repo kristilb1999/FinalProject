@@ -115,6 +115,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private JButton mediumRound;
     private JButton hardRound;
 
+    //THE GAME INSTRUCTIONS
+    private Instructions instructions;
+    
+    //THE BUTTON FOR DISPLAYING/HIDING THE INSTRUCTIONS
+    private JButton instructionsButton;
+    
     //THE BUTTON THAT STARTS THE GAME OR RESTARTS THE GAME SETTINGS
     private JButton startOrRestart;
 
@@ -270,6 +276,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //TELL THE JFRAME THAT WHEN SOMEONE CLOSES THE WINDOW, THE APPLICATION SHOULD TERMINATE
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //CREATE THE INSTRUCTIONS BUTTON
+        instructionsButton = new JButton("Instructions");
+        
         //CREATE THE START BUTTON
         startOrRestart = new JButton("Start");
 
@@ -316,6 +325,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
 
         };
+        
+        //CREATE THE GAME INSTRUCTIONS
+        instructions = new Instructions(panelHolder);
 
         //CREATE THE SCOREBOARD OBJECT AND START THE THREAD
         scoreboard = new Scoreboard(panelHolder);
@@ -327,6 +339,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //CREATE A PANEL FOR THE BUTTONS AND SET THE COLOR TO BLACK
         startPanel = new JPanel();
         startPanel.setBackground(Color.BLACK);
+        
+        //SET THE FONT AND COLORS OF THE INSTRUCTIONS BUTTON
+        startOrRestart.setFont(FONT_USED);
+        startOrRestart.setForeground(Color.CYAN);
+        startOrRestart.setBackground(Color.BLACK);
 
         //SET THE FONT AND COLORS OF THE START BUTTON
         startOrRestart.setFont(FONT_USED);
@@ -371,6 +388,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         quit.setForeground(Color.PINK);
         quit.setBackground(Color.BLACK);
 
+        //ADD THE INSTRUCTIONS BUTTON TO THE BUTTON PANEL
+        startPanel.add(instructionsButton);
+        
         //ADD THE START BUTTON TO THE BUTTON PANEL
         startPanel.add(startOrRestart);
 
@@ -492,7 +512,17 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     @Override
     public void actionPerformed(ActionEvent e) {
         //WHEN THE BUTTON PRESSED IS THE START OR RESTART BUTTONS
-        if(e.getSource().equals(startOrRestart)) {
+        if(e.getSource().equals(instructionsButton)){
+            //SHOW HIDE GAME INSTRUCTIONS
+            if(instructions.isVisible()){
+                instructions.setVisible(true);
+                instructionsButton.setText("Hide Instr. ");
+            }else{
+                instructions.setVisible(false);
+                instructionsButton.setText("Instructions");
+            }
+            
+        }else if(e.getSource().equals(startOrRestart)) {
             //IF THE BUTTON CURRENTLY SAYS START (WHEN THE GAME BEGINS)
             if(startOrRestart.getText().equals("Start")) { 
                 startGame();
