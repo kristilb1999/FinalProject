@@ -22,12 +22,12 @@ public class HealthBar extends Thread
     private static final int START_HEALTH = 30;
 
     //THE COLORS FOR THE TOWER HEALTH LABEL AND THE DIFFICULTY BUTTONS
-    private final Color FULL_HEALTH = new Color(13, 201, 6);
-    private final Color MED_HEALTH = new Color(245, 243, 110);
-    private final Color LOW_HEALTH = new Color(176, 41, 32);
-    private Color full_health;
-    private Color med_health;
-    private Color low_health;
+    private static final Color FULL_HEALTH_COLOR = new Color(13, 201, 6);
+    private static final Color MED_HEALTH_COLOR = new Color(245, 243, 110);
+    private static final Color LOW_HEALTH_COLOR = new Color(176, 41, 32);
+    private Color full_health_color;
+    private Color med_health_color;
+    private Color low_health_color;
 
     //THE AMOUNT OF HEALTH THE TOWER HAS
     private int towerHealth;
@@ -40,22 +40,25 @@ public class HealthBar extends Thread
 
     private boolean done;
 
-    private String message;
+    private String text;
 
     public HealthBar(JLabel healthBarLabel){
-        this.healthBarLabel = healthBarLabel;
-        this.towerHealth = START_HEALTH;
-        this.done = false;
-        this.message = healthBarLabel.getText();
-        full_health = FULL_HEALTH;
-        med_health = MED_HEALTH;
-        low_health = LOW_HEALTH;
+        this(healthBarLabel,START_HEALTH);
     }
 
     public HealthBar(JLabel healthBarLabel,int startHealth){
-        this(healthBarLabel);
+        this(healthBarLabel,startHealth,FULL_HEALTH_COLOR,MED_HEALTH_COLOR,LOW_HEALTH_COLOR);
+    }
+    
+    public HealthBar(JLabel healthBarLabel,int startHealth,Color full_health_color,Color med_health_color,Color low_health_color){
+        this.healthBarLabel = healthBarLabel;
         this.startHealth = startHealth;
         this.towerHealth = startHealth;
+        this.done = false;
+        this.text = healthBarLabel.getText();
+        this.full_health_color = full_health_color;
+        this.med_health_color = med_health_color;
+        this.low_health_color = low_health_color;
     }
 
     public void run(){
@@ -68,22 +71,22 @@ public class HealthBar extends Thread
 
             //COLOR THE TOWER HEALTH MESSAGE BASED ON AMOUNT OF HEALTH LEFT
             Color newHealthBarColor;
-            if(towerHealth >= 2 * START_HEALTH / 3) {
-                newHealthBarColor = FULL_HEALTH;
-            } else if(towerHealth > START_HEALTH / 3) {
-                newHealthBarColor = MED_HEALTH;
+            if(towerHealth >= 2 * startHealth / 3) {
+                newHealthBarColor = this.full_health_color;
+            } else if(towerHealth > startHealth / 3) {
+                newHealthBarColor = this.med_health_color;
             } else {
-                newHealthBarColor = LOW_HEALTH;
+                newHealthBarColor = this.low_health_color;
             }
             healthBarLabel.setForeground(newHealthBarColor);
-            healthBarLabel.setText(this.message + towerHealth);
+            healthBarLabel.setText(this.text + towerHealth);
         }
     }
 
-    public void setColors(Color c1, Color c2, Color c3){
-        full_health = c1;
-        med_health = c2;
-        low_health = c3;
+    public void setColors(Color full_health_color,Color med_health_color,Color low_health_color){
+        this.full_health_color =  full_health_color;
+        this.med_health_color = med_health_color;
+        this.low_health_color = low_health_color;
     }
 
     public void setHealth(int newHealth){
@@ -94,6 +97,15 @@ public class HealthBar extends Thread
         return this.towerHealth;
     }
 
+    public void setText(String newText){
+        this.text = newText;
+        healthBarLabel.setText(this.text);
+    }
+    
+    public String getText(){
+        return this.text;
+    }
+    
     public boolean done(){
         return this.done;   
     }
