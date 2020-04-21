@@ -29,7 +29,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private static final int PANEL_HEIGHT = 700;
 
     //THE WIDTH AND HEIGHT OF THE FRAME
-    private static final int FRAME_WIDTH = 1250;
+    private static final int FRAME_WIDTH = 1350;
     private static final int FRAME_HEIGHT = 800;
 
     //THE AMOUNT THE TOWER WILL BE DISPLACED FROM THE WIDTH AND HEIGHT OF THE PANEL
