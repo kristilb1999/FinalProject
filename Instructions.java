@@ -42,7 +42,7 @@ public class Instructions extends Thread implements ActionListener
     }
     
     /**
-     * 
+     * Creates the dialog panel with all the game information.
      */
     @Override
     public void run() {
@@ -68,6 +68,7 @@ public class Instructions extends Thread implements ActionListener
         instructionPanel.add(bigEyeLabel);
         instructionPanel.add(hunchbackLabel);
         instructionPanel.add(pirateLabel);
+        
         instructionPanel.add(closeButton);
         
         instructionDialog.add(instructionPanel);
@@ -84,5 +85,30 @@ public class Instructions extends Thread implements ActionListener
         if(e.getSource().equals(closeButton)) {
             instructionDialog.dispose();
         }
+    }
+    
+    /**
+     * Makes the dialog panel visible.
+     */
+    public void show(){
+        instructionDialog.setVisible(true);
+    }
+    
+    /**
+     * Sets the visibility of the dialog panel.
+     * 
+     * @param visible What to set the dialog's visibility to.
+     */
+    public void setVisible(boolean visible) {
+        instructionDialog.setVisible(visible);
+    }
+    
+    /**
+     * Returns whether or not the dialog panel is visible.
+     * 
+     * @return Whether or not the dialog panel is visible.
+     */
+    public boolean isVisible() {
+        return instructionDialog.isVisible();
     }
 }

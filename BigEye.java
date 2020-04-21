@@ -40,7 +40,7 @@ public class BigEye extends Soldier
         
         //CREATES THE IMAGE OF THE BIGEYE SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeTwo.jpg";
+        typeFilePath = "soldierTypeTwo.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         
         //SETS THE HEALTH OF THE SOLDIER

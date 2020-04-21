@@ -40,7 +40,7 @@ public class Pirate extends Soldier
         
         //CREATES THE IMAGE OF THE PIRATE SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeFour.jpg";
+        typeFilePath = "soldierTypeFour.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
         
         //SETS THE HEALTH OF THE SOLDIER

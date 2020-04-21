@@ -35,7 +35,7 @@ public class TNT extends InelasticWeapon
         
         //CREATE THE TNT IMAGE AND GIVE IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeThree.jpg";
+        typeFilePath = "weaponTypeThree.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 

@@ -47,7 +47,7 @@ public class Grenade extends Weapon
 
         //CREATES THE GRENADE IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeTwo.jpg";
+        typeFilePath = "weaponTypeTwo.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 

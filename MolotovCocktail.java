@@ -38,7 +38,7 @@ public class MolotovCocktail extends InelasticWeapon
         
         //CREATES THE MOLOTOV COCKTAIL IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeOne.jpg";
+        typeFilePath = "weaponTypeOne.png";
         type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
     }
 
