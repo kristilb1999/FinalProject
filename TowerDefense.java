@@ -283,7 +283,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         startOrRestart = new JButton("Start");
 
         //CREATE THE SCORE BUTTON
-        scoreButton = new JButton("Save score");
+        scoreButton = new JButton("Save Score");
 
         //CREATE THE DIFFICULTY LEVEL BUTTONS
         easyRound = new JButton("Easy");      
