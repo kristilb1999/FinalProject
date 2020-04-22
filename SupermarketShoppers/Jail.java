@@ -1,33 +1,37 @@
-
+import java.util.Vector;
 /**
  * Write a description of class Jail here.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch.
  * @version Spring 2020
  */
-public class Jail
+public class Jail extends Thread
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
+    
+    public static final int JAIL_TIME = 20;
+    
+    private Vector<Shopper> shoppersInJail;
+    
+    private int timeInJail;
+    
+    private boolean done;
+    
     /**
      * Constructor for objects of class Jail
      */
     public Jail()
     {
-        // initialise instance variables
-        x = 0;
+
+    }
+    
+    public void run()
+    {
+        
+    }
+    
+    private boolean done()
+    {
+        return done;
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
-    }
 }
