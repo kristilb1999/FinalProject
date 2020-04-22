@@ -36,7 +36,7 @@ public class ShoppingList
             while((line = br.readLine()) != null)
             {
                 StringTokenizer tokenizer = new StringTokenizer(line);
-                Item item = new Item(tokenizer.nextToken(), Integer.parseInt(tokenizer.nextToken()), Double.parseDouble(tokenizer.nextToken()));
+                Item item = new Item(tokenizer.nextToken(), Integer.parseInt(tokenizer.nextToken()), Integer.parseInt(tokenizer.nextToken()), Double.parseDouble(tokenizer.nextToken()));
                 itemList.add(item);
             }
         }catch(FileNotFoundException e){
@@ -46,5 +46,9 @@ public class ShoppingList
         }
 
     }
+    
+    // public Vector<Item> getShoppingList()
+    // {
+    // }
 
 }
