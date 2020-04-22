@@ -239,7 +239,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }
 
-        //IF THE START BUTTON WAS PRESSED AND THE TOWER IS NOW 
+        //IF THE START BUTTON WAS PRESSED AND THE CURRENT HEALTH IS <=0
         if( gameStarted && healthBar.getHealth() <= 0) {
             int centerX = width/2;
             int centerY = height/2;
