@@ -13,6 +13,41 @@ import java.util.Vector;
 public class DatabaseDriver
 {
     private static String databaseName = "./Player-Friends";
+    
+    private static File buildFile = new File("dropCreateSampleDatabase.txt");
+    
+    public static void setBuildFile(File file){
+        buildFile = file;
+    }
+
+    public static void checkDatabase(){
+        String queryPlayer = "SELECT * FROM Player";
+        String queryFriendship = "SELECT * FROM Friendship";
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            PreparedStatement stmt = conn.prepareStatement(queryPlayer);
+            stmt.executeQuery();
+            stmt = conn.prepareStatement(queryFriendship);
+            stmt.executeQuery();
+        }catch(SQLException e){
+            DatabaseDriver.fetchDatabase(buildFile);
+        }
+    }
+    
+    //resets the database to the build file
+    public void resetDatabase(){
+        String queryFriendship = "DROP TABLE IF EXISTS Friendship";
+        String queryPlayer = "DROP TABLE IF EXISTS Player";
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            PreparedStatement stmt = conn.prepareStatement(queryFriendship);
+            stmt.executeQuery();
+            stmt = conn.prepareStatement(queryPlayer);
+            stmt.executeQuery();
+        }catch(SQLException e){
+            System.err.println("Error dropping database: " + e);
+            e.printStackTrace();
+        }
+        DatabaseDriver.fetchDatabase(buildFile);
+    }
 
     public static void fetchDatabase(File file){
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -32,6 +67,7 @@ public class DatabaseDriver
             System.err.println("Database File Missing: " + e);
         }catch(SQLException e){
             System.err.println("SQL Error: " + e);
+            e.printStackTrace();
         }
     }
 
@@ -142,6 +178,7 @@ public class DatabaseDriver
 
         return players;
     }
+
 
     public static void main(String args[]){
         DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));

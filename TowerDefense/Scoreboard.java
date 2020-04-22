@@ -32,6 +32,8 @@ public class Scoreboard extends Thread implements ActionListener
     private static final Color COLOR_BACK = Color.BLACK;
     //constant for font name
     private static final String TEXT_FONT = "Rockwell";
+    //database file name
+    private static File databaseFile = new File("dropCreateSampleDatabase.txt");
 
     //instance variables
     //variables for storing information
@@ -90,7 +92,9 @@ public class Scoreboard extends Thread implements ActionListener
      * 
      */
     public void run(){
-        //DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
+        //check that the database exists
+        DatabaseDriver.setBuildFile(databaseFile);
+        DatabaseDriver.checkDatabase();
 
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();
