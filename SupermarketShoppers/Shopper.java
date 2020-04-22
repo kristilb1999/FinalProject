@@ -53,5 +53,15 @@ abstract public class Shopper extends Thread
         this.jailedProb = jailedProb;
     }
     
+    public int getMorality()
+    {
+        return morality;
+    }
+    
+    public void setMorality(int morality)
+    {
+        this.morality = morality;
+    }
+    
 
 }
