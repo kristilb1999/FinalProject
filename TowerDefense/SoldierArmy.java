@@ -177,6 +177,7 @@ public class SoldierArmy extends Thread
             Soldier soldier = SoldierProvider.getRandom(container, this, X_START, Y_STOP, difficultyLevel);
             synchronized(soldierLock){
                 soldierList.add(soldier);
+                soldier.setWeapons(wList);
                 soldier.start();
             }
         }
