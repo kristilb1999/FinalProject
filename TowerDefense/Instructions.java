@@ -186,7 +186,6 @@ public class Instructions extends Thread implements ActionListener
         extraInformation.setEditable(false);
         extraInformation.setFocusable(false);
         extraInformation.setBackground(UIManager.getColor("Label.background"));
-        extraInformation.setFont(UIManager.getFont("Label.font"));
         extraInformation.setBorder(UIManager.getBorder("Label.border"));
 
         //IF THE FILE IS VALID, ADD ALL INFO INTO THE TEXT AREA
