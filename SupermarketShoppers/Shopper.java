@@ -16,6 +16,8 @@ abstract public class Shopper extends Thread
     protected double cash;
 
     protected double jailedProb;
+    
+    protected double panicShopping;
 
     protected int morality;
 
