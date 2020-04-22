@@ -33,10 +33,10 @@ public class Hunchback extends Soldier
      * @param container The container to repaint the soldier in.
      * @param tower The reference to the tower in the game.
      */
-    public Hunchback(Point2D.Double position, JComponent container, TowerDefense tower)
+    public Hunchback(Point2D.Double position, JComponent container, SoldierArmy army)
     {
         //CALLS THE SUPER CONTRUCTOR FOR THE SOLDIER
-        super(position, container, tower);
+        super(position, container, army);
         
         //CREATES THE IMAGE OF THE HUNCHBACK SOLDIER AND GIVES IT A SIZE
         Toolkit toolkit = Toolkit.getDefaultToolkit();

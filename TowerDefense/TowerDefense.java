@@ -143,8 +143,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     // OBJECTS THAT SERVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
     private Object weaponLock = new Object();
-    private Object soldierLock = new Object();
-    private Object healthLock = new Object();
+    private Object soldierArmyLock = new Object();
 
     /**
      * This method will repaint our background scene and the tower. It will also ensure that all enemies 
@@ -207,7 +206,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //REDRAW EACH SOLDIER AT ITS CURRENT POSITION AND REMOVE THE ONES THAT ARE DONE ALONG THE WAY
         //SINCE WE WILL BE MODIFYING THE LIST, WE WILL LOCK ACCESS SO THAT NO CONCURRENT EXCEPTION WILL OCCUR
-        synchronized (soldierLock) {
+        synchronized (soldierArmyLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
 
@@ -619,14 +618,17 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE QUIT BUTTON BECOMES INVISIBLE
         //quit.setVisible(false);
 
-        //ENDS LEFTOVER ENEMIES THREADS
-        for(SoldierArmy sa : soldierArmyList) {
-            sa.killSoldiers();
+        //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
+        synchronized(soldierArmyLock){
+            for(SoldierArmy sa : soldierArmyList) {
+                sa.killSoldiers();
+                soldierArmyList.clear();
+            }
         }
 
-        //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
-        weaponList.clear();
-        soldierArmyList.clear();
+        synchronized(weaponLock){
+            weaponList.clear();
+        }
     }
 
     /**
@@ -635,7 +637,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void startRound(Difficulty difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
         SoldierArmy army = new SoldierArmy(difficulty, panel, this);
-        soldierArmyList.add(army);
+        synchronized(soldierArmyLock){
+            soldierArmyList.add(army);
+        }
         army.start();
     }
 
@@ -764,6 +768,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
      */
     public HealthBar getHealthBar() {
         return this.healthBar;
+    }
+
+    /**
+     * Updates the tower healthBar with the damage done to the tower.
+     * 
+     * @param damage the damage done to the tower
+     */
+    public void damage(int damage){
+        healthBar.reduce(damage);
     }
 
     /**

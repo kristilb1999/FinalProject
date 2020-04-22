@@ -25,7 +25,7 @@ public class SoldierProvider
      * 
      * @return The Weapon that the QuarterMaster has chosen for the user.
      */
-    public static Soldier getRandom(JComponent container, TowerDefense tower, int x_start, int y_stop, Difficulty difficultyLevel){
+    public static Soldier getRandom(JComponent container, SoldierArmy army, int x_start, int y_stop, Difficulty difficultyLevel){
         //CREATE A RANDOM OBJECT
         Random r = new Random();
 
@@ -63,19 +63,19 @@ public class SoldierProvider
         switch(soldierType){
             case 1:
             //A LITTLE FASTER THAN THE AVERAGE ZOMBIE
-            soldier = new Hunchback(startSpot, container, tower);
+            soldier = new Hunchback(startSpot, container, army);
             break;
             case 2:
             //THIS GUY ISN'T A SLOUCH WHEN IT COMES TO SPEED WALKING
-            soldier = new BigEye(startSpot, container, tower);
+            soldier = new BigEye(startSpot, container,  army);
             break;
             case 3:
             //ARR, HE'S COMING TO GET YOUR BOOTY
-            soldier = new Pirate(startSpot, container, tower);
+            soldier = new Pirate(startSpot, container,  army);
             break;
             default:
             //WEAKEST SOLDIER
-            soldier = new AverageZombie(startSpot, container, tower);
+            soldier = new AverageZombie(startSpot, container,  army);
         }
 
         //RETURN THE NEW SOLDIER
