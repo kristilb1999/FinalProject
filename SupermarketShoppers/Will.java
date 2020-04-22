@@ -13,7 +13,7 @@ public class Will extends Shopper
 
     public static final int MAX_CASH = 600;
 
-    public static final double JAIL_PROB = 20;
+    public static final double ONE_HUNDRED= 100;
     /**
      * Constructor for objects of class Shoppers
      */
@@ -23,7 +23,8 @@ public class Will extends Shopper
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        jailedProb = random.nextInt((int) JAIL_PROB * MORALITY_NUM);
+        jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+        panicShopping = (random.nextDouble() * ONE_HUNDRED) / MORALITY_NUM;
     }
 
     @Override
