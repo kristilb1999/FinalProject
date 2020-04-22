@@ -38,5 +38,20 @@ abstract public class Shopper extends Thread
         return cash;
     }
     
+    public void setCash(double cash)
+    {
+        this.cash = cash;
+    }
+    
+    public double getJailedProb()
+    {
+        return jailedProb;
+    }
+    
+    public void setJailedProb(double jailedProb)
+    {
+        this.jailedProb = jailedProb;
+    }
+    
 
 }
