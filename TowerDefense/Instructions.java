@@ -19,7 +19,7 @@ public class Instructions extends Thread implements ActionListener
 {
     //THE SIZE OF THE DIALOG BOX
     private static final int WINDOW_WIDTH = 1000;
-    private static final int WINDOW_HEIGHT = 800;
+    private static final int WINDOW_HEIGHT = 775;
 
     //THE SIZE OF THE PANEL HOLDING THE INSTRUCTIONS
     private static final int PANEL_WIDTH = 900;
@@ -58,20 +58,8 @@ public class Instructions extends Thread implements ActionListener
 
     //THE PANELS TO HOLD ALL INFORMATION TO DISPLAY
     private JPanel instructionPanel;
-    private JPanel picturePanel;
+    private JPanel textPanel;
     private JPanel buttonPanel;
-
-    //OBJECT THAT CREATES SCALED IMAGE OF EACH TYPE OF SOLDIER
-    private ImageComponent aveZom;
-    private ImageComponent bigEye;
-    private ImageComponent hunchback;
-    private ImageComponent pirate;
-
-    //IMAGES OF EACH SOLDIER
-    private ImageIcon aveZomPic;
-    private ImageIcon bigEyePic;
-    private ImageIcon hunchbackPic;
-    private ImageIcon piratePic;
 
     //LABELS TO HOLD INFO OF EACH SOLDIER
     private JLabel aveZomLabel;
@@ -79,35 +67,11 @@ public class Instructions extends Thread implements ActionListener
     private JLabel hunchbackLabel;
     private JLabel pirateLabel;
 
-    //LABELS TO HOLD INFO OF EACH SOLDIER PICTURE
-    private JLabel aveZomPicLabel;
-    private JLabel bigEyePicLabel;
-    private JLabel hunchbackPicLabel;
-    private JLabel piratePicLabel;
-
-    //OBJECT THAT CREATES SCALED IMAGE OF EACH TYPE OF WEAPON
-    private ImageComponent grenade;
-    private ImageComponent molotovCocktail;
-    private ImageComponent tnt;
-    private ImageComponent boulder;
-
-    //IMAGES OF EACH WEAPON
-    private ImageIcon grenadePic;
-    private ImageIcon molotovCocktailPic;
-    private ImageIcon tntPic;
-    private ImageIcon boulderPic;
-
     //LABELS FOR EACH TYPE OF WEAPON
     private JLabel grenadeLabel;
     private JLabel molotovCocktailLabel;
     private JLabel tntLabel;
     private JLabel boulderLabel;
-
-    //LABELS FOR EACH TYPE OF WEAPON PICTURE
-    private JLabel grenadePicLabel;
-    private JLabel molotovCocktailPicLabel;
-    private JLabel tntPicLabel;
-    private JLabel boulderPicLabel;
 
     //TEXT AREA TO HOLD ALL READ IN INSTRUCTIONS
     private JTextArea extraInformation;
@@ -139,7 +103,7 @@ public class Instructions extends Thread implements ActionListener
         instructionDialog.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
         //CREATES THE CLOSE BUTTON
-        closeButton = new JButton("Close");
+        closeButton = new JButton("     Close     ");
         closeButton.setFont(USE_THIS_FONT);
         closeButton.setForeground(Color.WHITE);
         closeButton.setBackground(Color.BLACK);
@@ -150,7 +114,7 @@ public class Instructions extends Thread implements ActionListener
         instructionPanel.setBackground(BACKGROUND_COLOR);
 
         //CREATES PANEL TO HOLD PICTURES AND LABELS
-        picturePanel =  new JPanel() {
+        textPanel =  new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
                 //CALL THE PAINTCOMPONENT METHOD WE ARE OVERRIDING IN JPANEL
@@ -160,9 +124,9 @@ public class Instructions extends Thread implements ActionListener
                 //redrawScene(g);
             }
         };
-        picturePanel.setLayout(new BoxLayout(picturePanel, BoxLayout.Y_AXIS));
-        picturePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        picturePanel.setBackground(BRICK_COLOR);
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        textPanel.setBackground(BRICK_COLOR);
 
         //CREATES PANEL TO HOLD CLOSE BUTTON
         buttonPanel = new JPanel();
@@ -171,62 +135,46 @@ public class Instructions extends Thread implements ActionListener
         
         //INFO ABOUT AVERAGE ZOMBIE
         aveZomLabel = new JLabel("Average Zombie: Speed: 2 Strength: 1 Worth: 100 points");
-        aveZom = new ImageComponent(AVE_ZOM_FILE, 20, 40);
 
         //INFO ABOUT HUNCHBACK 
         hunchbackLabel = new JLabel("Hunchback: Speed: 5 Strength: 2 Worth: 200 points");
-        hunchback = new ImageComponent(HUNCHBACK, 20, 40);
-
+        
         //INFO ABOUT BIG EYE 
         bigEyeLabel = new JLabel("Big Eye: Speed: 7 Strength: 3 Worth: 300 points");
-        bigEye = new ImageComponent(BIG_EYE, 20, 40);
-
+        
         //INFO ABOUT PIRATE
         pirateLabel = new JLabel("Pirate: Speed: 10 Strength: 5 Worth: 500 points");
-        pirate = new ImageComponent(PIRATE, 20, 40);
-
-        //ADD SOLDIER LABELS AND IMAGES TO THE PICTURE PANEL
-        picturePanel.add(aveZomLabel);
-        picturePanel.add(aveZom);
-
-        picturePanel.add(hunchbackLabel);
-        picturePanel.add(hunchback);
-
-        picturePanel.add(bigEyeLabel);
-        picturePanel.add(bigEye);
-
-        picturePanel.add(pirateLabel);
-        picturePanel. add(pirate);
-
+        
+        //ADD SOLDIER LABELS TO TEXT PANEL
+        textPanel.add(aveZomLabel);
+        
+        textPanel.add(hunchbackLabel);
+        
+        textPanel.add(bigEyeLabel);
+       
+        textPanel.add(pirateLabel);
+        
         //INFO ABOUT GRENADE
         grenadeLabel = new JLabel("Bounces off of the ground and then explodes shortly after.");
-        grenade = new ImageComponent(GRENADE, 10, 10);
-
+        
         //INFO ABOUT MOLOTOV COCKTAIL
         molotovCocktailLabel = new JLabel("Explodes on impact with either ground or enemies into red explosion.");
-        molotovCocktail = new ImageComponent(MOLOTOV_COCKTAIL, 10, 10);
-
+        
         //INFO ABOUT TNT
         tntLabel = new JLabel("Explodes on impact with either ground or enemies into orange explosion.");
-        tnt = new ImageComponent(TNT, 10, 10);
-
+        
         //INFO ABOUT BOULDER
         boulderLabel = new JLabel("Bounces off of the ground.");
-        boulder = new ImageComponent(BOULDER, 10, 10);
-
-        //ADD WEAPON LABELS AND IMAGES TO PICTURE PANEL
-        picturePanel.add(grenadeLabel);
-        picturePanel.add(grenade);
-
-        picturePanel.add(molotovCocktailLabel);
-        picturePanel.add(molotovCocktail);
-
-        picturePanel.add(tntLabel);
-        picturePanel.add(tnt);
-
-        picturePanel.add(boulderLabel);
-        picturePanel.add(boulder);
-
+        
+        //ADD WEAPON LABELS TO TEXT PANEL
+        textPanel.add(grenadeLabel);
+        
+        textPanel.add(molotovCocktailLabel);
+        
+        textPanel.add(tntLabel);
+        
+        textPanel.add(boulderLabel);
+        
         //CODE BASED ON:
         // https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel/26426585
         //CREATES A TEXT AREA THAT LOOKS AND ACTS LIKE A JLABEL
@@ -261,7 +209,7 @@ public class Instructions extends Thread implements ActionListener
         }
 
         //ADD THE REST OF THE INSTRUCTIONS TO THE PANEL
-        picturePanel.add(extraInformation);
+        textPanel.add(extraInformation);
         
         //SETS THE FONT OF ALL TEXT ON SCREEN
         aveZomLabel.setFont(USE_THIS_FONT);
@@ -277,7 +225,7 @@ public class Instructions extends Thread implements ActionListener
         extraInformation.setFont(USE_THIS_FONT);
 
         //SET THE ALIGNMENT OF LABELS TO CENTER
-        picturePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         aveZomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         hunchbackLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -292,7 +240,7 @@ public class Instructions extends Thread implements ActionListener
         extraInformation.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //ADD PICTURE PANEL TO INSTRUCTION PANEL
-        instructionPanel.add(picturePanel);
+        instructionPanel.add(textPanel);
 
         //ADD CLOSE BUTTON TO BUTTON PANEL
         buttonPanel.add(closeButton);
@@ -348,42 +296,5 @@ public class Instructions extends Thread implements ActionListener
      */
     public boolean isVisible() {
         return instructionDialog.isVisible();
-    }
-}
-
-/**
- * This class loads an image from a File and gives it a new size and paints it.
- */
-class ImageComponent extends JComponent {
-    //THE IMAGE TO PAINTS
-    private Image img;
-
-    //THE WIDTH AND HEIGHT OF THE IMAGE
-    private int imgWidth;
-    private int imgHeight;
-
-    public void paint(Graphics g) {
-        g.drawImage(img, imgWidth, imgHeight, null);
-        g.drawOval(50, 50, imgWidth, imgHeight);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        //CALL THE PAINTCOMPONENT METHOD WE ARE OVERRIDING IN JPANEL
-        super.paintComponent(g);
-
-        //g.drawImage(img, imgWidth, imgHeight, null);
-        
-        g.setColor(Color.BLACK);
-        g.drawOval(50, 50, imgWidth, imgHeight);
-    }
-
-    public ImageComponent(String filename, int width, int height) {
-        //CREATES THE IMAGE AND GIVES IT A SIZE
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        img = toolkit.getImage(filename).getScaledInstance(width, height, 0);
-        imgWidth = width;
-        imgHeight = height;
-        setSize(new Dimension(imgWidth, imgHeight));
     }
 }
