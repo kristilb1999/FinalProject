@@ -143,7 +143,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
     // OBJECTS THAT SERVE AS LOCKS FOR THREAD SAFETY IN OUR LIST ACCESS
     private Object weaponLock = new Object();
-    private Object soldierArmyLock = new Object();
+    private Object soldierArmyListLock = new Object();
 
     /**
      * This method will repaint our background scene and the tower. It will also ensure that all enemies 
@@ -206,7 +206,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //REDRAW EACH SOLDIER AT ITS CURRENT POSITION AND REMOVE THE ONES THAT ARE DONE ALONG THE WAY
         //SINCE WE WILL BE MODIFYING THE LIST, WE WILL LOCK ACCESS SO THAT NO CONCURRENT EXCEPTION WILL OCCUR
-        synchronized (soldierArmyLock) {
+        synchronized (soldierArmyListLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
 
@@ -215,7 +215,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
                 else {
                     s.paint(g);
-                    s.setWeaponList(weaponList);
+                    s.setWeaponList((Vector<Weapon>)weaponList.clone());
                     i++;
                 }
             }
@@ -619,7 +619,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //quit.setVisible(false);
 
         //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
-        synchronized(soldierArmyLock){
+        synchronized(soldierArmyListLock){
             for(SoldierArmy sa : soldierArmyList) {
                 sa.killSoldiers();
                 soldierArmyList.clear();
@@ -637,7 +637,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void startRound(Difficulty difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
         SoldierArmy army = new SoldierArmy(difficulty, panel, this);
-        synchronized(soldierArmyLock){
+        synchronized(soldierArmyListLock){
             soldierArmyList.add(army);
         }
         army.start();

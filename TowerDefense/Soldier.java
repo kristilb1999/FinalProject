@@ -181,7 +181,7 @@ abstract public class Soldier extends Thread
      * 
      * @param wList The list of weapons on screen.
      */
-    public void getWeapons(Vector<Weapon> wList){
+    public void setWeapons(Vector<Weapon> wList){
         projectiles = wList;
     }
 

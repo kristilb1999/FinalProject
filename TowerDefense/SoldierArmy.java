@@ -115,7 +115,7 @@ public class SoldierArmy extends Thread
             synchronized(soldierLock){
                 for (Soldier soldier : soldierList) {
                     soldier.paint(g);
-                    soldier.getWeapons(wList);
+                    soldier.setWeapons(wList);
                 }
             }
         }
@@ -175,8 +175,10 @@ public class SoldierArmy extends Thread
             }
 
             Soldier soldier = SoldierProvider.getRandom(container, this, X_START, Y_STOP, difficultyLevel);
-            soldierList.add(soldier);
-            soldier.start();
+            synchronized(soldierLock){
+                soldierList.add(soldier);
+                soldier.start();
+            }
         }
 
         //ALL OF THE ENEMIES HAVE BEEN CREATED
@@ -188,12 +190,16 @@ public class SoldierArmy extends Thread
      */
     public void killSoldiers() {
         //KILL EVERY SOLDIER IN THE ARMY
-        for(Soldier s : soldierList) {
-            s.kill();
+        synchronized(soldierLock){
+            for(Soldier s : soldierList) {
+                s.kill();
+            }
         }
 
         //CLEAR THE LIST
-        soldierList.clear();
+        synchronized(soldierLock){
+            soldierList.clear();
+        }
 
         //SET DONE TO TRUE BECAUSE THE SOLDIER ARMY IS DEAD
         done = true;
