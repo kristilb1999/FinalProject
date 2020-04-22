@@ -48,8 +48,14 @@ public class SoldierArmy extends Thread
     //THE LIST OF WEAPONS CURRENTLY ON THE SCREEN
     private Vector<Weapon> wList;
 
-    //THE TOWERDEFENSE GAME REFERENCE
-    private TowerDefense tower;
+    //THE REFERENCE TO THE ENEMY
+    private TowerDefense enemy;
+
+    //THE REFERENCE TO THE SCOREBOARD
+    private Scoreboard scoreboard;
+
+    //LOCK FOR SOLDIER LIST
+    private Object soldierLock = new Object();
 
     /**
      * Creates an army of enemy Soldiers.
@@ -58,7 +64,7 @@ public class SoldierArmy extends Thread
      * @param container The container to put the enemies in.
      * @param tower The tower game reference.
      */
-    public SoldierArmy(Difficulty difficultyLevel, JComponent container, TowerDefense tower)
+    public SoldierArmy(Difficulty difficultyLevel, JComponent container, TowerDefense enemy)
     {
         //SETS THE DIFFICULTY LEVEL OF THIS PARTICULAR ARMY
         this.difficultyLevel = difficultyLevel;
@@ -79,7 +85,10 @@ public class SoldierArmy extends Thread
         this.allStarted = false;
 
         //SET THE TOWER GAME REFERENCE
-        this.tower = tower; 
+        this.enemy = enemy; 
+
+        //SET THE SCOREBOARD
+        this.scoreboard = enemy.getScoreboard();
     } 
 
     /**
@@ -103,9 +112,11 @@ public class SoldierArmy extends Thread
 
             //IF THERE ARE SOLDIERS LEFT, PAINT EACH ONE AND SET THE LIST OF WEAPONS ON SCREEN
             //TO EACH ONE SO THEY WILL KNOW WHEN THEY HAVE BEEN HIT LATER
-            for (Soldier soldier : soldierList) {
-                soldier.paint(g);
-                soldier.getWeapons(wList);
+            synchronized(soldierLock){
+                for (Soldier soldier : soldierList) {
+                    soldier.paint(g);
+                    soldier.getWeapons(wList);
+                }
             }
         }
     }
@@ -139,8 +150,10 @@ public class SoldierArmy extends Thread
 
                     allDone = true;
                     //THIS ARMY IS DONE WHEN ALL OF ITS SOLDIERS ARE DONE
-                    for (Soldier soldier : soldierList) {
-                        if (!soldier.done()) allDone = false;
+                    synchronized(soldierLock){
+                        for (Soldier soldier : soldierList) {
+                            if (!soldier.done()) allDone = false;
+                        }
                     }
 
                     if(allDone) thisSA.done = true;
@@ -160,8 +173,8 @@ public class SoldierArmy extends Thread
             }
             catch (InterruptedException e) {
             }
-            
-            Soldier soldier = SoldierProvider.getRandom(container, tower, X_START, Y_STOP, difficultyLevel);
+
+            Soldier soldier = SoldierProvider.getRandom(container, this, X_START, Y_STOP, difficultyLevel);
             soldierList.add(soldier);
             soldier.start();
         }
@@ -184,6 +197,19 @@ public class SoldierArmy extends Thread
 
         //SET DONE TO TRUE BECAUSE THE SOLDIER ARMY IS DEAD
         done = true;
+    }
+
+    /**
+     * Calls damage on the enemy to damage the enemy
+     * 
+     * @param damage the amount to damage the enemy by
+     */
+    public void damageEnemy(int damage){
+        enemy.damage(damage);
+    }
+
+    public void updateScore(int score){
+        this.scoreboard.updateScore(score);
     }
 
     /**

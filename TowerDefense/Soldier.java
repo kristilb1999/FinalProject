@@ -51,14 +51,8 @@ abstract public class Soldier extends Thread
     //THE CONTAINER TO REPAINT
     protected JComponent container;
 
-    //THE REFERENCE TO THE TOWER IN THE GAME
-    protected TowerDefense tower;
-    
-    //THE REFERENCE TO THE TOWER'S HEALTHBAR
-    protected HealthBar towerHealthBar;
-    
-    //THE REFERENCE TO THE SCOREBOARD
-    protected Scoreboard towerScoreboard;
+    //THE REFERENCE TO THE ARMY THIS SOLDIER IS IN
+    protected SoldierArmy army;
     
     //THE WIDTH OF THE CONTAINER
     protected int containerWidth;
@@ -70,14 +64,12 @@ abstract public class Soldier extends Thread
      * @param container The container to repaint the soldier in.
      * @param tower The reference to the tower in the game.
      */
-    public Soldier(Point2D.Double position, JComponent container, TowerDefense tower)
+    public Soldier(Point2D.Double position, JComponent container, SoldierArmy army)
     {
         //SETTING ALL OF THE REFERENCES
         this.position = new Point2D.Double(position.x - getSize()/2 , position.y - (3*getSize())/2);
         this.container = container;
-        this.tower = tower;
-        this.towerHealthBar = tower.getHealthBar();
-        this.towerScoreboard = tower.getScoreboard();
+        this.army = army;
         this.containerWidth = container.getWidth();
 
         //THE SOLDIER IS NOT DEAD YET, HE HAS BARELY EVEN LIVED
@@ -140,14 +132,14 @@ abstract public class Soldier extends Thread
             hitsUntilDeath -= numHits;
             
             //UPDATES THE SCORE
-            towerScoreboard.updateScore(getPoints() * numHits);
+            army.updateScore(getPoints() * numHits);
 
             //IF THE ZOMBIE HAS REACHED THE TOWER, STOP MOVING AND DIE
             //MAYBE WE CAN MAKE IT SO THAT THEY DO NOT DIE WHEN THEY REACH THE TOWER,
             //MAYBE THEY SHOULD JUST DO DAMAGE UNTIL THEY ARE KILLED?
             if (position.x > containerWidth - STOP_ZOMB)
             {
-                damageEnemy(getStrength());
+                army.damageEnemy(getStrength());
                 done = true;
             }
 
@@ -267,7 +259,7 @@ abstract public class Soldier extends Thread
      * @param damage the amount to reduce the HealthBar of the enemy by
      */
     protected void damageEnemy(int damage){
-        towerHealthBar.reduce(damage);
+        army.damageEnemy(damage);
     }
 
 }
