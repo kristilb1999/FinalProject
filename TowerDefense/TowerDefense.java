@@ -554,7 +554,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     }
 
     /**
-     * Starts the game by setting booleans and adding buttons.
+     * Starts the game by setting boolean making addition
+     * buttons and labels visible.
      */
     private void startGame(){
         //THE GAME HAS STARTED
@@ -578,9 +579,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(true);
 
-        //THE QUIT BUTTON BECOMES VISIBLE
-        //quit.setVisible(true);
-
         //THE START BUTTON BECOMES THE RESTART BUTTON
         startOrRestart.setText("Restart");
     }
@@ -603,7 +601,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         mediumRound.setVisible(false);
         hardRound.setVisible(false);
 
-        //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
+        //THE AMOUNT OF HEALTH LEFT IS HIDDED
         healthBar.setVisible(false);
 
         //SET SCORE LABEL INVISBLE
@@ -615,9 +613,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE TIME OF DAY BUTTON BECOMES INVISIBLE
         timeOfDay.setVisible(false);
 
-        //THE QUIT BUTTON BECOMES INVISIBLE
-        //quit.setVisible(false);
-
         //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
         synchronized(soldierArmyListLock){
             for(SoldierArmy sa : soldierArmyList) {
@@ -626,9 +621,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }
 
-        synchronized(weaponLock){
-            weaponList.clear();
-        }
+        // synchronized(weaponLock){
+            // weaponList.clear();
+        // }
     }
 
     /**
@@ -786,11 +781,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
      */
     public static void main(String[] args) {
         //THIS WILL PRINT OUT ANY ERRORS IN THE ERROR LOG TEXT FILE
-        try{
-            System.setErr(new PrintStream("error_log.txt"));
-        }catch(FileNotFoundException e){
-            System.err.println("File Not Found: " + e);
-        }
+        // try{
+            // System.setErr(new PrintStream("error_log.txt"));
+        // }catch(FileNotFoundException e){
+            // System.err.println("File Not Found: " + e);
+        // }
 
         //CREATES THE TOWER IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
