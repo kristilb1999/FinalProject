@@ -205,7 +205,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         int i = 0;
 
         //REDRAW EACH SOLDIER AT ITS CURRENT POSITION AND REMOVE THE ONES THAT ARE DONE ALONG THE WAY
-        //SINCE WE WILL BE MODIFYING THE LIST, WE WILL LOCK ACCESS SO THAT NO CONCURRENT EXCEPTION WILL OCCUR
+        //SINCE WE WILL BE MODIFYING THE LIST, WE WILL LOCK ACCESS SO THAT NO CONCURRENT EXCEPTION WILL BE THROWN
         synchronized (soldierArmyListLock) {
             while (i < soldierArmyList.size()) {
                 SoldierArmy s = soldierArmyList.get(i);
@@ -239,7 +239,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }
 
-        //IF THE START BUTTON WAS PRESSED AND THE TOWER IS NOW 
+        //IF THE START BUTTON WAS PRESSED AND THE CURRENT HEALTH IS <=0
         if( gameStarted && healthBar.getHealth() <= 0) {
             int centerX = width/2;
             int centerY = height/2;
@@ -554,7 +554,8 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     }
 
     /**
-     * Starts the game by setting booleans and adding buttons.
+     * Starts the game by setting boolean making addition
+     * buttons and labels visible.
      */
     private void startGame(){
         //THE GAME HAS STARTED
@@ -578,9 +579,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE TIME OF DAY BUTTON BECOMES VISIBLE
         timeOfDay.setVisible(true);
 
-        //THE QUIT BUTTON BECOMES VISIBLE
-        //quit.setVisible(true);
-
         //THE START BUTTON BECOMES THE RESTART BUTTON
         startOrRestart.setText("Restart");
     }
@@ -603,7 +601,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         mediumRound.setVisible(false);
         hardRound.setVisible(false);
 
-        //THE AMOUNT OF HEALTH LEFT IS HIDDED / DOESN'T EXIST
+        //THE AMOUNT OF HEALTH LEFT IS HIDDED
         healthBar.setVisible(false);
 
         //SET SCORE LABEL INVISBLE
@@ -615,9 +613,6 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         //THE TIME OF DAY BUTTON BECOMES INVISIBLE
         timeOfDay.setVisible(false);
 
-        //THE QUIT BUTTON BECOMES INVISIBLE
-        //quit.setVisible(false);
-
         //CLEAR THE SCREEN OF ANY WEAPONS OR ENEMIES
         synchronized(soldierArmyListLock){
             for(SoldierArmy sa : soldierArmyList) {
@@ -626,9 +621,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }
 
-        synchronized(weaponLock){
-            weaponList.clear();
-        }
+        // synchronized(weaponLock){
+            // weaponList.clear();
+        // }
     }
 
     /**
@@ -786,11 +781,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
      */
     public static void main(String[] args) {
         //THIS WILL PRINT OUT ANY ERRORS IN THE ERROR LOG TEXT FILE
-        try{
-            System.setErr(new PrintStream("error_log.txt"));
-        }catch(FileNotFoundException e){
-            System.err.println("File Not Found: " + e);
-        }
+        // try{
+            // System.setErr(new PrintStream("error_log.txt"));
+        // }catch(FileNotFoundException e){
+            // System.err.println("File Not Found: " + e);
+        // }
 
         //CREATES THE TOWER IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
