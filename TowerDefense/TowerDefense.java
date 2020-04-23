@@ -619,12 +619,12 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         synchronized(soldierArmyListLock){
             for(SoldierArmy sa : soldierArmyList) {
                 sa.killSoldiers();
-                soldierArmyList.clear();
             }
+            soldierArmyList.clear();
         }
 
         synchronized(weaponLock){
-        weaponList.clear();
+            weaponList.clear();
         }
     }
 
@@ -634,15 +634,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void startRound(Difficulty difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
         SoldierArmy army = new SoldierArmy(difficulty, panel, this);
-        
+
         synchronized (weaponLock) {
             army.setWeaponList((Vector<Weapon>)weaponList.clone());
         }
-        
+
         synchronized(soldierArmyListLock){
             soldierArmyList.add(army);
         }
-        
+
         army.start();
     }
 
