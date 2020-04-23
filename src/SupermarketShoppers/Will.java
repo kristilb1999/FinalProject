@@ -1,3 +1,5 @@
+package SupermarketShoppers;
+
 import java.util.Vector;
 import java.util.Random;
 /**

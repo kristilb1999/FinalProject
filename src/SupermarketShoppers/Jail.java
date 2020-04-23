@@ -1,3 +1,5 @@
+package SupermarketShoppers;
+
 import java.util.Vector;
 /**
  * Write a description of class Jail here.
