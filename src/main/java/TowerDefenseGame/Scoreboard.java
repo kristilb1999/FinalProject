@@ -1,3 +1,6 @@
+package TowerDefenseGame;
+
+ 
 // going to be lazy about imports in this class
 import java.io.*;
 import java.awt.*;
@@ -91,6 +94,7 @@ public class Scoreboard extends Thread implements ActionListener
      * as well as friendships between players in a database.
      * 
      */
+    @Override
     public void run(){
         //check that the database exists
         if(DatabaseDriver.checkDatabase(databaseFile) > 1){

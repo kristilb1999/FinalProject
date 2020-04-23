@@ -1,3 +1,6 @@
+package TowerDefenseGame;
+
+ 
 //Referenced:
 //https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 //https://www.geeksforgeeks.org/enum-in-java/

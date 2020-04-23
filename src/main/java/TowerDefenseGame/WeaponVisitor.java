@@ -1,4 +1,6 @@
+package TowerDefenseGame;
 
+ 
 /**
  * 
  * This interface defines what methods a WeaponVisitor must have,

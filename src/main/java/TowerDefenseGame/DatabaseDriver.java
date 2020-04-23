@@ -1,3 +1,6 @@
+package TowerDefenseGame;
+
+ 
 import java.io.*;
 import java.sql.*;
 import java.util.Scanner;
@@ -12,7 +15,7 @@ import java.util.Vector;
  */
 public class DatabaseDriver
 {
-    private static String databaseName = "./Player-Friends";
+    private static final String DATABASENAME = "./Player-Friends";
 
     private static File buildFile = new File("dropCreateSampleDatabase.txt");
 
@@ -29,7 +32,7 @@ public class DatabaseDriver
         int exitCode = 0;
         String queryPlayer = "SELECT * FROM Player";
         String queryFriendship = "SELECT * FROM Friendship";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(queryPlayer);
             stmt.executeQuery();
             stmt = conn.prepareStatement(queryFriendship);
@@ -46,7 +49,7 @@ public class DatabaseDriver
     public static int resetDatabase(){
         String queryFriendship = "DROP TABLE IF EXISTS Friendship";
         String queryPlayer = "DROP TABLE IF EXISTS Player";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(queryFriendship);
             stmt.executeUpdate();
             stmt = conn.prepareStatement(queryPlayer);
@@ -60,7 +63,7 @@ public class DatabaseDriver
 
     public static int fetchDatabase(File file){
         int exitCode = 0;
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
 
             Scanner sc = new Scanner(file);
 
@@ -98,7 +101,7 @@ public class DatabaseDriver
     private static int insert(String queryIn){
         int exitCode = 0;
 
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(queryIn);
             stmt.execute();
         }catch(SQLIntegrityConstraintViolationException e){
@@ -118,7 +121,7 @@ public class DatabaseDriver
 
         if(successful){
             String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
-            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
                 PreparedStatement stmt = conn.prepareStatement(query);
                 stmt.executeUpdate();
             }catch(SQLException e){
@@ -136,7 +139,7 @@ public class DatabaseDriver
 
         if(playerName != null && playerName != ""){
             String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
-            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
                 PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rset = stmt.executeQuery();
 
@@ -157,7 +160,7 @@ public class DatabaseDriver
 
         if(playerName != null && playerName != ""){
             String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
-            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+            try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
                 PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rset = stmt.executeQuery();
 
@@ -177,7 +180,7 @@ public class DatabaseDriver
     public static Vector<String> getAllPlayers(){
         Vector players= new Vector<String>();
         String query = "SELECT Name FROM Player";
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rset = stmt.executeQuery();
 
