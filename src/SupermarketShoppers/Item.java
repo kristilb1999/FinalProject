@@ -1,3 +1,5 @@
+package SupermarketShoppers;
+
 
 /**
  * This class gives information about each item in the store.
