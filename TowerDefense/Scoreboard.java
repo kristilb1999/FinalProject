@@ -93,8 +93,9 @@ public class Scoreboard extends Thread implements ActionListener
      */
     public void run(){
         //check that the database exists
-        DatabaseDriver.setBuildFile(databaseFile);
-        DatabaseDriver.checkDatabase();
+        if(DatabaseDriver.checkDatabase(databaseFile) > 1){
+           System.out.println("Scoreboard: Database check failed using build file: " + databaseFile);
+        }
 
         //dialog box for adding a highscore
         saveScoreDialog = new JDialog();

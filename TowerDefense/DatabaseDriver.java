@@ -13,14 +13,20 @@ import java.util.Vector;
 public class DatabaseDriver
 {
     private static String databaseName = "./Player-Friends";
-    
+
     private static File buildFile = new File("dropCreateSampleDatabase.txt");
-    
+
     public static void setBuildFile(File file){
         buildFile = file;
     }
 
-    public static void checkDatabase(){
+    public static int checkDatabase(File file){
+        setBuildFile(file);
+        return checkDatabase();
+    }
+
+    public static int checkDatabase(){
+        int exitCode = 0;
         String queryPlayer = "SELECT * FROM Player";
         String queryFriendship = "SELECT * FROM Friendship";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
@@ -29,27 +35,31 @@ public class DatabaseDriver
             stmt = conn.prepareStatement(queryFriendship);
             stmt.executeQuery();
         }catch(SQLException e){
-            DatabaseDriver.fetchDatabase(buildFile);
+            System.err.println(e + "\n" + "Intact database not found, reloading database from build file: " + buildFile.toString());
+            exitCode = 1 + DatabaseDriver.fetchDatabase(buildFile);
         }
+
+        return exitCode;
     }
-    
+
     //resets the database to the build file
-    public void resetDatabase(){
+    public static int resetDatabase(){
         String queryFriendship = "DROP TABLE IF EXISTS Friendship";
         String queryPlayer = "DROP TABLE IF EXISTS Player";
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
             PreparedStatement stmt = conn.prepareStatement(queryFriendship);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt = conn.prepareStatement(queryPlayer);
-            stmt.executeQuery();
+            stmt.executeUpdate();
         }catch(SQLException e){
             System.err.println("Error dropping database: " + e);
             e.printStackTrace();
         }
-        DatabaseDriver.fetchDatabase(buildFile);
+        return DatabaseDriver.fetchDatabase(buildFile);
     }
 
-    public static void fetchDatabase(File file){
+    public static int fetchDatabase(File file){
+        int exitCode = 0;
         try(Connection conn = DriverManager.getConnection("jdbc:h2:" + databaseName,"sa","");){
 
             Scanner sc = new Scanner(file);
@@ -64,11 +74,15 @@ public class DatabaseDriver
             }
 
         }catch(FileNotFoundException e){
-            System.err.println("Database File Missing: " + e);
+            System.err.println(e + "Database Build File Missing: " + file.toString());
+            exitCode = 1;
         }catch(SQLException e){
             System.err.println("SQL Error: " + e);
             e.printStackTrace();
+            exitCode = 2;
         }
+
+        return exitCode;
     }
 
     public static int addPlayer(String playerName){
@@ -177,122 +191,5 @@ public class DatabaseDriver
         }
 
         return players;
-    }
-
-
-    public static void main(String args[]){
-        DatabaseDriver.fetchDatabase(new File("createSampleDatabase.txt"));
-
-        int count = 0;
-        int maxCount = 0;
-        maxCount++;
-        if(DatabaseDriver.addPlayer("Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addPlayer("Will") != 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addPlayer("Not Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addFriendship("Will","Not Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addFriendship("Will","Not Will") != 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getScore("Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getScore("Not Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.setScore("Will",5)){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.setScore("Not Will",10)){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getScore("Will") == 5){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getScore("Not Will") == 10){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getFriends("Will").contains("Not Will")){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addPlayer("Not Not Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.addFriendship("Will","Not Not Will") == 0){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getFriends("Will").contains("Not Not Will")){
-            count++;
-        };
-
-        maxCount++;
-        try{
-            DatabaseDriver.getFriends("Not Will").get(0);
-        }catch(IndexOutOfBoundsException e){
-            count++;
-        }
-
-        maxCount++;
-        if(DatabaseDriver.getAllPlayers().contains("Not Will")){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getAllPlayers().contains("Will")){
-            count++;
-        };
-
-        maxCount++;
-        if(DatabaseDriver.getAllPlayers().contains("Not Not Will")){
-            count++;
-        };
-
-        maxCount++;
-        if(!DatabaseDriver.getAllPlayers().contains("Very Much Not Will")){
-            count++;
-        };
-
-        maxCount++;
-        if(!DatabaseDriver.getAllPlayers().contains("Very Much Will")){
-            count++;
-        };
-
-        System.out.println("Test Complete: " + count + "/" + maxCount + " points earned.");
-
     }
 }
