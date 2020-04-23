@@ -215,7 +215,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
                 }
                 else {
                     s.paint(g);
-                    s.setWeaponList((Vector<Weapon>)weaponList.clone());
+                    synchronized (weaponLock) {
+                        s.setWeaponList((Vector<Weapon>)weaponList.clone());
+                    }
                     i++;
                 }
             }
@@ -621,9 +623,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
             }
         }
 
-        // synchronized(weaponLock){
-            // weaponList.clear();
-        // }
+        synchronized(weaponLock){
+        weaponList.clear();
+        }
     }
 
     /**
@@ -632,9 +634,15 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     private void startRound(Difficulty difficulty){
         //AN ARMY WITH THE SPECIFIED DIFFICULTY WILL BE CREATED, ADDED TO THE LIST, AND STARTED
         SoldierArmy army = new SoldierArmy(difficulty, panel, this);
+        
+        synchronized (weaponLock) {
+            army.setWeaponList((Vector<Weapon>)weaponList.clone());
+        }
+        
         synchronized(soldierArmyListLock){
             soldierArmyList.add(army);
         }
+        
         army.start();
     }
 
@@ -782,9 +790,9 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public static void main(String[] args) {
         //THIS WILL PRINT OUT ANY ERRORS IN THE ERROR LOG TEXT FILE
         // try{
-            // System.setErr(new PrintStream("error_log.txt"));
+        // System.setErr(new PrintStream("error_log.txt"));
         // }catch(FileNotFoundException e){
-            // System.err.println("File Not Found: " + e);
+        // System.err.println("File Not Found: " + e);
         // }
 
         //CREATES THE TOWER IMAGE
