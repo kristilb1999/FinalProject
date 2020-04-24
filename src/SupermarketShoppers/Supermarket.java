@@ -9,7 +9,7 @@ import java.util.Vector;
  */
 public class Supermarket
 {
-    private ShoppingList itemsInStore;
+    private Inventory itemsInStore;
     
     private Vector<Shopper> shoppers;
     
@@ -20,8 +20,11 @@ public class Supermarket
      */
     public Supermarket()
     {
-        itemsInStore = new ShoppingList();
+        itemsInStore = new Inventory();
         itemsInStore.readInItems();
     }
-
+    public boolean containsItem(Item other){
+        boolean hasIt = false;
+        return itemsInStore.contains(other);
+    }
 }
