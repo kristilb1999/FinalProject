@@ -1,6 +1,5 @@
 package SupermarketShoppers;
 
-
 /**
  * This class gives information about each item in the store.
  *
@@ -10,13 +9,13 @@ package SupermarketShoppers;
 public class Item
 {
     private String name;
-    
+
     private int value;
-    
+
     private int itemQuant;
-    
+
     private double price;
-    
+
     /**
      * Constructor for objects of class Item
      */
@@ -47,7 +46,7 @@ public class Item
     {
         this.value = value;
     }
-    
+
     public double getPrice()
     {
         return price;
@@ -57,7 +56,7 @@ public class Item
     {
         this.price = price;
     }
-    
+
     public double getItemQuantity()
     {
         return itemQuant;
@@ -68,4 +67,13 @@ public class Item
         this.itemQuant = itemQuant;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (other instanceof Item){
+            return name.equals(((Item)other).getName());
+        }else{
+            return false;
+        }
+
+    }
 }
