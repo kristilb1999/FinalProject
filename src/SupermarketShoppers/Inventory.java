@@ -32,7 +32,7 @@ public class Inventory
     {
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader(new File(FILE_NAME)));
+            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
             String line;
             while((line = br.readLine()) != null)
             {
@@ -48,10 +48,23 @@ public class Inventory
 
     }
 
+    @Override
+    public String toString(){
+        String out = "";
+        for(Item item : itemList){
+            out += item.toString();
+        }
+        return out;
+    }
+
+    public Vector<Item> getList(){
+        return itemList;
+    }
+
     public boolean contains(Item other){
         boolean out = false;
         int i = 0;
-        
+
         while(!out && i < itemList.size()){
             if (itemList.get(i).equals(other) && itemList.get(i).getItemQuantity() > 0){
                 out = true;

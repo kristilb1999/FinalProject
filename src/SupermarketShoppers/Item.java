@@ -66,7 +66,15 @@ public class Item
     {
         this.itemQuant = itemQuant;
     }
-
+    @Override
+    public String toString(){
+        String out = "";
+        out = out + "Item Name: " + name + "\n";
+        out = out + "Item Value: " + value + "\n";
+        out = out + "Item Quantity: " + itemQuant + "\n";
+        out = out + "Item Price: " + price + "\n\n";
+        return out;
+    }
     @Override
     public boolean equals(Object other){
         if (other instanceof Item){
