@@ -3,7 +3,8 @@ package SupermarketShoppers;
 import java.util.Vector;
 import java.util.Random;
 /**
- * Write a description of class Shoppers here.
+ * An abstract class of people who will be going shopping. Includes many
+ * basic methods shared by the different types of shoppers.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
@@ -28,7 +29,7 @@ abstract public class Shopper extends Thread
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(ShoppingList item)
+    public Shopper(Inventory item)
     {
         shoppingList = new Vector<Item>();
         new Random();

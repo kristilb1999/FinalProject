@@ -19,7 +19,7 @@ public class Will extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(ShoppingList item)
+    public Will(Inventory item)
     {
         super(item);
 

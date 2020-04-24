@@ -19,7 +19,7 @@ public class Jacob extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(ShoppingList item)
+    public Jacob(Inventory item)
     {
         super(item);
 
@@ -32,6 +32,6 @@ public class Jacob extends Shopper
     @Override
     public void run()
     {
-
+        
     }
 }

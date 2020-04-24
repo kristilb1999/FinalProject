@@ -19,7 +19,7 @@ public class Kristi extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Kristi(ShoppingList item)
+    public Kristi(Inventory item)
     {
         super(item);
 

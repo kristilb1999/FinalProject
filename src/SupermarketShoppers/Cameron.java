@@ -19,7 +19,7 @@ public class Cameron extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Cameron(ShoppingList item)
+    public Cameron(Inventory item)
     {
         super(item);
 
