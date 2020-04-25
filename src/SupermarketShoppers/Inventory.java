@@ -47,6 +47,15 @@ public class Inventory
         }
 
     }
+    
+    public boolean containsItem(Item toCheck){
+        for(int i = 0; i < itemList.size(); i++){
+            if(itemList.get(i).equals(toCheck)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString(){
@@ -73,8 +82,5 @@ public class Inventory
         }
         return out;
     }
-    // public Vector<Item> getShoppingList()
-    // {
-    // }
 
 }
