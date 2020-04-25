@@ -30,9 +30,10 @@ public class Supermarket extends Thread
     public void run() {
         
     }
-    public boolean containsItem(Item other){
-        return itemsInStore.contains(other);
-    }
+    
+//    public boolean containsItem(Item other){
+//        return itemsInStore.contains(other);
+//    }
     
     public static void main(String args[]){
         
