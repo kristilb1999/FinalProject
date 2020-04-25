@@ -214,34 +214,4 @@ public class HealthBar extends Thread
             this.currentHealth = this.startHealth;
         }
     }
-
-    public void resetHealth(int startHealth){
-        synchronized (currentHealthLock) {
-            this.currentHealth = startHealth;
-        }
-    }
-
-    public Object getHealthLock(){
-        return currentHealthLock;
-    }
-
-    public Object getStartHealthLock(){
-        return startHealthLock;
-    }
-
-    public Object getColorsLock(){
-        return colorsLock;
-    }
-
-    public Object getTextLock(){
-        return textLock;
-    }
-
-    public Object getDoneLock(){
-        return doneLock;
-    }
-
-    public Object getVisibleLock(){
-        return visibleLock;
-    }
 }
