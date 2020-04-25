@@ -15,41 +15,95 @@ public class SupermarketManager extends Thread
     private static final int KRISTI = 3;
     private static final int JACOB = 4;
 
-    private Random random = new Random();
+    private Random random;
 
     private final int MAX_PEOPLE = 20;
     private int numShoppers;
 
     private Vector<Shopper> shoppers;
+    
+    private Inventory inventory;
+
+    SupermarketManager(Inventory itemsInStore) {
+        this.inventory = itemsInStore;
+    }
 
     public void run(){
         numShoppers = random.nextInt(MAX_PEOPLE) + 1;
         int shopType;
         Shopper newShopper;
         for (int i = 0; i <numShoppers; i++){
+            
+            Vector<Item> newList = new Vector<Item>();
+            
+            Vector<Item> inventoryList = inventory.getList();
+            
+            int numOfItems;
+            
             shopType = random.nextInt(4) + 1;
             switch(shopType){
                 case WILL :
-                newShopper = new Will();
+                    random = new Random(3);
+                    numOfItems = random.nextInt(7) + 1;
+                    
+                    for(int j = 0; j < numOfItems; j++){
+                        Item itemToAdd = inventoryList.get(j);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+                    
+                newShopper = new Will(newList);
                 break;
                 case CAMERON :
-                newShopper = new Cameron();
+                    random = new Random(7);
+                    numOfItems = random.nextInt(7) + 1;
+                    
+                    for(int j = 0; j < numOfItems; j++){
+                        Item itemToAdd = inventoryList.get(j);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+                    
+                newShopper = new Cameron(newList);
                 break;
                 case KRISTI :
-                newShopper = new Kristi();
+                    random = new Random(9);
+                    numOfItems = random.nextInt(7) +1;
+                    
+                    for(int j = 0; j < numOfItems; j++){
+                        Item itemToAdd = inventoryList.get(j);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+                    
+                newShopper = new Kristi(newList);
                 break;
                 case JACOB :
-                newShopper = new Jacob();
+                    random = new Random(2);
+                    numOfItems = random.nextInt(7) +1;
+                    
+                    for(int j = 0; j < numOfItems; j++){
+                        Item itemToAdd = inventoryList.get(j);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+                    
+                newShopper = new Jacob(newList);
                 break;
                 default :
-                newShopper = new Will();
+                    random = new Random(3);
+                    numOfItems = random.nextInt(7) +1;
+                    
+                    for(int j = 0; j < numOfItems; j++){
+                        Item itemToAdd = inventoryList.get(j);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+                    
+                newShopper = new Will(newList);
             }
             shoppers.add(newShopper);
         }
-
-    }
-
-    public static void main(String args[]){
 
     }
 }
