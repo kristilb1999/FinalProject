@@ -10,7 +10,7 @@ package TowerDefenseGame;
  * @author Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
  * @version Spring 2020
  */
-public enum Difficulty
+enum Difficulty
 {
     EASY(0),MEDIUM(1),HARD(2);
     
