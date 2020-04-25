@@ -24,16 +24,13 @@ public class Supermarket extends Thread
     {
         itemsInStore = new Inventory();
         itemsInStore.readInItems();
-        storeManager = new SupermarketManager(itemsInStore);
+        storeManager = new SupermarketManager(itemsInStore, jail);
+        jail = new Jail();
     }
     
     public void run() {
         
     }
-    
-//    public boolean containsItem(Item other){
-//        return itemsInStore.contains(other);
-//    }
     
     public static void main(String args[]){
         
