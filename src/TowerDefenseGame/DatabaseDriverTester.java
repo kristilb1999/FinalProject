@@ -1,7 +1,7 @@
 package TowerDefenseGame;
 
   
-import java.io.File;
+import java.io.InputStream;
 
 /**
  * This class contains code for testing the functionality of the DatabaseDriver class
@@ -12,11 +12,12 @@ import java.io.File;
 public class DatabaseDriverTester
 {
     public static void main(String args[]){
-        //database build file
-        File databaseBuildFile = new File("dropCreateSampleDatabase.txt");
+        //based on
+        //https://www.novixys.com/blog/read-file-resources-folder-java/
+        InputStream databaseBuildStream = DatabaseDriverTester.class.getResourceAsStream("/dropCreateSampleDatabase.txt");
         
-        //set the build file in the database driver and reset the database
-        DatabaseDriver.setBuildFile(databaseBuildFile);
+        //set the build stream in the database driver and reset the database
+        DatabaseDriver.setBuildStream(databaseBuildStream);
         DatabaseDriver.resetDatabase();
 
         //points
@@ -24,7 +25,7 @@ public class DatabaseDriverTester
         int maxCount = 0;
         //tests
         maxCount++;
-        if(DatabaseDriver.fetchDatabase(databaseBuildFile) == 0){
+        if(DatabaseDriver.fetchDatabase(databaseBuildStream) == 0){
             count++;
         }
         
@@ -34,7 +35,7 @@ public class DatabaseDriverTester
         }
         
         maxCount++;
-        if(DatabaseDriver.checkDatabase(databaseBuildFile) == 0){
+        if(DatabaseDriver.checkDatabase(databaseBuildStream) == 0){
             count++;
         }
         

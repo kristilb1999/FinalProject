@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,9 +44,8 @@ public class Scoreboard extends Thread implements ActionListener
     private static final Color COLOR_BACK = Color.BLACK;
     //constant for font name
     private static final String TEXT_FONT = "Rockwell";
-    //database file name
-    private static File databaseFile = new File("dropCreateSampleDatabase.txt");
-
+    //database file stream
+    private static InputStream databaseStream = DatabaseDriver.class.getResourceAsStream("/dropCreateSampleDatabase.txt");
     //instance variables
     //variables for storing information
     private int score;
@@ -104,8 +104,8 @@ public class Scoreboard extends Thread implements ActionListener
     @Override
     public void run(){
         //check that the database exists
-        if(DatabaseDriver.checkDatabase(databaseFile) > 1){
-           System.out.println("Scoreboard: Database check failed using build file: " + databaseFile);
+        if(DatabaseDriver.checkDatabase(databaseStream) > 1){
+           System.out.println("Scoreboard: Database check failed using build stream:" + databaseStream.toString());
         }
 
         //dialog box for adding a highscore
