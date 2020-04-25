@@ -277,7 +277,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         frame.setPreferredSize(new Dimension(FRAME_WIDTH,FRAME_HEIGHT));
 
         //TELL THE JFRAME THAT WHEN SOMEONE CLOSES THE WINDOW, THE APPLICATION SHOULD TERMINATE
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //CREATE THE INSTRUCTIONS BUTTON
         instructionsButton = new JButton("Instructions");
