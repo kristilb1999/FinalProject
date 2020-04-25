@@ -1,13 +1,11 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.Graphics;
+import java.util.Random;
+import java.util.Vector;
+import javax.swing.JComponent;
 
 /**
  * This class determines how many enemies will attack during each level.

@@ -1,14 +1,10 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
+//imports
+import java.awt.geom.Point2D;
 import java.util.Random;
-import java.awt.geom.*;
+import javax.swing.JComponent;
 
 /**
  * Procures weapons randomly, for the TowerDefense class.

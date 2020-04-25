@@ -1,16 +1,26 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import javax.imageio.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 /**
  * This class creates an instruction guide for the TowerDefense game.

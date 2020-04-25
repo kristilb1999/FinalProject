@@ -1,15 +1,9 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
-
+//imports
+import java.awt.Color;
+import javax.swing.JLabel;
 /**
  * This class is a thread-safe health bar which keeps track of
  * an amount of health and a JLabel, which it updates the

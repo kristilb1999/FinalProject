@@ -1,13 +1,9 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.geom.Point2D;
+import javax.swing.JComponent;
 
 /**
  * This class contains the run method for the weapons that cannot bounce.
@@ -25,6 +21,9 @@ abstract public class InelasticWeapon extends Weapon
   
     /**
      * Creates a weapon with the inability to bounce.
+     * @param container The container in which the weapon will be drawn.
+     * @param position The position of the weapon.
+     * @param inertia The inertia of the weapon.
      */
     public InelasticWeapon(JComponent container, Point2D.Double position, Point2D.Double inertia)
     {
@@ -92,7 +91,7 @@ abstract public class InelasticWeapon extends Weapon
     /**
      * Accepts a WeaponVisitor to visit this weapon.
      * 
-     * @param g The WeaponVisitor to visit this weapon.
+     * @param weaponVisitor The WeaponVisitor to visit this weapon.
      */
     @Override
     public void accept(WeaponVisitor weaponVisitor){

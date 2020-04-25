@@ -1,13 +1,11 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+import javax.swing.JComponent;
 
 /**
  * Boulder is a Weapon, it can bounce off of the floor.

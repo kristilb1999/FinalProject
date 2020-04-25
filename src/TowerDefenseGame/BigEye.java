@@ -1,13 +1,10 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+import javax.swing.JComponent;
 
 /**
  * The BigEye Soldier.
@@ -34,7 +31,7 @@ public class BigEye extends Soldier
      * 
      * @param position The position of the soldier.
      * @param container The container to repaint the soldier in.
-     * @param tower The reference to the tower in the game.
+     * @param army The reference to the army that this soldier will belong to.
      */
     public BigEye(Point2D.Double position, JComponent container, SoldierArmy army)
     {

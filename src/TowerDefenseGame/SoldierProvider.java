@@ -1,14 +1,10 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
+//imports
+import java.awt.geom.Point2D;
 import java.util.Random;
-import java.awt.geom.*;
+import javax.swing.JComponent;
 
 /**
  * Procures Soldiers for the SoldierArmy class.
@@ -22,6 +18,7 @@ public class SoldierProvider
      * Returns a random Soldier from our four options.
      * 
      * @param container The container to paint it in.
+     * @param army The SoldierArmy that is calling this SoldierProvider
      * @param x_start The starting position along the x-axis
      * @param y_stop The factor determining the upper bound of the random starting position along the y-axis
      * @param difficultyLevel The difficulty level.

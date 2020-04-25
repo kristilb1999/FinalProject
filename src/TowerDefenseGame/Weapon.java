@@ -1,13 +1,11 @@
 package TowerDefenseGame;
 
  
-// going to be lazy about imports in this class
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.geom.*;
+//imports
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.geom.Point2D;
+import javax.swing.JComponent;
 
 /**
  * This abstract class outlines exactly what we expect our weapons to be
