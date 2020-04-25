@@ -48,13 +48,13 @@ public class Inventory
 
     }
     
-    public boolean containsItem(Item toCheck){
+    public int containsItem(Item toCheck){
         for(int i = 0; i < itemList.size(); i++){
             if(itemList.get(i).equals(toCheck)){
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class Item
         this.price = price;
     }
 
-    public double getItemQuantity()
+    public int getItemQuantity()
     {
         return itemQuant;
     }
@@ -65,6 +65,10 @@ public class Item
     public void setQuantity(int itemQuant)
     {
         this.itemQuant = itemQuant;
+    }
+    
+    public void updateQuantity(int quantity){
+        this.itemQuant -= quantity;
     }
     @Override
     public String toString(){
