@@ -11,6 +11,7 @@ import java.util.Random;
  */
 abstract public class Shopper extends Thread
 {
+    protected Inventory inventory;
 
     protected Vector<Item> shoppingList;
 
@@ -29,8 +30,9 @@ abstract public class Shopper extends Thread
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(Vector<Item> shoppingList)
+    public Shopper(Vector<Item> shoppingList, Inventory inventory)
     {
+        this.inventory = inventory;
         this.shoppingList = shoppingList;
         random = new Random();
     }

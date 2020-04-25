@@ -10,7 +10,6 @@ import java.util.Random;
  */
 public class Will extends Shopper
 {
-
     public static final int MORALITY_NUM = 1;
 
     public static final int MAX_CASH = 600;
@@ -19,9 +18,9 @@ public class Will extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(Vector<Item> shoppingList)
+    public Will(Vector<Item> shoppingList, Inventory inventory)
     {
-        super(shoppingList);
+        super(shoppingList, inventory);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -32,6 +31,13 @@ public class Will extends Shopper
     @Override
     public void run()
     {
-
+        int i = 0;
+        while(!done) {
+            Item currentItem = shoppingList.get(i);
+            
+            if(inventory.containsItem(currentItem)){
+                
+            }
+        }
     }
 }
