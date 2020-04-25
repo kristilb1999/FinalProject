@@ -26,92 +26,92 @@ public class DatabaseDriverTester
         maxCount++;
         if(DatabaseDriver.fetchDatabase(databaseBuildFile) == 0){
             count++;
-        };
+        }
         
         maxCount++;
         if(DatabaseDriver.checkDatabase() == 0){
             count++;
-        };
+        }
         
         maxCount++;
         if(DatabaseDriver.checkDatabase(databaseBuildFile) == 0){
             count++;
-        };
+        }
         
         maxCount++;
         if(DatabaseDriver.addPlayer("Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addPlayer("Will") != 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addPlayer("Not Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addFriendship("Will","Not Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addFriendship("Will","Not Will") != 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getScore("Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getScore("Not Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.setScore("Will",5)){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.setScore("Not Will",10)){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getScore("Will") == 5){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getScore("Not Will") == 10){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getFriends("Will").contains("Not Will")){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addPlayer("Not Not Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.addFriendship("Will","Not Not Will") == 0){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getFriends("Will").contains("Not Not Will")){
             count++;
-        };
+        }
 
         maxCount++;
         try{
@@ -123,32 +123,32 @@ public class DatabaseDriverTester
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Not Will")){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Will")){
             count++;
-        };
+        }
 
         maxCount++;
         if(DatabaseDriver.getAllPlayers().contains("Not Not Will")){
             count++;
-        };
+        }
 
         maxCount++;
         if(!DatabaseDriver.getAllPlayers().contains("Very Much Not Will")){
             count++;
-        };
+        }
 
         maxCount++;
         if(!DatabaseDriver.getAllPlayers().contains("Very Much Will")){
             count++;
-        };
+        }
         
         maxCount++;
         if(DatabaseDriver.resetDatabase() == 0){
             count++;
-        };
+        }
         
         //printing results
         System.out.println("Test Complete: " + count + "/" + maxCount + " points earned.");
