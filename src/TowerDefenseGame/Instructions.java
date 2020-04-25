@@ -127,16 +127,7 @@ public class Instructions extends Thread implements ActionListener
         instructionPanel.setBackground(BACKGROUND_COLOR);
 
         //CREATES PANEL TO HOLD PICTURES AND LABELS
-        textPanel =  new JPanel() {
-            @Override
-            public void paintComponent(Graphics g) {
-                //CALL THE PAINTCOMPONENT METHOD WE ARE OVERRIDING IN JPANEL
-                super.paintComponent(g);
-
-                //REDRAW THE MAIN SCENE
-                //redrawScene(g);
-            }
-        };
+        textPanel =  new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         textPanel.setBackground(BRICK_COLOR);
