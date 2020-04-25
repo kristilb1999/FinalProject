@@ -91,7 +91,6 @@ public class Scoreboard extends Thread implements ActionListener
     /**
      * Constructs a new Scoreboard.
      * 
-     * @param container The container used for centering the dialog boxes.
      */
     public Scoreboard(){
         this(new JPanel());
@@ -138,7 +137,7 @@ public class Scoreboard extends Thread implements ActionListener
         if(yourName != null){
             Vector<String> yourFriends = DatabaseDriver.getFriends(yourName);
 
-            if(yourFriends.size() == 0){
+            if(yourFriends.isEmpty()){
                 friendNameScoreCombo = new JComboBox<String>();
                 friendScoreLabel.setVisible(false);
                 friendNameScoreCombo.setVisible(false);
@@ -299,6 +298,7 @@ public class Scoreboard extends Thread implements ActionListener
      * 
      * @param e the ActionEvent from pressing a button or changing selection in a combo box
      */
+    @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource().equals(yourNameScoreCombo)){
             refreshFriendNameScoreCombo();
@@ -358,7 +358,7 @@ public class Scoreboard extends Thread implements ActionListener
         if(yourName != null){
             Vector<String> yourFriends = DatabaseDriver.getFriends(yourName);
 
-            if(yourFriends.size() == 0){
+            if(yourFriends.isEmpty()){
                 friendScoreLabel.setVisible(false);
                 friendNameScoreCombo.setVisible(false);
                 selectFriendHighscoreLabel.setVisible(false);
@@ -415,7 +415,7 @@ public class Scoreboard extends Thread implements ActionListener
     }
 
     /**
-     * Opensthe Add Player dialog.
+     * Opens the Add Player dialog.
      * 
      */
     private void addPlayer(){
@@ -434,22 +434,25 @@ public class Scoreboard extends Thread implements ActionListener
         if(yourName.length() != 0 ){
 
             int exitCode = DatabaseDriver.addPlayer(newPlayerNameField.getText());
-            if(exitCode == 0){
-                lastAddedPlayerName = newPlayerNameField.getText();
-                newPlayerNameField.setText("");
-                addPlayerDialog.setVisible(false);
-                refreshYourNameScoreCombo();
-                refreshAddFriend();
-            } else if(exitCode == 1) {
-                JOptionPane.showMessageDialog(null,
-                    "A player with that name already exists, please pick another player name.",
-                    "Player Already Exists",
-                    JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null,
-                    "Error: Player name not saved.\nExit Code: " + exitCode,
-                    "Player Name Not Saved",
-                    JOptionPane.ERROR_MESSAGE);
+            switch (exitCode) {
+                case 0:
+                    lastAddedPlayerName = newPlayerNameField.getText();
+                    newPlayerNameField.setText("");
+                    addPlayerDialog.setVisible(false);
+                    refreshYourNameScoreCombo();
+                    refreshAddFriend();
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null,
+                            "A player with that name already exists, please pick another player name.",
+                            "Player Already Exists",
+                            JOptionPane.ERROR_MESSAGE);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null,
+                            "Error: Player name not saved.\nExit Code: " + exitCode,
+                            "Player Name Not Saved",
+                            JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null,
@@ -510,7 +513,7 @@ public class Scoreboard extends Thread implements ActionListener
             allPlayers.remove(name);
         }
 
-        if(allPlayers.size() == 0){
+        if(allPlayers.isEmpty()){
             JOptionPane.showMessageDialog(null,
                 "You are already friends with everyone.",
                 "All Friendships Already Exist",
@@ -549,29 +552,28 @@ public class Scoreboard extends Thread implements ActionListener
 
         if(yourName != null && friendName != null){
             int exitCode = DatabaseDriver.addFriendship(yourName,friendName);
-            if(exitCode == 0){
-
-                try{
-                    friendNameAddCombo.setSelectedIndex(0);
-                }catch(IllegalArgumentException exc){
-                    friendNameAddCombo.setSelectedItem(null);
-                }
-
-                addFriendDialog.setVisible(false);
-                refreshFriendNameScoreCombo();
-                yourNameScoreCombo.setSelectedItem(yourName);
-                friendNameScoreCombo.setSelectedItem(friendName);
-
-            } else if(exitCode == 1) {
-                JOptionPane.showMessageDialog(null,
-                    "You are already friends with " + friendName + ".",
-                    "Friendship Already Exists",
-                    JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null,
-                    "Error: Friend not added.\nExit Code: " + exitCode,
-                    "Friend Not Added",
-                    JOptionPane.ERROR_MESSAGE);
+            switch (exitCode) {
+                case 0:
+                    try{
+                        friendNameAddCombo.setSelectedIndex(0);
+                    }catch(IllegalArgumentException exc){
+                        friendNameAddCombo.setSelectedItem(null);
+                    }   addFriendDialog.setVisible(false);
+                    refreshFriendNameScoreCombo();
+                    yourNameScoreCombo.setSelectedItem(yourName);
+                    friendNameScoreCombo.setSelectedItem(friendName);
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null,
+                            "You are already friends with " + friendName + ".",
+                            "Friendship Already Exists",
+                            JOptionPane.ERROR_MESSAGE);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null,
+                            "Error: Friend not added.\nExit Code: " + exitCode,
+                            "Friend Not Added",
+                            JOptionPane.ERROR_MESSAGE);
             }
         }
 
