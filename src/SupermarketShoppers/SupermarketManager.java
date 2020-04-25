@@ -39,6 +39,7 @@ public class SupermarketManager extends Thread
             Vector<Item> inventoryList = inventory.getList();
             
             int numOfItems;
+            int itemIndex;
             
             shopType = random.nextInt(4) + 1;
             switch(shopType){
@@ -47,7 +48,8 @@ public class SupermarketManager extends Thread
                     numOfItems = random.nextInt(7) + 1;
                     
                     for(int j = 0; j < numOfItems; j++){
-                        Item itemToAdd = inventoryList.get(j);
+                        itemIndex = random.nextInt(inventoryList.size())+ 1;
+                        Item itemToAdd = inventoryList.get(itemIndex);
                         itemToAdd.setQuantity(random.nextInt(10) + 1);
                         newList.add(itemToAdd);
                     }
@@ -59,7 +61,8 @@ public class SupermarketManager extends Thread
                     numOfItems = random.nextInt(7) + 1;
                     
                     for(int j = 0; j < numOfItems; j++){
-                        Item itemToAdd = inventoryList.get(j);
+                        itemIndex = random.nextInt(inventoryList.size())+ 1;
+                        Item itemToAdd = inventoryList.get(itemIndex);
                         itemToAdd.setQuantity(random.nextInt(10) + 1);
                         newList.add(itemToAdd);
                     }
@@ -71,7 +74,8 @@ public class SupermarketManager extends Thread
                     numOfItems = random.nextInt(7) +1;
                     
                     for(int j = 0; j < numOfItems; j++){
-                        Item itemToAdd = inventoryList.get(j);
+                        itemIndex = random.nextInt(inventoryList.size())+ 1;
+                        Item itemToAdd = inventoryList.get(itemIndex);
                         itemToAdd.setQuantity(random.nextInt(10) + 1);
                         newList.add(itemToAdd);
                     }
@@ -83,7 +87,8 @@ public class SupermarketManager extends Thread
                     numOfItems = random.nextInt(7) +1;
                     
                     for(int j = 0; j < numOfItems; j++){
-                        Item itemToAdd = inventoryList.get(j);
+                        itemIndex = random.nextInt(inventoryList.size())+ 1;
+                        Item itemToAdd = inventoryList.get(itemIndex);
                         itemToAdd.setQuantity(random.nextInt(10) + 1);
                         newList.add(itemToAdd);
                     }
@@ -95,7 +100,8 @@ public class SupermarketManager extends Thread
                     numOfItems = random.nextInt(7) +1;
                     
                     for(int j = 0; j < numOfItems; j++){
-                        Item itemToAdd = inventoryList.get(j);
+                        itemIndex = random.nextInt(inventoryList.size())+ 1;
+                        Item itemToAdd = inventoryList.get(itemIndex);
                         itemToAdd.setQuantity(random.nextInt(10) + 1);
                         newList.add(itemToAdd);
                     }
