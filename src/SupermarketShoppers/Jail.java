@@ -23,7 +23,7 @@ public class Jail extends Thread
      */
     public Jail()
     {
-
+        shoppersInJail = new Vector<Shopper>();
     }
     
     public void run()
@@ -31,9 +31,22 @@ public class Jail extends Thread
         
     }
     
+    public void getArrested(Shopper criminal) 
+    {
+        shoppersInJail.add(criminal);
+    }
+    
     private boolean done()
     {
         return done;
+    }
+    
+    @Override
+    public String toString()
+    {
+        String toPrint = "Shoppers in Jail:\n";
+        toPrint += shoppersInJail.toString();
+        return toPrint;
     }
 
 }
