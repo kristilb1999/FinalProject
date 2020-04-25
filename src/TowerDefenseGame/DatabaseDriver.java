@@ -8,9 +8,6 @@ import java.sql.*;
 import java.util.Scanner;
 import java.util.Vector;
 
- 
-
-
 /**
  * Write a description of class DatabaseDriver here.
  *
@@ -71,7 +68,7 @@ public class DatabaseDriver
 
             Scanner sc = new Scanner(file);
 
-            String query = "";
+            String query;
             PreparedStatement stmt;
             while(sc.hasNextLine()){
 
@@ -93,12 +90,12 @@ public class DatabaseDriver
     }
 
     public static int addPlayer(String playerName){
-        if(playerName == null || playerName == "") return 3;
+        if(playerName == null || "".equals(playerName)) return 3;
         return insert("INSERT INTO Player values ('" + playerName + "',0)");
     }
 
     public static int addFriendship(String name1,String name2){
-        if(name1 == null || name1 == "" || name2 == null|| name2 == "") return 3;
+        if(name1 == null || "".equals(name1) || name2 == null|| "".equals(name2)) return 3;
         return insert("INSERT INTO Friendship values ('" + name1 + "','" + name2 + "')");
     }
 
@@ -121,7 +118,7 @@ public class DatabaseDriver
 
     public static boolean setScore(String playerName,int score){
         boolean successful = true;
-        if(playerName == null || playerName == "") successful = false;
+        if(playerName == null || "".equals(playerName)) successful = false;
 
         if(successful){
             String query = "UPDATE Player SET Player.Score = " + score + " WHERE Player.Name = '" + playerName + "'";
@@ -141,7 +138,7 @@ public class DatabaseDriver
     public static int getScore(String playerName){
         int score = 0;
 
-        if(playerName != null && playerName != ""){
+        if(playerName != null && !"".equals(playerName)){
             String query = "SELECT Score FROM Player WHERE Player.Name = '" + playerName + "'";
             try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
                 PreparedStatement stmt = conn.prepareStatement(query);
@@ -162,7 +159,7 @@ public class DatabaseDriver
     public static Vector<String> getFriends(String playerName){
         Vector friends = new Vector<String>();
 
-        if(playerName != null && playerName != ""){
+        if(playerName != null && !"".equals(playerName)){
             String query = "SELECT Name2 FROM Friendship WHERE Friendship.Name1 = '" + playerName + "'";
             try(Connection conn = DriverManager.getConnection("jdbc:h2:" + DATABASENAME,"sa","");){
                 PreparedStatement stmt = conn.prepareStatement(query);
