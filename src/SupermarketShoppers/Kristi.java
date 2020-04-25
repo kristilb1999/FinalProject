@@ -19,9 +19,9 @@ public class Kristi extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Kristi(Vector<Item> shoppingList, Inventory inventory)
+    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number)
     {
-        super(shoppingList, inventory);
+        super(shoppingList, inventory, number);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -32,6 +32,16 @@ public class Kristi extends Shopper
     @Override
     public void run()
     {
+        
+    }
+    
+    @Override
+    public String toString(){
+        
+        String toPrint = "Kristi's Shopping List:\n";
+        toPrint += "Shopper number: " + shopperNumber + "\n";
+        toPrint += shoppingList.toString();
+        return toPrint;
         
     }
 }

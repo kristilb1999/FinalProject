@@ -19,9 +19,9 @@ public class Jacob extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(Vector<Item> shoppingList, Inventory inventory)
+    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number)
     {
-        super(shoppingList, inventory);
+        super(shoppingList, inventory, number);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -34,4 +34,15 @@ public class Jacob extends Shopper
     {
         
     }
+    
+    @Override
+    public String toString(){
+        
+        String toPrint = "Jacob's Shopping List:\n";
+        toPrint += "Shopper number: " + shopperNumber + "\n";
+        toPrint += shoppingList.toString();
+        return toPrint;
+        
+    }
+    
 }
