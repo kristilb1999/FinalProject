@@ -2,8 +2,13 @@ package TowerDefenseGame;
 
  
 //imports
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -39,9 +44,15 @@ public class Hunchback extends Soldier
         super(position, container, army);
         
         //CREATES THE IMAGE OF THE HUNCHBACK SOLDIER AND GIVES IT A SIZE
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "soldierTypeThree.png";
-        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE + SIZE/2,0);
+        try {
+            typeFilePath = "/soldierTypeThree.png";
+            InputStream imageStream = new BufferedInputStream(DatabaseDriver.class.getResourceAsStream(typeFilePath));
+            Image image = ImageIO.read(imageStream);
+            type = image.getScaledInstance(SIZE,SIZE + SIZE/2,0);
+        } catch (IOException e) {
+            System.out.println("Hunchback: Error loading image");
+            e.printStackTrace();
+        }
         
         //SETS THE HEALTH OF THE SOLDIER
         hitsUntilDeath = 3;

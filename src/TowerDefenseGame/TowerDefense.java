@@ -17,9 +17,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Vector;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -68,7 +72,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public static final double SLING_FACTOR = 2.5;
 
     //THE FILENAME OF THE TOWER IMAGE
-    private static final String TOWER_PIC_FILENAME = "towerImage.png";
+    private static final String TOWER_PIC_FILEPATH = "/towerImage.png";
 
     //THE COLORS FOR THE DIFFICULTY BUTTONS
     private static final Color EASY_COLOR = new Color(13, 201, 6);
@@ -814,8 +818,13 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
         }
 
         //CREATES THE TOWER IMAGE
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        towerPic = toolkit.getImage(TOWER_PIC_FILENAME);
+        try {
+            InputStream imageStream = new BufferedInputStream(DatabaseDriver.class.getResourceAsStream(TOWER_PIC_FILEPATH));
+            towerPic = ImageIO.read(imageStream);
+        } catch (IOException e) {
+            System.out.println("TowerDefense: Error loading image");
+            e.printStackTrace();
+        }
 
         //LAUNCH THE MAIN THREAD THAT WILL MANAGAE THE GUI
         javax.swing.SwingUtilities.invokeLater(new TowerDefense());

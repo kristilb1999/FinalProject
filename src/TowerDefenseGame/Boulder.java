@@ -3,8 +3,16 @@ package TowerDefenseGame;
  
 //imports
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -35,9 +43,16 @@ public class Boulder extends Weapon
         super(container, position, inertia);
         
         //CREATES THE BOULDER IMAGE
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeFour.png";
-        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
+        try {
+            typeFilePath = "/weaponTypeFour.png";
+            InputStream imageStream = new BufferedInputStream(DatabaseDriver.class.getResourceAsStream(typeFilePath));
+            Image image = ImageIO.read(imageStream);
+            type = image.getScaledInstance(SIZE,SIZE,0);
+        } catch (IOException e) {
+            System.out.println("Boulder: Error loading image");
+            e.printStackTrace();
+        }
+        
     }
 
     /**

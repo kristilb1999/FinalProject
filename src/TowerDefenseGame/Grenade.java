@@ -4,8 +4,13 @@ package TowerDefenseGame;
 //imports
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -48,9 +53,15 @@ public class Grenade extends Weapon
         super(container, position, inertia);
 
         //CREATES THE GRENADE IMAGE
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        typeFilePath = "weaponTypeTwo.png";
-        type = toolkit.getImage(typeFilePath).getScaledInstance(SIZE,SIZE,0);
+        try {
+            typeFilePath = "/weaponTypeTwo.png";
+            InputStream imageStream = new BufferedInputStream(DatabaseDriver.class.getResourceAsStream(typeFilePath));
+            Image image = ImageIO.read(imageStream);
+            type = image.getScaledInstance(SIZE,SIZE,0);
+        } catch (IOException e) {
+            System.out.println("Grenade: Error loading image");
+            e.printStackTrace();
+        }
     }
 
     /**
