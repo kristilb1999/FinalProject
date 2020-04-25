@@ -19,9 +19,9 @@ public class Kristi extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Kristi(Inventory item)
+    public Kristi(Vector<Item> shoppingList)
     {
-        super(item);
+        super(shoppingList);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;

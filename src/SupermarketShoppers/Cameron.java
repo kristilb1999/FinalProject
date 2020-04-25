@@ -19,9 +19,9 @@ public class Cameron extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Cameron(Inventory item)
+    public Cameron(Vector<Item> shoppingList)
     {
-        super(item);
+        super(shoppingList);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;

@@ -19,9 +19,9 @@ public class Will extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(Inventory item)
+    public Will(Vector<Item> shoppingList)
     {
-        super(item);
+        super(shoppingList);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;

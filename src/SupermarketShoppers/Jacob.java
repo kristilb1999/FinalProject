@@ -11,17 +11,17 @@ import java.util.Random;
 public class Jacob extends Shopper
 {
 
-    public static final int MORALITY_NUM =4;
+    public static final int MORALITY_NUM = 4;
 
     public static final int MAX_CASH = 600;
 
-    public static final double ONE_HUNDRED= 100;
+    public static final double ONE_HUNDRED = 100;
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(Inventory item)
+    public Jacob(Vector<Item> shoppingList)
     {
-        super(item);
+        super(shoppingList);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;

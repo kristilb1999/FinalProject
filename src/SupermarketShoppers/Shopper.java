@@ -29,10 +29,10 @@ abstract public class Shopper extends Thread
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(Inventory item)
+    public Shopper(Vector<Item> shoppingList)
     {
-        shoppingList = new Vector<Item>();
-        new Random();
+        this.shoppingList = shoppingList;
+        random = new Random();
     }
 
     abstract public void run();
