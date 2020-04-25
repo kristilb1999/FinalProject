@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 
 /**
  * This game is loosely based off of a tower defense game. In this game, 
@@ -53,7 +53,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
     public static final double SLING_FACTOR = 2.5;
 
     //THE FILENAME OF THE TOWER IMAGE
-    private static final String towerPicFilename = "towerImage.png";
+    private static final String TOWER_PIC_FILENAME = "towerImage.png";
 
     //THE COLORS FOR THE DIFFICULTY BUTTONS
     private static final Color EASY_COLOR = new Color(13, 201, 6);
@@ -800,7 +800,7 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
 
         //CREATES THE TOWER IMAGE
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        towerPic = toolkit.getImage(towerPicFilename);
+        towerPic = toolkit.getImage(TOWER_PIC_FILENAME);
 
         //LAUNCH THE MAIN THREAD THAT WILL MANAGAE THE GUI
         javax.swing.SwingUtilities.invokeLater(new TowerDefense());
