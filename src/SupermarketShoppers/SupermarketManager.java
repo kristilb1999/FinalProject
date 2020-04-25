@@ -23,9 +23,12 @@ public class SupermarketManager extends Thread
     private Vector<Shopper> shoppers;
     
     private Inventory inventory;
+    
+    private Jail jail;
 
-    SupermarketManager(Inventory itemsInStore) {
+    SupermarketManager(Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
+        this.jail = jail;
     }
 
     public void run(){
@@ -54,7 +57,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Will(newList, inventory, i);
+                newShopper = new Will(newList, inventory, i, jail);
                 break;
                 case CAMERON :
                     random = new Random(7);
@@ -67,7 +70,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Cameron(newList, inventory, i);
+                newShopper = new Cameron(newList, inventory, i, jail);
                 break;
                 case KRISTI :
                     random = new Random(9);
@@ -80,7 +83,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Kristi(newList, inventory, i);
+                newShopper = new Kristi(newList, inventory, i, jail);
                 break;
                 case JACOB :
                     random = new Random(2);
@@ -93,7 +96,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Jacob(newList, inventory, i);
+                newShopper = new Jacob(newList, inventory, i, jail);
                 break;
                 default :
                     random = new Random(3);
@@ -106,7 +109,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Will(newList, inventory, i);
+                newShopper = new Will(newList, inventory, i, jail);
             }
             shoppers.add(newShopper);
         }
