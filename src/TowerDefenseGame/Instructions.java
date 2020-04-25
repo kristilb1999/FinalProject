@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -40,9 +42,11 @@ public class Instructions extends Thread implements ActionListener
     //THE SIZE OF THE PANEL HOLDING THE BUTTONS
     private static final int BUTTON_PANEL_WIDTH = 900;
     private static final int BUTTON_PANEL_HEIGHT = 100;
-
+    
     //WHERE TO FIND THE EXTRA INSTRUCTIONS
-    private static final String FILENAME = "instructions.txt";
+    //based on
+    //https://www.novixys.com/blog/read-file-resources-folder-java/
+    InputStream instructionsStream = Instructions.class.getResourceAsStream("/instructions.txt");
     
     //THE FONT TO USE
     private static final Font USE_THIS_FONT = new Font("Rockwell", Font.BOLD, 25);
@@ -193,7 +197,7 @@ public class Instructions extends Thread implements ActionListener
 
         //IF THE FILE IS VALID, ADD ALL INFO INTO THE TEXT AREA
         try{
-            BufferedReader br = new BufferedReader(new FileReader(FILENAME));
+            BufferedReader br = new BufferedReader(new InputStreamReader(instructionsStream));
 
             String toAdd = "\n\n\n\n";
 
@@ -204,8 +208,6 @@ public class Instructions extends Thread implements ActionListener
             }
 
             extraInformation.setText(toAdd);
-        }catch(FileNotFoundException e){
-            System.err.println("File not found: " + FILENAME);
         } catch(IOException e) {
             System.err.println("IO Exception: " + e);
         }
