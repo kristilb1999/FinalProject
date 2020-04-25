@@ -13,7 +13,7 @@ public class Cameron extends Shopper
 
     public static final int MORALITY_NUM = 2;
 
-    public static final int MAX_CASH = 600;
+    public static final int MAX_CASH = 1000;
 
     public static final double ONE_HUNDRED = 100;
     /**

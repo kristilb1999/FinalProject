@@ -11,7 +11,7 @@ public class Will extends Shopper
 {
     public static final int MORALITY_NUM = 1;
 
-    public static final int MAX_CASH = 600;
+    public static final int MAX_CASH = 1000;
 
     public static final double ONE_HUNDRED = 100;
     
