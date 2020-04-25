@@ -54,7 +54,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Will(newList, inventory);
+                newShopper = new Will(newList, inventory, i);
                 break;
                 case CAMERON :
                     random = new Random(7);
@@ -67,7 +67,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Cameron(newList, inventory);
+                newShopper = new Cameron(newList, inventory, i);
                 break;
                 case KRISTI :
                     random = new Random(9);
@@ -80,7 +80,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Kristi(newList, inventory);
+                newShopper = new Kristi(newList, inventory, i);
                 break;
                 case JACOB :
                     random = new Random(2);
@@ -93,7 +93,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Jacob(newList, inventory);
+                newShopper = new Jacob(newList, inventory, i);
                 break;
                 default :
                     random = new Random(3);
@@ -106,7 +106,7 @@ public class SupermarketManager extends Thread
                         newList.add(itemToAdd);
                     }
                     
-                newShopper = new Will(newList, inventory);
+                newShopper = new Will(newList, inventory, i);
             }
             shoppers.add(newShopper);
         }
