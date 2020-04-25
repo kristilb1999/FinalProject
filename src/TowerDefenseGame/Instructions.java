@@ -198,7 +198,7 @@ public class Instructions extends Thread implements ActionListener
 
             String toAdd = "\n\n\n\n";
 
-            String line = "";
+            String line;
 
             while((line = br.readLine()) != null) {
                 toAdd += line + "\n";
