@@ -109,7 +109,7 @@ public class Will extends Shopper
 
         String toPrint = "Will's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
-        toPrint += shoppingList.toString();
+        //toPrint += shoppingList.toString();
         return toPrint;
 
     }
