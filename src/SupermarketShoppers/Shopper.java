@@ -30,16 +30,19 @@ abstract public class Shopper extends Thread
     protected boolean done;
     
     protected int shopperNumber;
+    
+    protected SupermarketManager supermarket;
 
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail)
+    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
     {
         shopperNumber = number;
         this.inventory = inventory;
         this.shoppingList = shoppingList;
         this.jail = jail;
+        this.supermarket = supermarket;
         random = new Random();
     }
 
