@@ -18,9 +18,9 @@
     <path>jre</path>
     <bundledJre64Bit>true</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
-    <minVersion>1.7.0_0</minVersion>
-    <maxVersion>1.8.0_252</maxVersion>
-    <jdkPreference>jdkOnly</jdkPreference>
-    <runtimeBits>32</runtimeBits>
+    <minVersion>1.5.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
   </jre>
 </launch4jConfig>
