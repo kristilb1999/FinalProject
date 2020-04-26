@@ -4,7 +4,7 @@ Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 # Windows Installer
 * Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.1.0-alpha/FinalProject-Installer.exe "FinalProject-Installer.exe")
 * Launch from Start Menu Programs
-* Uninstall from Add or Remove Programs to uninstall
+* Uninstall from Add or Remove Programs
 
 # Running in BlueJ
 * Clone this repository
