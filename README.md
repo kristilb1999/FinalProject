@@ -23,7 +23,7 @@ Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 * The project can now be run by clicking 'Run Project' (keyboard shortcut F6) in Netbeans
 * Unzip jre.zip to FinalProject/jre/
 * Create a config.xml file from the config.xml.example file template in FinalProject/misc/, replacing the project path with your own.
-* Install Launch4J from here (tested using version )
-* Install NSIS from here (tested using version )
+* Install [Launch4J](http://launch4j.sourceforge.net/) (tested using version 3.12)
+* Install [NSIS](https://nsis.sourceforge.io/Main_Page) (tested using version 3.05)
 * Navigate to Files (Netbeans Tab), locate build.xml, right click and select Run Target > Other Targets > package-for-installer (if this doesn't work, try running package-for-launch4j first)
 * The Windows installer should now be located in FinalProject/installer/
