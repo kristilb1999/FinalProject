@@ -811,11 +811,11 @@ public class TowerDefense extends MouseAdapter implements Runnable, ActionListen
      */
     public static void main(String[] args) {
         //THIS WILL PRINT OUT ANY ERRORS IN THE ERROR LOG TEXT FILE
-        try{
-        System.setErr(new PrintStream("error_log.txt"));
-        }catch(FileNotFoundException e){
-        System.err.println("File Not Found: " + e);
-        }
+//        try{
+//        System.setErr(new PrintStream("error_log.txt"));
+//        }catch(FileNotFoundException e){
+//        System.err.println("File Not Found: " + e);
+//        }
 
         //CREATES THE TOWER IMAGE
         try {
