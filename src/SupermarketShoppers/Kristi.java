@@ -115,7 +115,7 @@ public class Kristi extends Shopper
 
         String toPrint = "Kristi's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
-        toPrint += shoppingList.toString();
+        //toPrint += shoppingList.toString();
         return toPrint;
 
     }
