@@ -15,12 +15,14 @@ public class Will extends Shopper
 
     public static final double ONE_HUNDRED = 100;
     
+    public boolean startedSnitching;
+    
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail)
+    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
     {
-        super(shoppingList, inventory, number, jail);
+        super(shoppingList, inventory, number, jail, supermarket);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -47,8 +49,10 @@ public class Will extends Shopper
                 if(numInInventory >= itemQuantity){
                     itemToCheck.updateQuantity(itemQuantity);
                     currentItem.setQuantity(0);
+                    currentItem.setQuantity(0);
                     shoppingList.remove(i);
                 }else{
+                    cash -= numInInventory * currentItem.getPrice();
                     itemToCheck.setQuantity(0);
                     currentItem.updateQuantity(numInInventory);
                 }
@@ -64,13 +68,14 @@ public class Will extends Shopper
             
             i++;
             
-            done = shoppingList.isEmpty() || i > shoppingList.size();
+            done = shoppingList.isEmpty() || i > shoppingList.size() || cash <= 0;
             
         }
         
         System.out.println(toString());
         
     }
+
     
     @Override
     public String toString(){
