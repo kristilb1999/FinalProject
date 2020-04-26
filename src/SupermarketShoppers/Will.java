@@ -14,9 +14,9 @@ public class Will extends Shopper
     public static final int MAX_CASH = 1000;
 
     public static final double ONE_HUNDRED = 100;
-    
+
     public boolean startedSnitching;
-    
+
     /**
      * Constructor for objects of class Shoppers
      */
@@ -36,16 +36,16 @@ public class Will extends Shopper
         int i = 0;
         while(!done) {
             Item currentItem = shoppingList.get(i);
-            
+
             int index = inventory.containsItem(currentItem);
             
             if(index > -1){
-                
+
                 Item itemToCheck = inventory.getList().get(index);
-                
+
                 int itemQuantity = currentItem.getItemQuantity();
                 int numInInventory = itemToCheck.getItemQuantity();
-                
+
                 if(numInInventory >= itemQuantity){
                     itemToCheck.updateQuantity(itemQuantity);
                     currentItem.setQuantity(0);
@@ -56,7 +56,7 @@ public class Will extends Shopper
                     itemToCheck.setQuantity(0);
                     currentItem.updateQuantity(numInInventory);
                 }
-                
+
             }else{
                 int numItemsToAdd = random.nextInt(3) + 1;
                 for(int k = 0; k < numItemsToAdd; k++) {
@@ -65,25 +65,52 @@ public class Will extends Shopper
                     shoppingList.add(itemToAdd);
                 }  
             }
-            
+
             i++;
-            
+            checkStealers();
             done = shoppingList.isEmpty() || i > shoppingList.size() || cash <= 0;
-            
+
         }
-        
+
         System.out.println(toString());
-        
+
     }
 
-    
+    public void checkStealers()
+    {
+        for (int i = 0; i < supermarket.getShoppers().size(); i++)
+        {
+            Shopper toCheck = supermarket.getShoppers().get(i);
+            if (toCheck instanceof Kristi)
+            {
+                Kristi kristi = (Kristi) toCheck;
+                if (kristi.isStealing())
+                {
+                    kristi.increaseJailProb();
+                    startedSnitching = true;
+                }
+
+            }
+            else if(toCheck instanceof Jacob)
+            {
+                Jacob jacob = (Jacob) toCheck;
+                if (jacob.isStealing())
+                {
+                    jacob.increaseJailProb();
+                    startedSnitching = true;
+                }
+            }
+
+        }
+    }
+
     @Override
     public String toString(){
-        
+
         String toPrint = "Will's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
         toPrint += shoppingList.toString();
         return toPrint;
-        
+
     }
 }
