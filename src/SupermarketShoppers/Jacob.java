@@ -16,12 +16,14 @@ public class Jacob extends Shopper
     public static final int MAX_CASH = 1000;
 
     public static final double ONE_HUNDRED = 100;
+    
+    public boolean startedStealing;
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail)
+    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
     {
-        super(shoppingList, inventory, number, jail);
+        super(shoppingList, inventory, number, jail, supermarket);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -33,27 +35,41 @@ public class Jacob extends Shopper
     {
         System.out.println(toString());
         int i = 0;
+        int listSize = shoppingList.size();
         while(!done) {
             Item currentItem = shoppingList.get(i);
-            
+
             int index = inventory.containsItem(currentItem);
-            
+
             if(index > -1){
-                
+
                 Item itemToCheck = inventory.getList().get(index);
-                
+
                 int itemQuantity = currentItem.getItemQuantity();
                 int numInInventory = itemToCheck.getItemQuantity();
-                
-                if(numInInventory >= itemQuantity){
+
+                if (numInInventory >= itemQuantity && i > listSize)
+                {
+                    startedStealing = true;
                     itemToCheck.updateQuantity(itemQuantity);
                     currentItem.setQuantity(0);
-                    shoppingList.remove(i);
-                }else{
+                    shoppingList.remove(i); 
+                }else if (numInInventory < itemQuantity && i > listSize){
+                    startedStealing = true;
                     itemToCheck.setQuantity(0);
                     currentItem.updateQuantity(numInInventory);
                 }
-                
+                else if(numInInventory >= itemQuantity){
+                    itemToCheck.updateQuantity(itemQuantity);
+                    cash -= itemQuantity * currentItem.getPrice();
+                    currentItem.setQuantity(0);
+                    shoppingList.remove(i);
+                }else{
+                    cash -= numInInventory * currentItem.getPrice();
+                    itemToCheck.setQuantity(0);
+                    currentItem.updateQuantity(numInInventory);
+                }
+
             }else{
                 int numItemsToAdd = random.nextInt(3) + 1;
                 for(int k = 0; k < numItemsToAdd; k++) {
@@ -62,25 +78,30 @@ public class Jacob extends Shopper
                     shoppingList.add(itemToAdd);
                 }  
             }
-            
+
             i++;
-            
+
             done = shoppingList.isEmpty() || i > shoppingList.size();
-            
+
         }
-        
+
         System.out.println(toString());
-       
+
     }
     
+    public boolean isStealing(boolean stealing)
+    {
+        return startedStealing;
+    }
+
     @Override
     public String toString(){
-        
+
         String toPrint = "Jacob's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
         toPrint += shoppingList.toString();
         return toPrint;
-        
+
     }
-    
+
 }
