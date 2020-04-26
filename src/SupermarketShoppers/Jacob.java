@@ -15,9 +15,13 @@ public class Jacob extends Shopper
 
     public static final int MAX_CASH = 1000;
 
+    public static final int INCREASE_PROB = 5;
+
     public static final double ONE_HUNDRED = 100;
-    
+
     public boolean startedStealing;
+
+    public boolean startedSnitching;
     /**
      * Constructor for objects of class Shoppers
      */
@@ -80,7 +84,7 @@ public class Jacob extends Shopper
             }
 
             i++;
-
+            checkStealers();
             done = shoppingList.isEmpty() || i > shoppingList.size();
 
         }
@@ -88,10 +92,43 @@ public class Jacob extends Shopper
         System.out.println(toString());
 
     }
-    
-    public boolean isStealing(boolean stealing)
+
+    public boolean isStealing()
     {
         return startedStealing;
+    }
+
+    public void checkStealers()
+    {
+        for (int i = 0; i < supermarket.getShoppers().size(); i++)
+        {
+            Shopper toCheck = supermarket.getShoppers().get(i);
+            if (toCheck instanceof Kristi)
+            {
+                Kristi kristi = (Kristi) toCheck;
+                if (kristi.isStealing())
+                {
+                    kristi.increaseJailProb();
+                    startedSnitching = true;
+                }
+
+            }
+
+        }
+    }
+
+    public void increaseJailProb()
+    {
+        if(jailedProb < ONE_HUNDRED)
+        {
+            jailedProb += INCREASE_PROB;
+        }
+        else
+        {
+            done = true;
+            jail.getArrested(this);
+            supermarket.removeShopper(shopperNumber);
+        }
     }
 
     @Override
