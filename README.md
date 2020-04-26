@@ -2,7 +2,7 @@
 Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 
 # Windows Installer
-* Download and run the installer
+* Download and run the [installer](https://github.com/kristilb1999/FinalProject/releases/tag/v0.1.0-alpha)
 * Launch from Start Menu Programs
 * Uninstall of Add or Remove Programs to uninstall
 
