@@ -14,9 +14,11 @@ public class Kristi extends Shopper
     public static final int MORALITY_NUM = 3;
 
     public static final int MAX_CASH = 1000;
+    
+    public static final int INCREASE_PROB = 5;
 
     public static final double ONE_HUNDRED = 100;
-    
+
     public boolean startedStealing;
     /**
      * Constructor for objects of class Shoppers
@@ -89,11 +91,25 @@ public class Kristi extends Shopper
 
     }
 
-    public boolean isStealing(boolean stealing)
+    public boolean isStealing()
     {
         return startedStealing;
     }
-    
+
+    public void increaseJailProb()
+    {
+        if(jailedProb < ONE_HUNDRED)
+        {
+            jailedProb += INCREASE_PROB;
+        }
+        else
+        {
+            done = true;
+            jail.getArrested(this);
+            supermarket.removeShopper(shopperNumber);
+        }
+    }
+
     @Override
     public String toString(){
 
