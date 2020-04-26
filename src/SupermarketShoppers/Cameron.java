@@ -82,7 +82,7 @@ public class Cameron extends Shopper
         
         String toPrint = "Cameron's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
-        toPrint += shoppingList.toString();
+        //toPrint += shoppingList.toString();
         return toPrint;
         
     }
