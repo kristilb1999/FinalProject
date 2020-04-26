@@ -17,7 +17,8 @@ Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 
 # Building and Running in Netbeans 11
 * Create a new Netbeans project (select Java with Ant & Java Application)
-* Clone this repository, replacing build.xml and src/ in project folder
+* Clone this repository, replacing build.xml and src/ in project folder or follow this link to clone a repository using netbeans
+  https://netbeans.org/kb/docs/ide/git.html#clone
 * Right click FinalProject > Properties > Run and enter 'Launcher.LauncherWindow' next to 'Main Class:'
 * Right click "Libraries" under your new project, click Add Jar/Folder.., and select lib/h2-1.4.200.jar 
 * The project can now be run by clicking 'Run Project' (keyboard shortcut F6) in Netbeans
