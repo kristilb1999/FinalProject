@@ -40,7 +40,7 @@ public class Jacob extends Shopper
         System.out.println(toString());
         int i = 0;
         int listSize = shoppingList.size();
-        while(!done) {
+        while(!done && i < shoppingList.size()) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
@@ -136,7 +136,7 @@ public class Jacob extends Shopper
 
         String toPrint = "Jacob's Shopping List:\n";
         toPrint += "Shopper number: " + shopperNumber + "\n";
-        toPrint += shoppingList.toString();
+        //toPrint += shoppingList.toString();
         return toPrint;
 
     }
