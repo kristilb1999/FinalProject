@@ -19,9 +19,9 @@ public class Cameron extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail)
+    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
     {
-        super(shoppingList, inventory, number, jail);
+        super(shoppingList, inventory, number, jail, supermarket);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -48,9 +48,11 @@ public class Cameron extends Shopper
                 
                 if(numInInventory >= itemQuantity){
                     itemToCheck.updateQuantity(itemQuantity);
+                    cash -= itemQuantity * currentItem.getPrice();
                     currentItem.setQuantity(0);
                     shoppingList.remove(i);
                 }else{
+                    cash -= numInInventory * currentItem.getPrice();
                     itemToCheck.setQuantity(0);
                     currentItem.updateQuantity(numInInventory);
                 }
@@ -61,12 +63,13 @@ public class Cameron extends Shopper
                     Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
                     itemToAdd.setQuantity(random.nextInt(5) + 1);
                     shoppingList.add(itemToAdd);
+                    
                 }  
             }
             
             i++;
             
-            done = shoppingList.isEmpty() || i > shoppingList.size();
+            done = shoppingList.isEmpty() || i > shoppingList.size() || cash <= 0;
             
         }
         
