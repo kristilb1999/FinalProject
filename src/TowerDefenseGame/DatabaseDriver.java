@@ -39,7 +39,7 @@ public class DatabaseDriver {
             stmt = conn.prepareStatement(queryFriendship);
             stmt.executeQuery();
         } catch (SQLException e) {
-            //System.err.println(e + "\n" + "Intact database not found, reloading database from build stream: " + buildStream.toString());
+            System.err.println(e + "\n" + "Intact database not found, reloading database from build stream: " + buildStream.toString());
             exitCode = 1 + DatabaseDriver.fetchDatabase(buildStream);
         }
 
