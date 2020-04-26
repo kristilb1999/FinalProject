@@ -10,12 +10,14 @@ import java.util.Vector;
 public class Supermarket extends Thread
 {
     private Inventory itemsInStore;
-    
+
     private Vector<Shopper> shoppers;
-    
+
     private SupermarketManager storeManager;
-    
+
     private Jail jail;
+
+    private boolean done;
 
     /**
      * Constructor for objects of class Supermarket
@@ -27,12 +29,20 @@ public class Supermarket extends Thread
         storeManager = new SupermarketManager(itemsInStore, jail);
         jail = new Jail();
     }
-    
+
     public void run() {
-        
+
+        storeManager.start();
+
     }
-    
+
+    public String toString()
+    {
+        return "Supermarket1 " + storeManager.toString();
+    }
+
     public static void main(String args[]){
-        
+        java.awt.EventQueue.invokeLater(new Supermarket());
+
     }
 }
