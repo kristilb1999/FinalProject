@@ -38,9 +38,11 @@ public class SupermarketManager extends Thread
     }
 
     public void run(){
-        numShoppers = 2;//random.nextInt(MAX_PEOPLE) + 1;
+        numShoppers = random.nextInt(MAX_PEOPLE) + 1;
         int shopType;
+        int shopperID = 0;
         Shopper newShopper;
+        
         for (int i = 0; i < numShoppers; i++){
 
             Vector<Item> newList = new Vector<Item>();
@@ -53,7 +55,6 @@ public class SupermarketManager extends Thread
             shopType = random.nextInt(4) + 1;
             switch(shopType){
                 case WILL :
-                random = new Random(3);
                 numOfItems = random.nextInt(7) + 1;
 
                 for(int j = 0; j < numOfItems; j++){
@@ -63,10 +64,9 @@ public class SupermarketManager extends Thread
                     newList.add(itemToAdd);
                 }
 
-                newShopper = new Will(newList, inventory, i, jail, this);
+                newShopper = new Will(newList, inventory, shopperID, jail, this);
                 break;
                 case CAMERON :
-                random = new Random(7);
                 numOfItems = random.nextInt(7) + 1;
 
                 for(int j = 0; j < numOfItems; j++){
@@ -76,10 +76,9 @@ public class SupermarketManager extends Thread
                     newList.add(itemToAdd);
                 }
 
-                newShopper = new Cameron(newList, inventory, i, jail, this);
+                newShopper = new Cameron(newList, inventory, shopperID, jail, this);
                 break;
                 case KRISTI :
-                random = new Random(9);
                 numOfItems = random.nextInt(7) +1;
 
                 for(int j = 0; j < numOfItems; j++){
@@ -89,10 +88,9 @@ public class SupermarketManager extends Thread
                     newList.add(itemToAdd);
                 }
 
-                newShopper = new Kristi(newList, inventory, i, jail, this);
+                newShopper = new Kristi(newList, inventory, shopperID, jail, this);
                 break;
                 case JACOB :
-                random = new Random(2);
                 numOfItems = random.nextInt(7) +1;
 
                 for(int j = 0; j < numOfItems; j++){
@@ -102,11 +100,10 @@ public class SupermarketManager extends Thread
                     newList.add(itemToAdd);
                 }
 
-                newShopper = new Jacob(newList, inventory, i, jail, this);
+                newShopper = new Jacob(newList, inventory, shopperID, jail, this);
                 
                 break;
                 default :
-                random = new Random(3);
                 numOfItems = random.nextInt(7) +1;
 
                 for(int j = 0; j < numOfItems; j++){
@@ -116,10 +113,11 @@ public class SupermarketManager extends Thread
                     newList.add(itemToAdd);
                 }
 
-                newShopper = new Will(newList, inventory, i, jail, this);
+                newShopper = new Will(newList, inventory, shopperID, jail, this);
             }
             newShopper.start();
             this.shoppers.add(newShopper);
+            shopperID++;
         }
         
         while(!done){
@@ -128,13 +126,10 @@ public class SupermarketManager extends Thread
                 if(customer.done()){
                     numDone++;
                 }
-                System.out.println("number of shoppers. " + this.numShoppers);
-                System.out.println("number of shoppers that are done." + numDone);
             }
             
             if(numDone == shoppers.size()) {
                 this.done = true;
-                System.out.println("super market manager Done has been set to true. " + this.done);
             }
             
             try{
