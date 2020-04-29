@@ -36,22 +36,65 @@ public class ChainStoreOperator extends Thread {
         }
         
         while(!done){
-            int index = 0;
+            int numDone = 0;
             
-            while(index < storesRunning.size()) {
-                Supermarket s = storesRunning.get(index);
-                if(s.done()) {
-                    s.toString();
-                    storesRunning.remove(index);
-                } else {
-                    index++;
+            for(Supermarket store : storesRunning) {
+                if(store.done()){
+                    numDone++;
                 }
             }
             
-            if(storesRunning.size() == 0) {
+            if(numDone == storesRunning.size()) {
                 done = true;
             }
+            
+            try{
+                sleep(DELAY_TIME);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
         }
+        
+        printInformation();
+        
+    }
+    
+    public void printInformation() {
+        
+        System.out.println("All supermarket information:");
+        
+        for(Supermarket store : storesRunning) {
+            store.toString();
+        }
+        
+        System.out.println("Important supermarket information:");
+        
+        String toPrint = 
+                "Most visited store of the day: Store number " + mostPopStore() + "\n" +
+                "Average number of shoppers in one day: " + averageShoppers() + "\n" +
+                "Average number of shoppers sent to jail: " + averageInJail() + "\n" +
+                "Number of panic shoppers from all stores: " + panicShoppers() + "\n" +
+                "Number of people who stole from all stores: " + stealingShoppers();
+    }
+    
+    public int mostPopStore() {
+        return -1;
+    }
+    
+    public int averageShoppers() {
+        return -1;
+    }
+    
+    public int averageInJail() {
+        return -1;
+    }
+    
+    public int panicShoppers() {
+        return -1;
+    }
+    
+    public int stealingShoppers() {
+        return -1;
     }
     
     public static void main(String args[]){
