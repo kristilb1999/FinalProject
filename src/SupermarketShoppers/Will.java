@@ -17,6 +17,8 @@ public class Will extends Shopper
 
     public boolean startedSnitching;
 
+    private Object lock = new Object();
+
     /**
      * Constructor for objects of class Shoppers
      */
@@ -32,29 +34,37 @@ public class Will extends Shopper
     @Override
     public void run()
     {
-        System.out.println(toString());
+        //System.out.println(toString());
+        
+        try{
+                sleep(500);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
+        
         int i = 0;
         while(!done) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
-            
+
             if(index > -1){
+                synchronized (lock) {
+                    Item itemToCheck = inventory.getList().get(index);
 
-                Item itemToCheck = inventory.getList().get(index);
+                    int itemQuantity = currentItem.getItemQuantity();
+                    int numInInventory = itemToCheck.getItemQuantity();
 
-                int itemQuantity = currentItem.getItemQuantity();
-                int numInInventory = itemToCheck.getItemQuantity();
-
-                if(numInInventory >= itemQuantity){
-                    itemToCheck.updateQuantity(itemQuantity);
-                    currentItem.setQuantity(0);
-                    currentItem.setQuantity(0);
-                    shoppingList.remove(i);
-                }else{
-                    cash -= numInInventory * currentItem.getPrice();
-                    itemToCheck.setQuantity(0);
-                    currentItem.updateQuantity(numInInventory);
+                    if(numInInventory >= itemQuantity){
+                        itemToCheck.updateQuantity(itemQuantity);
+                        currentItem.setQuantity(0);
+                        currentItem.setQuantity(0);
+                        shoppingList.remove(i);
+                    }else{
+                        cash -= numInInventory * currentItem.getPrice();
+                        itemToCheck.setQuantity(0);
+                        currentItem.updateQuantity(numInInventory);
+                    }
                 }
 
             }else{
@@ -68,11 +78,11 @@ public class Will extends Shopper
 
             i++;
             checkStealers();
-            done = shoppingList.isEmpty() || i > shoppingList.size() || cash <= 0;
+            done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
 
         }
 
-        System.out.println(toString());
+        //System.out.println(toString());
 
     }
 
@@ -108,8 +118,8 @@ public class Will extends Shopper
     public String toString(){
 
         return "Will's Shopping List\n" +
-                "Shopper number" + shopperNumber + "\n" +
-                shoppingList.toString();
+        "Shopper number" + shopperNumber + "\n" +
+        shoppingList.toString();
 
     }
 }

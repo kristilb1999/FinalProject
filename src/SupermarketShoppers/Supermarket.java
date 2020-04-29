@@ -16,7 +16,7 @@ public class Supermarket extends Thread
     private SupermarketManager storeManager;
 
     private Jail jail;
-    
+
     private int storeNumber;
 
     private boolean done;
@@ -26,33 +26,50 @@ public class Supermarket extends Thread
      */
     public Supermarket(int storeNumber)
     {
-        itemsInStore = new Inventory();
-        itemsInStore.readInItems();
-        storeManager = new SupermarketManager(itemsInStore, jail);
-        jail = new Jail();
+        this.itemsInStore = new Inventory();
+        this.itemsInStore.readInItems();
+        this.jail = new Jail();
+        this.storeManager = new SupermarketManager(itemsInStore, jail);
         this.storeNumber = storeNumber;
+        System.out.println("Supermarket has been created. " + this.storeNumber);
     }
 
     public void run() {
 
-        storeManager.start();
+        this.storeManager.start();
+        System.out.println("Store thread has started.");
         
-        if(storeManager.done()){
-            toString();
-            jail.toString();
-            done = true;
+        // try{
+                // sleep(250);
+            // } catch (InterruptedException e){
+                // System.err.println(e);
+            // } 
+        
+        while(!done) {
+            System.out.println("Are you reaching this point?");
+            if(storeManager.done()){
+                System.out.println("Store thread is finished. done == true");
+                System.out.println(this.toString());
+                System.out.println(this.jail.toString());
+                this.done = true;
+            }
+            
+            try{
+                sleep(250);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
         }
 
     }
-    
+
     public boolean done() {
-        return done;
+        return this.done;
     }
 
     public String toString()
     {
-        return "Supermarket " + storeNumber + "\n" + storeManager.toString();
+        return "Supermarket " + this.storeNumber + "\n" + this.storeManager.toString();
     }
 
-    
 }

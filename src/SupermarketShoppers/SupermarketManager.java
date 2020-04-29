@@ -33,12 +33,12 @@ public class SupermarketManager extends Thread
     SupermarketManager(Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
         this.jail = jail;
-        shoppers = new Vector<Shopper>();
-        random = new Random();
+        this.shoppers = new Vector<Shopper>();
+        this.random = new Random();
     }
 
     public void run(){
-        numShoppers = MAX_PEOPLE;//random.nextInt(MAX_PEOPLE) + 1;
+        numShoppers = 2;//random.nextInt(MAX_PEOPLE) + 1;
         int shopType;
         Shopper newShopper;
         for (int i = 0; i < numShoppers; i++){
@@ -119,7 +119,7 @@ public class SupermarketManager extends Thread
                 newShopper = new Will(newList, inventory, i, jail, this);
             }
             newShopper.start();
-            shoppers.add(newShopper);
+            this.shoppers.add(newShopper);
         }
         
         while(!done){
@@ -128,38 +128,41 @@ public class SupermarketManager extends Thread
                 if(customer.done()){
                     numDone++;
                 }
+                System.out.println("number of shoppers. " + this.numShoppers);
+                System.out.println("number of shoppers that are done." + numDone);
             }
             
             if(numDone == shoppers.size()) {
-                done = true;
+                this.done = true;
+                System.out.println("super market manager Done has been set to true. " + this.done);
             }
             
             try{
-                        sleep(DELAY_TIME);
-                    } catch (InterruptedException e){
-                        System.err.println(e);
-                    }
+                sleep(250);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
         }
 
     }
     
     public boolean done(){
-        return done;
+        return this.done;
     }
 
     public Vector<Shopper> getShoppers()
     {
-        return shoppers;
+        return this.shoppers;
     }
 
     public void removeShopper(int shopperToRemove)
     {
 
-        for (int i = 0; i < shoppers.size(); i++)
+        for (int i = 0; i < this.shoppers.size(); i++)
         {
-            if (shopperToRemove == shoppers.get(i).shopperNumber)
+            if (shopperToRemove == this.shoppers.get(i).shopperNumber)
             {
-                shoppers.remove(i);
+                this.shoppers.remove(i);
             }
 
         }
@@ -167,8 +170,8 @@ public class SupermarketManager extends Thread
     
     @Override
     public String toString() {
-        return "Number of shoppers in the store: " + shoppers.size() + "\n" + 
-                shoppers.toString();
+        return "Number of shoppers in the store: " + this.shoppers.size() + "\n" + 
+                this.shoppers.toString();
         
     }
 }

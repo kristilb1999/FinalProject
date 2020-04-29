@@ -16,7 +16,7 @@ import java.util.Vector;
  */
 public class ChainStoreOperator extends Thread {
     
-    private static final int DELAY_TIME = 33;
+    private static final int DELAY_TIME = 500;
     
     private int numStores;
     
@@ -26,27 +26,37 @@ public class ChainStoreOperator extends Thread {
 
     private ChainStoreOperator(int numStores) {
         this.numStores = numStores;
-        storesRunning = new Vector<Supermarket>();
+        this.storesRunning = new Vector<Supermarket>();
     }
    
     public void run(){
+        System.out.println("Run starts here.");
+        
+        
         for(int i = 0; i < numStores; i++) {
+            System.out.println("Creating stores now. " + i);
             Supermarket nextStore = new Supermarket(i);
             nextStore.start();
             storesRunning.add(nextStore);
         }
         
+        System.out.println("Store has been created and started.");
+        
         while(!done){
+            System.out.println("While loop has been started.");
             int numDone = 0;
             
             for(Supermarket store : storesRunning) {
+                System.out.println("checking if store is finished.");
                 if(store.done()){
+                    System.out.println("Store is finished.");
                     numDone++;
                 }
             }
             
             if(numDone == storesRunning.size()) {
-                done = true;
+                System.out.println("The stores are finished.");
+                this.done = true;
             }
             
             try{
@@ -56,7 +66,7 @@ public class ChainStoreOperator extends Thread {
             } 
         }
         
-        printInformation();
+        this.printInformation();
         
     }
     
@@ -65,7 +75,7 @@ public class ChainStoreOperator extends Thread {
         System.out.println("All supermarket information:");
         
         for(Supermarket store : storesRunning) {
-            store.toString();
+            System.out.println(store.toString());
         }
         
         System.out.println("Important supermarket information:");
@@ -76,6 +86,8 @@ public class ChainStoreOperator extends Thread {
                 "Average number of shoppers sent to jail: " + averageInJail() + "\n" +
                 "Number of panic shoppers from all stores: " + panicShoppers() + "\n" +
                 "Number of people who stole from all stores: " + stealingShoppers();
+                
+        System.out.println(toPrint);
     }
     
     public int mostPopStore() {
@@ -100,15 +112,15 @@ public class ChainStoreOperator extends Thread {
     
     public static void main(String args[]){
         
-        int numStores = 1;
+        int numOfStores = 1;
         
         if (args.length != 1 || !(Integer.parseInt(args[0]) > 0)) {
             System.out.println("The amount of stores to run was not input. One store will be created by default.");
         } else if(Integer.parseInt(args[0]) > 0) {
-            numStores = Integer.parseInt(args[0]);
+            numOfStores = Integer.parseInt(args[0]);
         }
         
-        java.awt.EventQueue.invokeLater(new ChainStoreOperator(numStores));
+        java.awt.EventQueue.invokeLater(new ChainStoreOperator(numOfStores));
 
     }
 }

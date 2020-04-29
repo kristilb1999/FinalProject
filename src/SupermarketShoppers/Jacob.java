@@ -22,6 +22,8 @@ public class Jacob extends Shopper
     public boolean startedStealing;
 
     public boolean startedSnitching;
+
+    private Object lock = new Object();
     /**
      * Constructor for objects of class Shoppers
      */
@@ -37,7 +39,14 @@ public class Jacob extends Shopper
     @Override
     public void run()
     {
-        System.out.println(toString());
+        //System.out.println(toString());
+        
+        try{
+                sleep(500);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
+        
         int i = 0;
         int listSize = shoppingList.size();
         while(!done && i < shoppingList.size()) {
@@ -46,32 +55,33 @@ public class Jacob extends Shopper
             int index = inventory.containsItem(currentItem);
 
             if(index > -1){
+                synchronized (lock) {
+                    Item itemToCheck = inventory.getList().get(index);
 
-                Item itemToCheck = inventory.getList().get(index);
+                    int itemQuantity = currentItem.getItemQuantity();
+                    int numInInventory = itemToCheck.getItemQuantity();
 
-                int itemQuantity = currentItem.getItemQuantity();
-                int numInInventory = itemToCheck.getItemQuantity();
-
-                if (numInInventory >= itemQuantity && i > listSize)
-                {
-                    startedStealing = true;
-                    itemToCheck.updateQuantity(itemQuantity);
-                    currentItem.setQuantity(0);
-                    shoppingList.remove(i); 
-                }else if (numInInventory < itemQuantity && i > listSize){
-                    startedStealing = true;
-                    itemToCheck.setQuantity(0);
-                    currentItem.updateQuantity(numInInventory);
-                }
-                else if(numInInventory >= itemQuantity){
-                    itemToCheck.updateQuantity(itemQuantity);
-                    cash -= itemQuantity * currentItem.getPrice();
-                    currentItem.setQuantity(0);
-                    shoppingList.remove(i);
-                }else{
-                    cash -= numInInventory * currentItem.getPrice();
-                    itemToCheck.setQuantity(0);
-                    currentItem.updateQuantity(numInInventory);
+                    if (numInInventory >= itemQuantity && i > listSize)
+                    {
+                        startedStealing = true;
+                        itemToCheck.updateQuantity(itemQuantity);
+                        currentItem.setQuantity(0);
+                        shoppingList.remove(i); 
+                    }else if (numInInventory < itemQuantity && i > listSize){
+                        startedStealing = true;
+                        itemToCheck.setQuantity(0);
+                        currentItem.updateQuantity(numInInventory);
+                    }
+                    else if(numInInventory >= itemQuantity){
+                        itemToCheck.updateQuantity(itemQuantity);
+                        cash -= itemQuantity * currentItem.getPrice();
+                        currentItem.setQuantity(0);
+                        shoppingList.remove(i);
+                    }else{
+                        cash -= numInInventory * currentItem.getPrice();
+                        itemToCheck.setQuantity(0);
+                        currentItem.updateQuantity(numInInventory);
+                    }
                 }
 
             }else{
@@ -85,11 +95,11 @@ public class Jacob extends Shopper
 
             i++;
             checkStealers();
-            done = shoppingList.isEmpty() || i > shoppingList.size();
+            done = shoppingList.isEmpty() || i >= shoppingList.size();
 
         }
 
-        System.out.println(toString());
+        //System.out.println(toString());
 
     }
 
@@ -135,8 +145,8 @@ public class Jacob extends Shopper
     public String toString(){
 
         return "Jacob's Shopping List\n" +
-                "Shopper number" + shopperNumber + "\n" +
-                shoppingList.toString();
+        "Shopper number" + shopperNumber + "\n" +
+        shoppingList.toString();
 
     }
 
