@@ -26,6 +26,7 @@ public class ChainStoreOperator extends Thread {
 
     private ChainStoreOperator(int numStores) {
         this.numStores = numStores;
+        storesRunning = new Vector<Supermarket>();
     }
    
     public void run(){
