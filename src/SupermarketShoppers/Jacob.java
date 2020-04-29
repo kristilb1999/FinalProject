@@ -39,7 +39,6 @@ public class Jacob extends Shopper
     @Override
     public void run()
     {
-        //System.out.println(toString());
         
         try{
                 sleep(500);
@@ -98,9 +97,6 @@ public class Jacob extends Shopper
             done = shoppingList.isEmpty() || i >= shoppingList.size();
 
         }
-
-        //System.out.println(toString());
-
     }
 
     public boolean isStealing()
@@ -145,8 +141,8 @@ public class Jacob extends Shopper
     public String toString(){
 
         return "Jacob's Shopping List\n" +
-        "Shopper number" + shopperNumber + "\n" +
-        shoppingList.toString();
+        "Shopper number " + shopperNumber + "\n" +
+        shoppingList.toString() + "\n";
 
     }
 

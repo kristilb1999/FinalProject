@@ -27,9 +27,10 @@ public class Jail
     @Override
     public String toString()
     {
-        String toPrint = "Shoppers in Jail:\n";
-        toPrint += shoppersInJail.toString();
-        return toPrint;
+        return 
+            "Shoppers in Jail:\n" +
+            "Number of criminals: " + shoppersInJail.size() + "\n" +
+            shoppersInJail.toString() + "\n";
     }
 
 }

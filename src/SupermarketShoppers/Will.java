@@ -34,7 +34,6 @@ public class Will extends Shopper
     @Override
     public void run()
     {
-        //System.out.println(toString());
         
         try{
                 sleep(500);
@@ -82,8 +81,6 @@ public class Will extends Shopper
 
         }
 
-        //System.out.println(toString());
-
     }
 
     public void checkStealers()
@@ -118,8 +115,8 @@ public class Will extends Shopper
     public String toString(){
 
         return "Will's Shopping List\n" +
-        "Shopper number" + shopperNumber + "\n" +
-        shoppingList.toString();
+        "Shopper number " + shopperNumber + "\n" +
+        shoppingList.toString() + "\n";
 
     }
 }

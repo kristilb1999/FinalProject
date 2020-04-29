@@ -34,8 +34,6 @@ public class Cameron extends Shopper
     @Override
     public void run()
     {
-        //System.out.println(toString());
-        
         try{
                 sleep(500);
             } catch (InterruptedException e){
@@ -82,17 +80,14 @@ public class Cameron extends Shopper
             done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
 
         }
-
-        //System.out.println(toString());
-
     }
 
     @Override
     public String toString(){
 
         return "Cameron's Shopping List\n" +
-        "Shopper number" + shopperNumber + "\n" +
-        shoppingList.toString();
+        "Shopper number " + shopperNumber + "\n" +
+        shoppingList.toString() + "\n";
 
     }
 }

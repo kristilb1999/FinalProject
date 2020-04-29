@@ -31,26 +31,15 @@ public class Supermarket extends Thread
         this.jail = new Jail();
         this.storeManager = new SupermarketManager(itemsInStore, jail);
         this.storeNumber = storeNumber;
-        System.out.println("Supermarket has been created. " + this.storeNumber);
     }
 
     public void run() {
 
         this.storeManager.start();
-        System.out.println("Store thread has started.");
-        
-        // try{
-                // sleep(250);
-            // } catch (InterruptedException e){
-                // System.err.println(e);
-            // } 
         
         while(!done) {
-            System.out.println("Are you reaching this point?");
             if(storeManager.done()){
-                System.out.println("Store thread is finished. done == true");
                 System.out.println(this.toString());
-                System.out.println(this.jail.toString());
                 this.done = true;
             }
             
@@ -69,7 +58,8 @@ public class Supermarket extends Thread
 
     public String toString()
     {
-        return "Supermarket " + this.storeNumber + "\n" + this.storeManager.toString();
+        return "\nSupermarket " + this.storeNumber + "\n" + this.storeManager.toString() +
+            "\n\n " + this.jail.toString();
     }
 
 }

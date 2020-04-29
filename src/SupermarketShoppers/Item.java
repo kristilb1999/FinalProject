@@ -70,15 +70,16 @@ public class Item
     public void updateQuantity(int quantity){
         this.itemQuant -= quantity;
     }
+    
     @Override
     public String toString(){
-        String out = "";
-        out = out + "Item Name: " + name + "\n";
-        out = out + "Item Value: " + value + "\n";
-        out = out + "Item Quantity: " + itemQuant + "\n";
-        out = out + "Item Price: " + price + "\n\n";
-        return out;
+        return
+            "Item Name: " + name + 
+            ", Item Value: " + value +
+            ", Item Quantity: " + itemQuant +
+            ", Item Price: " + price + "\n";
     }
+    
     @Override
     public boolean equals(Object other){
         if (other instanceof Item){

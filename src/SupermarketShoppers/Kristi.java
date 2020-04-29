@@ -38,8 +38,6 @@ public class Kristi extends Shopper
     @Override
     public void run()
     {
-       // System.out.println(toString());
-        
         try{
                 sleep(500);
             } catch (InterruptedException e){
@@ -97,8 +95,6 @@ public class Kristi extends Shopper
             done = shoppingList.isEmpty() || i >= shoppingList.size();
 
         }
-
-        //System.out.println(toString());
         
         try{
                 sleep(500);
@@ -131,8 +127,8 @@ public class Kristi extends Shopper
     public String toString(){
 
         return "Kristi's Shopping List\n" +
-        "Shopper number" + shopperNumber + "\n" +
-        shoppingList.toString();
+        "Shopper number " + shopperNumber + "\n" +
+        shoppingList.toString() + "\n";
 
     }
 }

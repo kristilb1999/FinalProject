@@ -30,32 +30,22 @@ public class ChainStoreOperator extends Thread {
     }
    
     public void run(){
-        System.out.println("Run starts here.");
-        
-        
         for(int i = 0; i < numStores; i++) {
-            System.out.println("Creating stores now. " + i);
             Supermarket nextStore = new Supermarket(i);
             nextStore.start();
             storesRunning.add(nextStore);
         }
         
-        System.out.println("Store has been created and started.");
-        
         while(!done){
-            System.out.println("While loop has been started.");
             int numDone = 0;
             
             for(Supermarket store : storesRunning) {
-                System.out.println("checking if store is finished.");
                 if(store.done()){
-                    System.out.println("Store is finished.");
                     numDone++;
                 }
             }
             
             if(numDone == storesRunning.size()) {
-                System.out.println("The stores are finished.");
                 this.done = true;
             }
             
@@ -71,12 +61,6 @@ public class ChainStoreOperator extends Thread {
     }
     
     public void printInformation() {
-        
-        System.out.println("All supermarket information:");
-        
-        for(Supermarket store : storesRunning) {
-            System.out.println(store.toString());
-        }
         
         System.out.println("Important supermarket information:");
         
