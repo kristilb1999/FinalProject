@@ -10,6 +10,8 @@ import java.util.Vector;
  */
 public class SupermarketManager extends Thread
 {
+    private static final int DELAY_TIME = 33;
+    
     private static final int WILL = 1;
     private static final int CAMERON = 2;
     private static final int KRISTI = 3;
@@ -25,6 +27,8 @@ public class SupermarketManager extends Thread
     private Inventory inventory;
 
     private Jail jail;
+    
+    private boolean done;
 
     SupermarketManager(Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
@@ -117,7 +121,30 @@ public class SupermarketManager extends Thread
             newShopper.start();
             shoppers.add(newShopper);
         }
+        
+        while(!done){
+            int numDone = 0;
+            for(Shopper customer : shoppers) {
+                if(customer.done()){
+                    numDone++;
+                }
+            }
+            
+            if(numDone == shoppers.size()) {
+                done = true;
+            }
+            
+            try{
+                        sleep(DELAY_TIME);
+                    } catch (InterruptedException e){
+                        System.err.println(e);
+                    }
+        }
 
+    }
+    
+    public boolean done(){
+        return done;
     }
 
     public Vector<Shopper> getShoppers()
@@ -136,5 +163,12 @@ public class SupermarketManager extends Thread
             }
 
         }
+    }
+    
+    @Override
+    public String toString() {
+        return "Number of shoppers in the store: " + shoppers.size() + "\n" + 
+                shoppers.toString();
+        
     }
 }
