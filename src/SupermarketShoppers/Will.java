@@ -107,10 +107,9 @@ public class Will extends Shopper
     @Override
     public String toString(){
 
-        String toPrint = "Will's Shopping List:\n";
-        toPrint += "Shopper number: " + shopperNumber + "\n";
-        //toPrint += shoppingList.toString();
-        return toPrint;
+        return "Will's Shopping List\n" +
+                "Shopper number" + shopperNumber + "\n" +
+                shoppingList.toString();
 
     }
 }

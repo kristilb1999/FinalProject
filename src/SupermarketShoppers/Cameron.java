@@ -80,10 +80,9 @@ public class Cameron extends Shopper
     @Override
     public String toString(){
         
-        String toPrint = "Cameron's Shopping List:\n";
-        toPrint += "Shopper number: " + shopperNumber + "\n";
-        //toPrint += shoppingList.toString();
-        return toPrint;
+        return "Cameron's Shopping List\n" +
+                "Shopper number" + shopperNumber + "\n" +
+                shoppingList.toString();
         
     }
 }

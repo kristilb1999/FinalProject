@@ -134,10 +134,9 @@ public class Jacob extends Shopper
     @Override
     public String toString(){
 
-        String toPrint = "Jacob's Shopping List:\n";
-        toPrint += "Shopper number: " + shopperNumber + "\n";
-        //toPrint += shoppingList.toString();
-        return toPrint;
+        return "Jacob's Shopping List\n" +
+                "Shopper number" + shopperNumber + "\n" +
+                shoppingList.toString();
 
     }
 

@@ -113,10 +113,9 @@ public class Kristi extends Shopper
     @Override
     public String toString(){
 
-        String toPrint = "Kristi's Shopping List:\n";
-        toPrint += "Shopper number: " + shopperNumber + "\n";
-        //toPrint += shoppingList.toString();
-        return toPrint;
+        return "Kristi's Shopping List\n" +
+                "Shopper number" + shopperNumber + "\n" +
+                shoppingList.toString();
 
     }
 }
