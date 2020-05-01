@@ -45,7 +45,7 @@ public class Will extends Shopper {
             int itemQuantity = currentItem.getItemQuantity();
             if (cash > 0) {
 
-                int qPurchased = itemToCheck.attemptToBuy(itemQuantity,cash);
+                int qPurchased = itemToCheck.attemptToBuy(itemQuantity, cash);
 
                 if (qPurchased == 0) {
                     panicking = true;
@@ -56,11 +56,8 @@ public class Will extends Shopper {
                         shoppingList.add(itemToAdd);
                     }
                 }
-                
-                cash -= qPurchased * currentItem.getPrice();
 
-//                cash -= (qPurchased * currentItem.getPrice() <= cash
-//                        ? qPurchased * currentItem.getPrice() : cash);
+                cash -= qPurchased * currentItem.getPrice();
             }
 
             i++;
@@ -87,23 +84,11 @@ public class Will extends Shopper {
     }
 
     public void checkStealers() {
+        ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
         for (int i = 0; i < supermarket.getShoppers().size(); i++) {
-            Shopper toCheck = supermarket.getShoppers().get(i);
-            if (toCheck instanceof Kristi) {
-                Kristi kristi = (Kristi) toCheck;
-                if (kristi.isStealing()) {
-                    kristi.increaseJailProb();
-                    startedSnitching = true;
-                }
-
-            } else if (toCheck instanceof Jacob) {
-                Jacob jacob = (Jacob) toCheck;
-                if (jacob.isStealing()) {
-                    jacob.increaseJailProb();
-                    startedSnitching = true;
-                }
+            if (snitching.visit(supermarket.getShoppers().get(i))) {
+                startedSnitching = true;
             }
-
         }
     }
 

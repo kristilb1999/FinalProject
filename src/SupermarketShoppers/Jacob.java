@@ -118,22 +118,12 @@ public class Jacob extends Shopper
         return startedStealing;
     }
 
-    public void checkStealers()
-    {
-        for (int i = 0; i < supermarket.getShoppers().size(); i++)
-        {
-            Shopper toCheck = supermarket.getShoppers().get(i);
-            if (toCheck instanceof Kristi)
-            {
-                Kristi kristi = (Kristi) toCheck;
-                if (kristi.isStealing())
-                {
-                    kristi.increaseJailProb();
-                    startedSnitching = true;
-                }
-
+    public void checkStealers() {
+        ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
+        for (int i = 0; i < supermarket.getShoppers().size(); i++) {
+            if (snitching.visit(supermarket.getShoppers().get(i))) {
+                startedSnitching = true;
             }
-
         }
     }
 
