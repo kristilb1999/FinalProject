@@ -75,23 +75,48 @@ public class ChainStoreOperator extends Thread {
     }
     
     public int mostPopStore() {
-        return -1;
+        int mostPopular = -1;
+        int mostCustomers = 0;
+        for(Supermarket store : storesRunning) {
+            if(store.getNumCustomers() > mostCustomers) {
+                mostPopular = store.getStoreNumber();
+            }
+        }
+        return mostPopular;
     }
     
-    public int averageShoppers() {
-        return -1;
+    public double averageShoppers() {
+        int totalShoppers = 0;
+        for(Supermarket store : storesRunning) {
+            totalShoppers += store.getNumCustomers();
+            totalShoppers += store.numShoppersInJail();
+        }
+        
+        return totalShoppers/numStores;
     }
     
-    public int averageInJail() {
-        return -1;
+    public double averageInJail() {
+        int totalInJail = 0;
+        for(Supermarket store : storesRunning) {
+            totalInJail += store.numShoppersInJail();
+        }
+        return totalInJail/numStores;
     }
     
     public int panicShoppers() {
-        return -1;
+        int totalPanicking = 0;
+        for(Supermarket store : storesRunning) {
+            totalPanicking += store.getNumPanicShopping();
+        }
+        return totalPanicking;
     }
     
     public int stealingShoppers() {
-        return -1;
+        int totalStealing = 0;
+        for(Supermarket store : storesRunning) {
+            totalStealing += store.getNumStealing();
+        }
+        return totalStealing;
     }
     
     public static void main(String args[]){

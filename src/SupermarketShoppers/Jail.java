@@ -23,6 +23,10 @@ public class Jail
     {
         shoppersInJail.add(criminal);
     }
+     
+    public int getNumInJail() {
+        return shoppersInJail.size();
+    }
     
     @Override
     public String toString()
