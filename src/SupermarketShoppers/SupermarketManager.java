@@ -1,5 +1,6 @@
 package SupermarketShoppers;
 
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 import java.util.Vector;
@@ -31,7 +32,7 @@ public class SupermarketManager extends Thread {
     private Jail jail;
 
     private boolean done;
-    
+
     private Object shoppersLock = new Object();
 
     SupermarketManager(Inventory itemsInStore, Jail jail) {
@@ -126,13 +127,16 @@ public class SupermarketManager extends Thread {
 
         while (!done) {
             int numDone = 0;
-            for (Shopper customer : shoppers) {
-                if (customer.done()) {
-                    numDone++;
+
+            synchronized (shoppersLock) {
+                for (Shopper customer : shoppers) {
+                    if (customer.done()) {
+                        numDone++;
+                    }
                 }
             }
 
-            if (numDone == shoppers.size()) {
+            if (numDone == numShoppers) {
                 this.done = true;
             }
 
@@ -149,21 +153,27 @@ public class SupermarketManager extends Thread {
         return this.done;
     }
 
-    public Vector<Shopper> getShoppers() {
+    public Vector<Shopper> getShoppers() throws ConcurrentModificationException {
+        if (!done) {
+            throw new ConcurrentModificationException();
+        }
         return this.shoppers;
     }
 
     public int getNumShoppers() {
-        return this.shoppers.size();
+        synchronized (shoppersLock) {
+            return this.shoppers.size();
+        }
     }
 
     public void removeShopper(int shopperToRemove) {
+        synchronized (shoppersLock) {
+            for (int i = 0; i < this.shoppers.size(); i++) {
+                if (shopperToRemove == this.shoppers.get(i).shopperNumber) {
+                    this.shoppers.remove(i);
+                }
 
-        for (int i = 0; i < this.shoppers.size(); i++) {
-            if (shopperToRemove == this.shoppers.get(i).shopperNumber) {
-                this.shoppers.remove(i);
             }
-
         }
     }
 
