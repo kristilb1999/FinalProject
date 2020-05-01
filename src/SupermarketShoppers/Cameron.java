@@ -15,8 +15,6 @@ public class Cameron extends Shopper {
 
     public static final int MAX_CASH = 1000;
 
-    public static final int ONE_HUNDRED = 100;
-
     public boolean panicking;
 
     private Object lock = new Object();
@@ -34,8 +32,9 @@ public class Cameron extends Shopper {
 
     @Override
     public void run() {
-setMinimumPrice();
-        
+        shopperSleep();
+        setMinimumPrice();
+
         int i = 0;
         while (!done) {
             Item currentItem = shoppingList.get(i);
@@ -65,7 +64,7 @@ setMinimumPrice();
             i++;
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
         }
-        
+
         int j = 0;
         while (j < shoppingList.size()) {
             if (shoppingList.get(j).getItemQuantity() <= 0) {

@@ -11,6 +11,8 @@ import java.util.Random;
  * @version Spring 2020
  */
 abstract public class Shopper extends Thread {
+    
+    public static final int ONE_HUNDRED = 100;
 
     protected Inventory inventory;
 
@@ -103,5 +105,13 @@ abstract public class Shopper extends Thread {
     
     public boolean accept(ShopperVisitor shopperVisitor){
         return shopperVisitor.visit(this);
+    }
+    
+    protected void shopperSleep(){
+        try {
+            sleep(ONE_HUNDRED);
+        } catch (InterruptedException e) {
+            System.err.println(e);
+        }
     }
 }

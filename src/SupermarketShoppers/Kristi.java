@@ -19,8 +19,6 @@ public class Kristi extends Shopper
 
     public static final int SENT_TO_JAIL = 65;
 
-    public static final int ONE_HUNDRED = 100;
-
     public boolean startedStealing;
 
     private Object lock = new Object();
@@ -39,8 +37,9 @@ public class Kristi extends Shopper
     }
 
     @Override
-    public void run()
-    {
+    public void run(){
+        shopperSleep();
+        
         setMinimumPrice();
         
         int i = 0;

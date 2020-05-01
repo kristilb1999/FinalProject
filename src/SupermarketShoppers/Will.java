@@ -14,8 +14,6 @@ public class Will extends Shopper {
 
     public static final int MAX_CASH = 1000;
 
-    public static final int ONE_HUNDRED = 100;
-
     public boolean startedSnitching;
 
     public boolean panicking;
@@ -34,6 +32,8 @@ public class Will extends Shopper {
 
     @Override
     public void run() {
+        shopperSleep();
+        
         setMinimumPrice();
 
         int i = 0;

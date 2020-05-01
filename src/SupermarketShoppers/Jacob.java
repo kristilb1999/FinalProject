@@ -17,8 +17,6 @@ public class Jacob extends Shopper {
 
     public static final int INCREASE_PROB = 5;
 
-    public static final int ONE_HUNDRED = 100;
-
     public boolean startedStealing;
 
     public boolean startedSnitching;
@@ -39,6 +37,8 @@ public class Jacob extends Shopper {
 
     @Override
     public void run() {
+        shopperSleep();
+        
         setMinimumPrice();
 
         int i = 0;
