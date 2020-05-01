@@ -92,7 +92,6 @@ abstract public class Shopper extends Thread {
 
     protected void setMinimumPrice() {
         for (Item item : shoppingList) {
-            System.out.println(item.getPrice());
             minimumPrice = (item.getPrice() < minimumPrice
                     ? item.getPrice() : minimumPrice);
         }

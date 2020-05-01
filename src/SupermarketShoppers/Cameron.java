@@ -37,7 +37,7 @@ public class Cameron extends Shopper {
 setMinimumPrice();
         
         int i = 0;
-        while (!done && i < shoppingList.size()) {
+        while (!done) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
