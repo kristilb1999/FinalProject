@@ -41,28 +41,23 @@ public class Will extends Shopper
 
             int index = inventory.containsItem(currentItem);
 
-          
-                synchronized (lock) {
-                    Item itemToCheck = inventory.getList().get(index);
+            synchronized (lock) {
+                Item itemToCheck = inventory.getList().get(index);
 
-                    int itemQuantity = currentItem.getItemQuantity();
-                    int numInInventory = itemToCheck.getItemQuantity();
+                int itemQuantity = currentItem.getItemQuantity();
+                int numInInventory = itemToCheck.getItemQuantity();
+                if(cash > 0) {
                     if(numInInventory > 0) {
-                        if(cash > 0) {
-                            if(numInInventory >= itemQuantity){
-                                cash -= numInInventory * currentItem.getPrice();
-                                itemToCheck.updateQuantity(itemQuantity);
-                                currentItem.setQuantity(0);
-                                currentItem.setQuantity(0);
-                                shoppingList.remove(i);
-                            }else{
-                                cash -= numInInventory * currentItem.getPrice();
-                                itemToCheck.setQuantity(0);
-                                currentItem.updateQuantity(numInInventory);
-                            }
-                        } else {
-                            cash = 0;
+                        if(numInInventory >= itemQuantity){
+                            cash -= numInInventory * currentItem.getPrice();
+                            itemToCheck.updateQuantity(itemQuantity);
+                            currentItem.setQuantity(0);
+                        }else{
+                            cash -= numInInventory * currentItem.getPrice();
+                            itemToCheck.setQuantity(0);
+                            currentItem.updateQuantity(numInInventory);
                         }
+
                     }else {
                         panicking = true;
                         int numItemsToAdd = random.nextInt(3) + 1;
@@ -72,14 +67,23 @@ public class Will extends Shopper
                             shoppingList.add(itemToAdd);
                         } 
                     }
+                }else{
+                    cash = 0;
                 }
-
-            
+            }
 
             i++;
             checkStealers();
             done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
 
+        }
+        int j = 0;
+        while(j < shoppingList.size()) {
+            if(shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+            }else{
+                j++;
+            }
         }
 
         try{
@@ -127,7 +131,7 @@ public class Will extends Shopper
     public String toString(){
 
         return 
-        "\nWill's Shopping List\n" +
+        "\n\nWill's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +
