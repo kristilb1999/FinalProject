@@ -58,7 +58,7 @@ public class Will extends Shopper {
             }
 
             i++;
-            checkStealers();
+            supermarketManager.checkStealers();
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
 
         }
@@ -79,14 +79,6 @@ public class Will extends Shopper {
             System.err.println(e);
         }
 
-    }
-
-    public void checkStealers() {
-        ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        
-        for(Shopper shopper : supermarketManager.getShoppers()){
-            shopper.accept(snitching);
-        }
     }
 
     public boolean isPanicking() {

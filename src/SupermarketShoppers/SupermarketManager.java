@@ -1,17 +1,19 @@
 package SupermarketShoppers;
+
 import java.util.Random;
 
 import java.util.Vector;
+
 /**
  * Starts the simulation and passes in the data used.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class SupermarketManager extends Thread
-{
+public class SupermarketManager extends Thread {
+
     private static final int DELAY_TIME = 33;
-    
+
     private static final int WILL = 1;
     private static final int CAMERON = 2;
     private static final int KRISTI = 3;
@@ -27,8 +29,10 @@ public class SupermarketManager extends Thread
     private Inventory inventory;
 
     private Jail jail;
-    
+
     private boolean done;
+    
+    private Object shoppersLock = new Object();
 
     SupermarketManager(Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
@@ -37,13 +41,13 @@ public class SupermarketManager extends Thread
         this.random = new Random();
     }
 
-    public void run(){
+    public void run() {
         numShoppers = random.nextInt(MAX_PEOPLE) + 1;
         int shopType;
         int shopperID = 0;
         Shopper newShopper;
-        
-        for (int i = 0; i < numShoppers; i++){
+
+        for (int i = 0; i < numShoppers; i++) {
 
             Vector<Item> newList = new Vector<Item>();
 
@@ -53,124 +57,129 @@ public class SupermarketManager extends Thread
             int itemIndex;
 
             shopType = random.nextInt(4) + 1;
-            switch(shopType){
-                case WILL :
-                numOfItems = random.nextInt(7) + 1;
+            switch (shopType) {
+                case WILL:
+                    numOfItems = random.nextInt(7) + 1;
 
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
+                    for (int j = 0; j < numOfItems; j++) {
+                        itemIndex = random.nextInt(inventoryList.size());
+                        Item itemToAdd = inventoryList.get(itemIndex);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
 
-                newShopper = new Will(newList, inventory, shopperID, jail, this);
-                break;
-                case CAMERON :
-                numOfItems = random.nextInt(7) + 1;
+                    newShopper = new Will(newList, inventory, shopperID, jail, this);
+                    break;
+                case CAMERON:
+                    numOfItems = random.nextInt(7) + 1;
 
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
+                    for (int j = 0; j < numOfItems; j++) {
+                        itemIndex = random.nextInt(inventoryList.size());
+                        Item itemToAdd = inventoryList.get(itemIndex);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
 
-                newShopper = new Cameron(newList, inventory, shopperID, jail, this);
-                break;
-                case KRISTI :
-                numOfItems = random.nextInt(7) +1;
+                    newShopper = new Cameron(newList, inventory, shopperID, jail, this);
+                    break;
+                case KRISTI:
+                    numOfItems = random.nextInt(7) + 1;
 
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
+                    for (int j = 0; j < numOfItems; j++) {
+                        itemIndex = random.nextInt(inventoryList.size());
+                        Item itemToAdd = inventoryList.get(itemIndex);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
 
-                newShopper = new Kristi(newList, inventory, shopperID, jail, this);
-                break;
-                case JACOB :
-                numOfItems = random.nextInt(7) +1;
+                    newShopper = new Kristi(newList, inventory, shopperID, jail, this);
+                    break;
+                case JACOB:
+                    numOfItems = random.nextInt(7) + 1;
 
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
+                    for (int j = 0; j < numOfItems; j++) {
+                        itemIndex = random.nextInt(inventoryList.size());
+                        Item itemToAdd = inventoryList.get(itemIndex);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
 
-                newShopper = new Jacob(newList, inventory, shopperID, jail, this);
-                
-                break;
-                default :
-                numOfItems = random.nextInt(7) +1;
+                    newShopper = new Jacob(newList, inventory, shopperID, jail, this);
 
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
+                    break;
+                default:
+                    numOfItems = random.nextInt(7) + 1;
 
-                newShopper = new Will(newList, inventory, shopperID, jail, this);
+                    for (int j = 0; j < numOfItems; j++) {
+                        itemIndex = random.nextInt(inventoryList.size());
+                        Item itemToAdd = inventoryList.get(itemIndex);
+                        itemToAdd.setQuantity(random.nextInt(10) + 1);
+                        newList.add(itemToAdd);
+                    }
+
+                    newShopper = new Will(newList, inventory, shopperID, jail, this);
             }
             newShopper.start();
             this.shoppers.add(newShopper);
             shopperID++;
         }
-        
-        while(!done){
+
+        while (!done) {
             int numDone = 0;
-            for(Shopper customer : shoppers) {
-                if(customer.done()){
+            for (Shopper customer : shoppers) {
+                if (customer.done()) {
                     numDone++;
                 }
             }
-            
-            if(numDone == shoppers.size()) {
+
+            if (numDone == shoppers.size()) {
                 this.done = true;
             }
-            
-            try{
+
+            try {
                 sleep(250);
-            } catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 System.err.println(e);
-            } 
+            }
         }
 
     }
-    
-    public boolean done(){
+
+    public boolean done() {
         return this.done;
     }
 
-    public Vector<Shopper> getShoppers()
-    {
+    public Vector<Shopper> getShoppers() {
         return this.shoppers;
     }
-    
-    public int getNumShoppers(){
+
+    public int getNumShoppers() {
         return this.shoppers.size();
     }
 
-    public void removeShopper(int shopperToRemove)
-    {
+    public void removeShopper(int shopperToRemove) {
 
-        for (int i = 0; i < this.shoppers.size(); i++)
-        {
-            if (shopperToRemove == this.shoppers.get(i).shopperNumber)
-            {
+        for (int i = 0; i < this.shoppers.size(); i++) {
+            if (shopperToRemove == this.shoppers.get(i).shopperNumber) {
                 this.shoppers.remove(i);
             }
 
         }
     }
-    
+
     @Override
     public String toString() {
-        return "Number of shoppers in the store: " + this.shoppers.size() + "\n" + 
-                this.shoppers.toString();
-        
+        return "Number of shoppers in the store: " + this.shoppers.size() + "\n"
+                + this.shoppers.toString();
+
+    }
+
+    public void checkStealers() {
+        ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
+        synchronized (shoppersLock) {
+            for (Shopper shopper : shoppers) {
+                shopper.accept(snitching);
+            }
+        }
     }
 }

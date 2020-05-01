@@ -65,7 +65,7 @@ public class Jacob extends Shopper {
             }
 
             i++;
-            checkStealers();
+            supermarketManager.checkStealers();
             done = i >= shoppingList.size();
         }
 
@@ -88,14 +88,6 @@ public class Jacob extends Shopper {
 
     public boolean isStealing() {
         return startedStealing;
-    }
-
-    public void checkStealers() {
-        ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        
-        for(Shopper shopper : supermarketManager.getShoppers()){
-            shopper.accept(snitching);
-        }
     }
 
     public boolean increaseJailProb() {
