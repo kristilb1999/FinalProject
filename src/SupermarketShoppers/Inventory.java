@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 /**
  * This class will read in a text file containing each item that a shopper can buy.
  *
@@ -16,7 +18,7 @@ import java.io.IOException;
 public class Inventory
 {
 
-    private static final String FILE_NAME = "itemsInStore.txt";
+    private static final InputStream ITEM_STREAM = Inventory.class.getResourceAsStream("/itemsInStore.txt");
 
     private Vector<Item> itemList;
 
@@ -32,7 +34,7 @@ public class Inventory
     {
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+            BufferedReader br = new BufferedReader(new InputStreamReader(ITEM_STREAM));
             String line;
             while((line = br.readLine()) != null)
             {
@@ -41,7 +43,7 @@ public class Inventory
                 itemList.add(item);
             }
         }catch(FileNotFoundException e){
-            System.err.println("File Not Found: " + FILE_NAME);
+            System.err.println("Resource Not Found: " + ITEM_STREAM.toString());
         }catch(IOException e){
             System.err.println("IO Exception: " + e);
         }
