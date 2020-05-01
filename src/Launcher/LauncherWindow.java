@@ -168,6 +168,7 @@ public class LauncherWindow extends javax.swing.JFrame {
 
         jLabel2.setText("Number of Stores:");
 
+        jSpinner1.setPreferredSize(new java.awt.Dimension(40, 20));
         jSpinner1.setValue(1);
 
         jButton7.setText("Launch Simulation");
