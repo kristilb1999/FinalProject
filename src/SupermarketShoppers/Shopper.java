@@ -44,6 +44,7 @@ abstract public class Shopper extends Thread {
         this.jail = jail;
         this.supermarketManager = supermarketManager;
         random = new Random();
+        minimumPrice = Double.MAX_VALUE;
     }
 
     abstract public void run();
@@ -91,6 +92,7 @@ abstract public class Shopper extends Thread {
 
     protected void setMinimumPrice() {
         for (Item item : shoppingList) {
+            System.out.println(item.getPrice());
             minimumPrice = (item.getPrice() < minimumPrice
                     ? item.getPrice() : minimumPrice);
         }

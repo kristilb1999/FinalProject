@@ -53,7 +53,7 @@ public class Will extends Shopper {
                     panicking = true;
                     increaseList();
                 }
-System.out.println("price: " + currentItem.getPrice() + "\n" +"qPurchased: " + qPurchased + "\n" + "cash:" + cash + "\n" + "i:" + i + "\nMin:" + minimumPrice + "\n");
+
                 cash -= qPurchased * currentItem.getPrice();
             }
 
@@ -62,15 +62,6 @@ System.out.println("price: " + currentItem.getPrice() + "\n" +"qPurchased: " + q
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
             
         }
-//        int j = 0;
-//        while (j < shoppingList.size()) {
-//            if (shoppingList.get(j).getItemQuantity() <= 0) {
-//                shoppingList.remove(j);
-//                j++;
-//            } else {
-//                j++;
-//            }
-//        }
 
         try {
             sleep(ONE_HUNDRED);
@@ -96,7 +87,7 @@ System.out.println("price: " + currentItem.getPrice() + "\n" +"qPurchased: " + q
     @Override
     public String toString() {
 
-        return "\n\nJacob's Shopping List\n"
+        return "\n\nWill's Shopping List\n"
                 + "Shopper number " + shopperNumber + "\n"
                 + "Cash left in wallet: " + cash + "\n"
                 + "Items the shopper was unable to purchase:\n"
