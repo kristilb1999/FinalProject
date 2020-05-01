@@ -38,7 +38,7 @@ public class Jacob extends Shopper {
 
     @Override
     public void run() {
-setMinimumPrice();
+        setMinimumPrice();
 
         int i = 0;
         while (!done) {
@@ -53,7 +53,7 @@ setMinimumPrice();
 
                 int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
 
-                if (qPurchased == 0) {
+                if (!startedStealing && qPurchased == 0) {
                     startedStealing = true;
                     increaseList();
                 }
@@ -62,12 +62,11 @@ setMinimumPrice();
                     cash -= qPurchased * currentItem.getPrice();
                 }
             }
-            
-        }
 
-        i++;
-        checkStealers();
-        done = i >= shoppingList.size() || cash <= getMinimumPrice();
+            i++;
+            checkStealers();
+            done = i >= shoppingList.size();
+        }
 
         int j = 0;
         while (j < shoppingList.size()) {

@@ -62,6 +62,7 @@ public class Will extends Shopper {
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
 
         }
+        
         int j = 0;
         while (j < shoppingList.size()) {
             if (shoppingList.get(j).getItemQuantity() <= 0) {

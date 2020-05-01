@@ -55,7 +55,7 @@ public class Kristi extends Shopper
 
                 int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
 
-                if (qPurchased == 0) {
+                if (!startedStealing && qPurchased == 0) {
                     startedStealing = true;
                     increaseList();
                 }
@@ -66,8 +66,9 @@ public class Kristi extends Shopper
             }
             
             i++;
-            done = i >= shoppingList.size() || cash <= getMinimumPrice();            
+            done = i >= shoppingList.size();            
         }
+        
         int j = 0;
         while(j < shoppingList.size()) {
             if(shoppingList.get(j).getItemQuantity() <= 0) {
