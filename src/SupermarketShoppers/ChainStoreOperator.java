@@ -86,17 +86,16 @@ public class ChainStoreOperator extends Thread {
     }
     
     public double averageShoppers() {
-        int totalShoppers = 0;
+        double totalShoppers = 0;
         for(Supermarket store : storesRunning) {
             totalShoppers += store.getNumCustomers();
             totalShoppers += store.numShoppersInJail();
         }
-        
         return totalShoppers/numStores;
     }
     
     public double averageInJail() {
-        int totalInJail = 0;
+        double totalInJail = 0;
         for(Supermarket store : storesRunning) {
             totalInJail += store.numShoppersInJail();
         }
