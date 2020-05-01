@@ -6,8 +6,8 @@ package SupermarketShoppers;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Item
-{
+public class Item {
+
     private String name;
 
     private int value;
@@ -15,76 +15,81 @@ public class Item
     private int itemQuant;
 
     private double price;
+    
+    private Object quantityLock;
 
     /**
      * Constructor for objects of class Item
      */
-    public Item(String name, int value, int itemQuant, double price)
-    {
+    public Item(String name, int value, int itemQuant, double price) {
         this.name = name;
         this.value = value;
         this.price = price;
         this.itemQuant = itemQuant;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(int value)
-    {
+    public void setValue(int value) {
         this.value = value;
     }
 
-    public double getPrice()
-    {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price)
-    {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getItemQuantity()
-    {
+    public int getItemQuantity() {
         return itemQuant;
     }
 
-    public void setQuantity(int itemQuant)
-    {
+    public void setQuantity(int itemQuant) {
         this.itemQuant = itemQuant;
     }
-    
-    public void updateQuantity(int quantity){
+
+    public void updateQuantity(int quantity) {
         this.itemQuant -= quantity;
     }
-    
-    @Override
-    public String toString(){
-        return
-            "\nItem Name: " + name + 
-            ", Item Value: " + value +
-            ", Item Quantity: " + itemQuant +
-            ", Item Price: " + price;
+
+    public int attemptToBuy(int quantity, double cash) {
+        int qPurchased = 0;
+        synchronized (quantityLock) {
+            
+            while(cash > this.price && quantity > 0 && itemQuant > 0){
+                cash -= this.price;
+                qPurchased++;
+                quantity--;
+            }
+        }
+        return qPurchased;
     }
-    
+
     @Override
-    public boolean equals(Object other){
-        if (other instanceof Item){
-            return name.equals(((Item)other).getName());
-        }else{
+    public String toString() {
+        return "\nItem Name: " + name
+                + ", Item Value: " + value
+                + ", Item Quantity: " + itemQuant
+                + ", Item Price: " + price;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Item) {
+            return name.equals(((Item) other).getName());
+        } else {
             return false;
         }
 

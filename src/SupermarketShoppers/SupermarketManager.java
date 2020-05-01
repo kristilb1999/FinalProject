@@ -54,55 +54,55 @@ public class SupermarketManager extends Thread
 
             shopType = random.nextInt(4) + 1;
             switch(shopType){
-                case WILL :
-                numOfItems = random.nextInt(7) + 1;
-
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
-
-                newShopper = new Will(newList, inventory, shopperID, jail, this);
-                break;
-                case CAMERON :
-                numOfItems = random.nextInt(7) + 1;
-
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
-
-                newShopper = new Cameron(newList, inventory, shopperID, jail, this);
-                break;
-                case KRISTI :
-                numOfItems = random.nextInt(7) +1;
-
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
-
-                newShopper = new Kristi(newList, inventory, shopperID, jail, this);
-                break;
-                case JACOB :
-                numOfItems = random.nextInt(7) +1;
-
-                for(int j = 0; j < numOfItems; j++){
-                    itemIndex = random.nextInt(inventoryList.size());
-                    Item itemToAdd = inventoryList.get(itemIndex);
-                    itemToAdd.setQuantity(random.nextInt(10) + 1);
-                    newList.add(itemToAdd);
-                }
-
-                newShopper = new Jacob(newList, inventory, shopperID, jail, this);
-                
-                break;
+//                case WILL :
+//                numOfItems = random.nextInt(7) + 1;
+//
+//                for(int j = 0; j < numOfItems; j++){
+//                    itemIndex = random.nextInt(inventoryList.size());
+//                    Item itemToAdd = inventoryList.get(itemIndex);
+//                    itemToAdd.setQuantity(random.nextInt(10) + 1);
+//                    newList.add(itemToAdd);
+//                }
+//
+//                newShopper = new Will(newList, inventory, shopperID, jail, this);
+//                break;
+//                case CAMERON :
+//                numOfItems = random.nextInt(7) + 1;
+//
+//                for(int j = 0; j < numOfItems; j++){
+//                    itemIndex = random.nextInt(inventoryList.size());
+//                    Item itemToAdd = inventoryList.get(itemIndex);
+//                    itemToAdd.setQuantity(random.nextInt(10) + 1);
+//                    newList.add(itemToAdd);
+//                }
+//
+//                newShopper = new Cameron(newList, inventory, shopperID, jail, this);
+//                break;
+//                case KRISTI :
+//                numOfItems = random.nextInt(7) +1;
+//
+//                for(int j = 0; j < numOfItems; j++){
+//                    itemIndex = random.nextInt(inventoryList.size());
+//                    Item itemToAdd = inventoryList.get(itemIndex);
+//                    itemToAdd.setQuantity(random.nextInt(10) + 1);
+//                    newList.add(itemToAdd);
+//                }
+//
+//                newShopper = new Kristi(newList, inventory, shopperID, jail, this);
+//                break;
+//                case JACOB :
+//                numOfItems = random.nextInt(7) +1;
+//
+//                for(int j = 0; j < numOfItems; j++){
+//                    itemIndex = random.nextInt(inventoryList.size());
+//                    Item itemToAdd = inventoryList.get(itemIndex);
+//                    itemToAdd.setQuantity(random.nextInt(10) + 1);
+//                    newList.add(itemToAdd);
+//                }
+//
+//                newShopper = new Jacob(newList, inventory, shopperID, jail, this);
+//                
+//                break;
                 default :
                 numOfItems = random.nextInt(7) +1;
 
