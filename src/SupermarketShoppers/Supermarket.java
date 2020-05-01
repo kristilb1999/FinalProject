@@ -51,27 +51,15 @@ public class Supermarket extends Thread
                 
                 numStealing = jail.getNumInJail();
                 
+                ShopperStealingVisitor stealing = new ShopperStealingVisitor();
+                ShopperPanickingVisitor panicking = new ShopperPanickingVisitor();
+                
                 for(Shopper customer : shoppers) {
-                    if(customer instanceof Kristi) {
-                        Kristi k = (Kristi) customer;
-                        if(k.isStealing()) {
+                    if(stealing.visit(customer)) {
                             numStealing++;
-                        }
-                    } else if (customer instanceof Jacob) {
-                        Jacob j = (Jacob) customer;
-                        if(j.isStealing()) {
-                            numStealing++;
-                        }
-                    } else if (customer instanceof Cameron) {
-                        Cameron c = (Cameron) customer;
-                        if(c.isPanicking()) {
+                    }
+                    if(panicking.visit(customer)) {
                             numPanicShopping++;
-                        }
-                    } else if (customer instanceof Will) {
-                        Will w = (Will) customer;
-                        if(w.isPanicking()) {
-                            numPanicShopping++;
-                        }
                     }
                 }
                 
