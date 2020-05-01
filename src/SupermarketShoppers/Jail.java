@@ -22,7 +22,7 @@ public class Jail
     }
     
     /**
-     * Add a shopper to the jail
+     * Add a shopper to the jail.
      * 
      * @param Shopper criminal. The shopper that is 
      *        going to be arrested.
@@ -33,7 +33,9 @@ public class Jail
     }
      
     /**
-     * Constructor for objects of class Jail
+     * Return the number of shoppers in jail.
+     * 
+     * @return The amount of shoppers in jail.
      */
     public int getNumInJail() {
         //RETURN THE NUMBER OF SHOPPERS IN JAIL
