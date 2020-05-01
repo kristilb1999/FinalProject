@@ -16,6 +16,8 @@ public class Will extends Shopper
     public static final double ONE_HUNDRED = 100;
 
     public boolean startedSnitching;
+    
+    public boolean panicking;
 
     private Object lock = new Object();
 
@@ -67,6 +69,7 @@ public class Will extends Shopper
                 }
 
             }else{
+                panicking = true;
                 int numItemsToAdd = random.nextInt(3) + 1;
                 for(int k = 0; k < numItemsToAdd; k++) {
                     Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
@@ -109,6 +112,11 @@ public class Will extends Shopper
             }
 
         }
+    }
+    
+    public boolean isPanicking()
+    {
+        return panicking;
     }
 
     @Override
