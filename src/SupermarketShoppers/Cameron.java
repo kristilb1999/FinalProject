@@ -69,7 +69,10 @@ public class Cameron extends Shopper
 
                         } 
                     }
-                }else{
+                }
+
+                if (cash <= 0)
+                {
                     cash = 0;
                 }
             }
@@ -81,6 +84,7 @@ public class Cameron extends Shopper
         while(j < shoppingList.size()) {
             if(shoppingList.get(j).getItemQuantity() <= 0) {
                 shoppingList.remove(j);
+                j++;
             }else{
                 j++;
             }
@@ -101,8 +105,8 @@ public class Cameron extends Shopper
     @Override
     public String toString(){
 
-        return 
-        "\n\nCameron's Shopping List\n" +
+        return
+        "\n\nJacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +

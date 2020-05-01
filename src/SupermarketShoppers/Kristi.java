@@ -76,7 +76,10 @@ public class Kristi extends Shopper
                             itemToCheck.setQuantity(0);
                             currentItem.updateQuantity(numInInventory);
                         }
-                    }else{
+                    }
+
+                    if (cash <= 0)
+                    {
                         cash = 0;
                     }
                 }else {
@@ -96,6 +99,7 @@ public class Kristi extends Shopper
         while(j < shoppingList.size()) {
             if(shoppingList.get(j).getItemQuantity() <= 0) {
                 shoppingList.remove(j);
+                j++;
             }else{
                 j++;
             }
@@ -131,8 +135,8 @@ public class Kristi extends Shopper
     @Override
     public String toString(){
 
-        return 
-        "\n\nKristi's Shopping List\n" +
+        return
+        "\n\nJacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +

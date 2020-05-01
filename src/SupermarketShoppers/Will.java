@@ -67,7 +67,9 @@ public class Will extends Shopper
                             shoppingList.add(itemToAdd);
                         } 
                     }
-                }else{
+                }
+                if (cash <= 0)
+                {
                     cash = 0;
                 }
             }
@@ -81,6 +83,7 @@ public class Will extends Shopper
         while(j < shoppingList.size()) {
             if(shoppingList.get(j).getItemQuantity() <= 0) {
                 shoppingList.remove(j);
+                j++;
             }else{
                 j++;
             }
@@ -130,8 +133,8 @@ public class Will extends Shopper
     @Override
     public String toString(){
 
-        return 
-        "\n\nWill's Shopping List\n" +
+        return
+        "\n\nJacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +
