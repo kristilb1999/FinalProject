@@ -21,16 +21,28 @@ public class Jail
         shoppersInJail = new Vector<Shopper>();
     }
     
+    /**
+     * Add a shopper to the jail
+     * 
+     * @param Shopper criminal. The shopper that is 
+     *        going to be arrested.
+     */
     public void getArrested(Shopper criminal) 
     {
         shoppersInJail.add(criminal);
     }
      
+    /**
+     * Constructor for objects of class Jail
+     */
     public int getNumInJail() {
         //RETURN THE NUMBER OF SHOPPERS IN JAIL
         return shoppersInJail.size();
     }
     
+    /**
+     * Constructor for objects of class Jail
+     */
     @Override
     public String toString()
     {
