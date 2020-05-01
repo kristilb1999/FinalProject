@@ -5,6 +5,8 @@
  */
 package SupermarketShoppers;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Vector;
 /**
  * This class controls the running of each supermarket. When calling this class, 
@@ -119,6 +121,13 @@ public class ChainStoreOperator extends Thread {
     }
     
     public static void main(String args[]){
+        
+        //print output to a file
+        try{
+        System.setOut(new PrintStream("simulation.txt"));
+        }catch(FileNotFoundException e){
+        System.err.println("File Not Found: " + e);
+        }
         
         int numOfStores = 1;
         

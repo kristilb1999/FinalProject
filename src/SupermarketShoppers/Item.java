@@ -74,7 +74,7 @@ public class Item
     @Override
     public String toString(){
         return
-            "Item Name: " + name + 
+            "\nItem Name: " + name + 
             ", Item Value: " + value +
             ", Item Quantity: " + itemQuant +
             ", Item Price: " + price + "\n";

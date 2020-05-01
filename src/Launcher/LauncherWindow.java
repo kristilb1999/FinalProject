@@ -168,6 +168,7 @@ public class LauncherWindow extends javax.swing.JFrame {
 
         jLabel2.setText("Number of Stores:");
 
+        jSpinner1.setPreferredSize(new java.awt.Dimension(40, 20));
         jSpinner1.setValue(1);
 
         jButton7.setText("Launch Simulation");
@@ -177,7 +178,7 @@ public class LauncherWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton8.setText("Exit");
+        jButton8.setText("Cancel");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -198,7 +199,7 @@ public class LauncherWindow extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addComponent(jButton8)))
                 .addContainerGap())
         );
@@ -336,7 +337,12 @@ public class LauncherWindow extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jDialog2.setVisible(false);
-        SupermarketShoppers.ChainStoreOperator.main(new String[]{"5",jFileChooser1.getName()});
+        new Thread() {
+            @Override
+            public void run() {
+                SupermarketShoppers.ChainStoreOperator.main(new String[]{"5",jFileChooser1.getName()});
+            }
+        }.start(); 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -350,7 +356,12 @@ public class LauncherWindow extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jDialog3.setVisible(false);
-        SupermarketShoppers.ChainStoreOperator.main(new String[]{jSpinner1.getValue().toString()});
+        new Thread() {
+            @Override
+            public void run() {
+                SupermarketShoppers.ChainStoreOperator.main(new String[]{jSpinner1.getValue().toString()});
+            }
+        }.start(); 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
