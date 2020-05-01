@@ -121,7 +121,9 @@ public class SupermarketManager extends Thread {
                     newShopper = new Will(newList, inventory, shopperID, jail, this);
             }
             newShopper.start();
-            this.shoppers.add(newShopper);
+            synchronized (shoppersLock) {
+                this.shoppers.add(newShopper);
+            }
             shopperID++;
         }
 
