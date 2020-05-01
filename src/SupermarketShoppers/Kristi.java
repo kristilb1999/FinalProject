@@ -17,7 +17,9 @@ public class Kristi extends Shopper
 
     public static final int INCREASE_PROB = 5;
 
-    public static final double ONE_HUNDRED = 100;
+    public static final int SENT_TO_JAIL = 65;
+    
+    public static final int ONE_HUNDRED = 100;
 
     public boolean startedStealing;
 
@@ -32,7 +34,7 @@ public class Kristi extends Shopper
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        jailedProb = 100;//(random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+        jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
     }
 
     @Override
@@ -50,8 +52,6 @@ public class Kristi extends Shopper
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
-
-            startedStealing = true;
 
             if(index > -1){
                 synchronized (lock) {
@@ -99,7 +99,7 @@ public class Kristi extends Shopper
         }
         
         try{
-                sleep(500);
+                sleep(ONE_HUNDRED);
             } catch (InterruptedException e){
                 System.err.println(e);
             } 
@@ -113,7 +113,7 @@ public class Kristi extends Shopper
 
     public void increaseJailProb()
     {
-        if(jailedProb < ONE_HUNDRED)
+        if(jailedProb < SENT_TO_JAIL)
         {
             jailedProb += INCREASE_PROB;
         }
@@ -130,6 +130,7 @@ public class Kristi extends Shopper
 
         return "Kristi's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
+        "Cash left in wallet: " + cash +
         shoppingList.toString() + "\n";
 
     }

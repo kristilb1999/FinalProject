@@ -13,7 +13,7 @@ public class Will extends Shopper
 
     public static final int MAX_CASH = 1000;
 
-    public static final double ONE_HUNDRED = 100;
+    public static final int ONE_HUNDRED = 100;
 
     public boolean startedSnitching;
     
@@ -30,19 +30,11 @@ public class Will extends Shopper
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        panicShopping = (random.nextDouble() * ONE_HUNDRED) / MORALITY_NUM;
     }
 
     @Override
     public void run()
     {
-        
-        try{
-                sleep(500);
-            } catch (InterruptedException e){
-                System.err.println(e);
-            } 
-        
         int i = 0;
         while(!done) {
             Item currentItem = shoppingList.get(i);
@@ -83,6 +75,12 @@ public class Will extends Shopper
             done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
 
         }
+        
+        try{
+                sleep(ONE_HUNDRED);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
 
     }
 
@@ -124,6 +122,7 @@ public class Will extends Shopper
 
         return "Will's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
+        "Cash left in wallet: " + cash +
         shoppingList.toString() + "\n";
 
     }

@@ -17,7 +17,7 @@ public class Jacob extends Shopper
 
     public static final int INCREASE_PROB = 5;
 
-    public static final double ONE_HUNDRED = 100;
+    public static final int ONE_HUNDRED = 100;
 
     public boolean startedStealing;
 
@@ -97,6 +97,12 @@ public class Jacob extends Shopper
             done = shoppingList.isEmpty() || i >= shoppingList.size();
 
         }
+        
+        try{
+                sleep(ONE_HUNDRED);
+            } catch (InterruptedException e){
+                System.err.println(e);
+            } 
     }
 
     public boolean isStealing()
@@ -142,6 +148,7 @@ public class Jacob extends Shopper
 
         return "Jacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
+        "Cash left in wallet: " + cash +
         shoppingList.toString() + "\n";
 
     }
