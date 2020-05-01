@@ -34,7 +34,8 @@ public class Cameron extends Shopper {
 
     @Override
     public void run() {
-
+setMinimumPrice();
+        
         int i = 0;
         while (!done && i < shoppingList.size()) {
             Item currentItem = shoppingList.get(i);
@@ -62,7 +63,7 @@ public class Cameron extends Shopper {
             }
 
             i++;
-            done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
+            done = i >= shoppingList.size() || cash <= getMinimumPrice();
         }
         int j = 0;
         while (j < shoppingList.size()) {

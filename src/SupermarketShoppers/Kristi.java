@@ -40,6 +40,8 @@ public class Kristi extends Shopper
     @Override
     public void run()
     {
+        setMinimumPrice();
+        
         int i = 0;
         while (!done && i < shoppingList.size()) {
             Item currentItem = shoppingList.get(i);
@@ -63,6 +65,8 @@ public class Kristi extends Shopper
                 }
             }
             
+            i++;
+            done = i >= shoppingList.size() || cash <= getMinimumPrice();            
         }
         int j = 0;
         while(j < shoppingList.size()) {
