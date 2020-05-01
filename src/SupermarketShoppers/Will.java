@@ -37,6 +37,7 @@ public class Will extends Shopper {
         setMinimumPrice();
 
         int i = 0;
+        
         while (!done) {
             Item currentItem = shoppingList.get(i);
 

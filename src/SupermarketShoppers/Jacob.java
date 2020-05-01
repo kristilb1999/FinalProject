@@ -23,6 +23,7 @@ public class Jacob extends Shopper {
 
     private Object lock = new Object();
     private Object jailProbLock = new Object();
+    private Object doneLock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
@@ -38,35 +39,37 @@ public class Jacob extends Shopper {
     @Override
     public void run() {
         shopperSleep();
-        
+
         setMinimumPrice();
 
         int i = 0;
-        while (!done) {
-            Item currentItem = shoppingList.get(i);
+        synchronized (doneLock) {
+            while (!done) {
+                Item currentItem = shoppingList.get(i);
 
-            int index = inventory.containsItem(currentItem);
+                int index = inventory.containsItem(currentItem);
 
-            Item itemToCheck = inventory.getList().get(index);
+                Item itemToCheck = inventory.getList().get(index);
 
-            int itemQuantity = currentItem.getItemQuantity();
-            if (cash > 0) {
+                int itemQuantity = currentItem.getItemQuantity();
+                if (cash > 0) {
 
-                int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
+                    int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
 
-                if (!startedStealing && qPurchased == 0) {
-                    startedStealing = true;
-                    increaseList();
+                    if (!startedStealing && qPurchased == 0) {
+                        startedStealing = true;
+                        increaseList();
+                    }
+
+                    if (!startedStealing) {
+                        cash -= qPurchased * currentItem.getPrice();
+                    }
                 }
 
-                if (!startedStealing) {
-                    cash -= qPurchased * currentItem.getPrice();
-                }
+                i++;
+                supermarketManager.checkStealers();
+                done = i >= shoppingList.size();
             }
-
-            i++;
-            supermarketManager.checkStealers();
-            done = i >= shoppingList.size();
         }
 
         int j = 0;
@@ -90,7 +93,9 @@ public class Jacob extends Shopper {
                 if (jailedProb < ONE_HUNDRED) {
                     jailedProb += INCREASE_PROB;
                 } else {
-                    done = true;
+                    synchronized (doneLock) {
+                        done = true;
+                    }
                     jail.getArrested(this);
                     supermarketManager.removeShopper(this);
                 }
@@ -110,7 +115,7 @@ public class Jacob extends Shopper {
 
     }
 
-    public boolean accept(ShopperVisitor shopperVisitor){
+    public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
     }
 }
