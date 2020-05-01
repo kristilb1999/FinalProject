@@ -337,7 +337,12 @@ public class LauncherWindow extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jDialog2.setVisible(false);
-        SupermarketShoppers.ChainStoreOperator.main(new String[]{"5",jFileChooser1.getName()});
+        new Thread() {
+            @Override
+            public void run() {
+                SupermarketShoppers.ChainStoreOperator.main(new String[]{"5",jFileChooser1.getName()});
+            }
+        }.start(); 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
