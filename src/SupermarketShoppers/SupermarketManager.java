@@ -25,7 +25,7 @@ public class SupermarketManager extends Thread {
     private final int MAX_PEOPLE = 20;
     private int numShoppers;
 
-    private Vector<Shopper> shoppers;
+    private final Vector<Shopper> shoppers;
 
     private Inventory inventory;
 
@@ -128,19 +128,15 @@ public class SupermarketManager extends Thread {
         }
 
         while (!done) {
-            int numDone = 0;
-
+            boolean isDone = true;
             synchronized (shoppersLock) {
                 for (Shopper customer : shoppers) {
-                    if (customer.done()) {
-                        numDone++;
+                    if (!customer.done()) {
+                        isDone = false;
                     }
                 }
             }
-
-            if (numDone == numShoppers) {
-                this.done = true;
-            }
+            done = isDone;
 
             try {
                 sleep(250);
@@ -168,14 +164,9 @@ public class SupermarketManager extends Thread {
         }
     }
 
-    public void removeShopper(int shopperToRemove) {
+    public void removeShopper(Shopper shopper) {
         synchronized (shoppersLock) {
-            for (int i = 0; i < this.shoppers.size(); i++) {
-                if (shopperToRemove == this.shoppers.get(i).shopperNumber) {
-                    this.shoppers.remove(i);
-                }
-
-            }
+            shoppers.remove(shopper);
         }
     }
 

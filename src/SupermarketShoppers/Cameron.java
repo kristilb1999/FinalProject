@@ -74,12 +74,6 @@ public class Cameron extends Shopper {
                 j++;
             }
         }
-
-        try {
-            sleep(ONE_HUNDRED);
-        } catch (InterruptedException e) {
-            System.err.println(e);
-        }
     }
 
     public boolean isPanicking() {
@@ -95,5 +89,9 @@ public class Cameron extends Shopper {
                 + "Items the shopper was unable to purchase:\n"
                 + shoppingList.toString();
 
+    }
+    
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
     }
 }

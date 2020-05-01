@@ -78,12 +78,6 @@ public class Jacob extends Shopper {
                 j++;
             }
         }
-
-        try {
-            sleep(ONE_HUNDRED);
-        } catch (InterruptedException e) {
-            System.err.println(e);
-        }
     }
 
     public boolean isStealing() {
@@ -98,7 +92,7 @@ public class Jacob extends Shopper {
                 } else {
                     done = true;
                     jail.getArrested(this);
-                    supermarketManager.removeShopper(shopperNumber);
+                    supermarketManager.removeShopper(this);
                 }
             }
         }
@@ -116,4 +110,7 @@ public class Jacob extends Shopper {
 
     }
 
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
+    }
 }

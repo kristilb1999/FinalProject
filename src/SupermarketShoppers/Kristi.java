@@ -33,7 +33,10 @@ public class Kristi extends Shopper
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+        jailedProb = 100;
+        startedStealing = true;/**(random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+         *
+         */
     }
 
     @Override
@@ -79,12 +82,6 @@ public class Kristi extends Shopper
             }
         }
 
-        try{
-            sleep(ONE_HUNDRED);
-        } catch (InterruptedException e){
-            System.err.println(e);
-        } 
-
     }
 
     public boolean isStealing()
@@ -101,7 +98,7 @@ public class Kristi extends Shopper
                 } else {
                     done = true;
                     jail.getArrested(this);
-                    supermarketManager.removeShopper(shopperNumber);
+                    supermarketManager.removeShopper(this);
                 }
             }
         }
@@ -118,5 +115,9 @@ public class Kristi extends Shopper
         "Items the shopper was unable to purchase:\n" +
         shoppingList.toString();
 
+    }
+    
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
     }
 }
