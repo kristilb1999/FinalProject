@@ -7,7 +7,8 @@ package SupermarketShoppers;
 
 /**
  *
- * @author Wil
+ * @author Will Skelly
+ * @version Spring 2020
  */
 public class ShopperStealingVisitor implements ShopperVisitor{
     
