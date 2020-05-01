@@ -2,7 +2,8 @@ package SupermarketShoppers;
 
 import java.util.Vector;
 /**
- * Write a description of class Jail here.
+ * This class creates a jail for shoppers. Once Shoppers are in the jail, they cannot get out.
+ * The class counts the number of shoppers in jail and outputs it as a toString.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch.
  * @version Spring 2020
