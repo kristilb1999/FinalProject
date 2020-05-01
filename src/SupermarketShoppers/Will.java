@@ -25,8 +25,8 @@ public class Will extends Shopper {
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket) {
-        super(shoppingList, inventory, number, jail, supermarket);
+    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager) {
+        super(shoppingList, inventory, number, jail, supermarketManager);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -85,8 +85,8 @@ public class Will extends Shopper {
 
     public void checkStealers() {
         ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        for (int i = 0; i < supermarket.getShoppers().size(); i++) {
-            if (snitching.visit(supermarket.getShoppers().get(i))) {
+        for (int i = 0; i < supermarketManager.getShoppers().size(); i++) {
+            if (snitching.visit(supermarketManager.getShoppers().get(i))) {
                 startedSnitching = true;
             }
         }

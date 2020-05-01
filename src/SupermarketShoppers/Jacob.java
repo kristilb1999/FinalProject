@@ -27,9 +27,9 @@ public class Jacob extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
+    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager)
     {
-        super(shoppingList, inventory, number, jail, supermarket);
+        super(shoppingList, inventory, number, jail, supermarketManager);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
@@ -120,8 +120,8 @@ public class Jacob extends Shopper
 
     public void checkStealers() {
         ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        for (int i = 0; i < supermarket.getShoppers().size(); i++) {
-            if (snitching.visit(supermarket.getShoppers().get(i))) {
+        for (int i = 0; i < supermarketManager.getShoppers().size(); i++) {
+            if (snitching.visit(supermarketManager.getShoppers().get(i))) {
                 startedSnitching = true;
             }
         }
@@ -137,7 +137,7 @@ public class Jacob extends Shopper
         {
             done = true;
             jail.getArrested(this);
-            supermarket.removeShopper(shopperNumber);
+            supermarketManager.removeShopper(shopperNumber);
         }
     }
 

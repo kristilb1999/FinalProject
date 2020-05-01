@@ -29,18 +29,18 @@ abstract public class Shopper extends Thread
     
     protected int shopperNumber;
     
-    protected SupermarketManager supermarket;
+    protected SupermarketManager supermarketManager;
 
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
+    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager)
     {
         shopperNumber = number;
         this.inventory = inventory;
         this.shoppingList = shoppingList;
         this.jail = jail;
-        this.supermarket = supermarket;
+        this.supermarketManager = supermarketManager;
         random = new Random();
     }
 

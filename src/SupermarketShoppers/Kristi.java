@@ -128,7 +128,7 @@ public class Kristi extends Shopper
         {
             done = true;
             jail.getArrested(this);
-            supermarket.removeShopper(shopperNumber);
+            supermarketManager.removeShopper(shopperNumber);
         }
     }
 
@@ -136,7 +136,7 @@ public class Kristi extends Shopper
     public String toString(){
 
         return
-        "\n\nJacob's Shopping List\n" +
+        "\n\nKristi's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +
