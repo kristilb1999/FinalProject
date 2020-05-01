@@ -30,6 +30,8 @@ abstract public class Shopper extends Thread {
 
     protected int shopperNumber;
 
+    protected double minimumPrice;
+
     protected SupermarketManager supermarketManager;
 
     /**
@@ -87,4 +89,14 @@ abstract public class Shopper extends Thread {
         }
     }
 
+    protected void setMinimumPrice() {
+        for (Item item : shoppingList) {
+            minimumPrice = (item.getPrice() < minimumPrice
+                    ? item.getPrice() : minimumPrice);
+        }
+    }
+
+    protected double getMinimumPrice(){
+        return minimumPrice;
+    }
 }

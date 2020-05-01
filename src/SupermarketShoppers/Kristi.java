@@ -40,70 +40,39 @@ public class Kristi extends Shopper
     @Override
     public void run()
     {
-        int i = 0; 
-        int listSize = shoppingList.size();
-        while(!done) {
+        int i = 0;
+        while (!done && i < shoppingList.size()) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
 
-            synchronized (lock) {
-                Item itemToCheck = inventory.getList().get(index);
+            Item itemToCheck = inventory.getList().get(index);
 
-                int itemQuantity = currentItem.getItemQuantity();
-                int numInInventory = itemToCheck.getItemQuantity();
+            int itemQuantity = currentItem.getItemQuantity();
+            if (cash > 0) {
 
-                if(numInInventory > 0) {
-                    if(cash > 0) {
-                        if (numInInventory >= itemQuantity && i > listSize)
-                        {
-                            startedStealing = true;
-                            itemToCheck.updateQuantity(itemQuantity);
-                            currentItem.setQuantity(0);
-                            shoppingList.remove(i); 
-                        }else if (numInInventory < itemQuantity && i > listSize){
-                            startedStealing = true;
-                            itemToCheck.setQuantity(0);
-                            currentItem.updateQuantity(numInInventory);
-                        }
-                        else if(numInInventory >= itemQuantity){
-                            itemToCheck.updateQuantity(itemQuantity);
-                            cash -= itemQuantity * currentItem.getPrice();
-                            currentItem.setQuantity(0);
-                            shoppingList.remove(i);
-                        }else{
-                            cash -= numInInventory * currentItem.getPrice();
-                            itemToCheck.setQuantity(0);
-                            currentItem.updateQuantity(numInInventory);
-                        }
-                    }
+                int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
 
-                    if (cash <= 0)
-                    {
-                        cash = 0;
-                    }
-                }else {
-                    int numItemsToAdd = random.nextInt(3) + 1;
-                    for(int k = 0; k < numItemsToAdd; k++) {
-                        Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
-                        itemToAdd.setQuantity(random.nextInt(5) + 1);
-                        shoppingList.add(itemToAdd);
-                    } 
+                if (qPurchased == 0) {
+                    startedStealing = true;
+                    increaseList();
+                }
+
+                if (!startedStealing) {
+                    cash -= qPurchased * currentItem.getPrice();
                 }
             }
-
-            i++; 
-            done = shoppingList.isEmpty() || i >= shoppingList.size();
+            
         }
-        int j = 0;
-        while(j < shoppingList.size()) {
-            if(shoppingList.get(j).getItemQuantity() <= 0) {
-                shoppingList.remove(j);
-                j++;
-            }else{
-                j++;
-            }
-        }
+        //int j = 0;
+//        while(j < shoppingList.size()) {
+//            if(shoppingList.get(j).getItemQuantity() <= 0) {
+//                shoppingList.remove(j);
+//                j++;
+//            }else{
+//                j++;
+//            }
+//        }
 
         try{
             sleep(ONE_HUNDRED);

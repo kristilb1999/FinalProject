@@ -34,6 +34,8 @@ public class Will extends Shopper {
 
     @Override
     public void run() {
+        setMinimumPrice();
+        
         int i = 0;
         while (!done) {
             Item currentItem = shoppingList.get(i);
@@ -49,31 +51,26 @@ public class Will extends Shopper {
 
                 if (qPurchased == 0) {
                     panicking = true;
-                    int numItemsToAdd = random.nextInt(3) + 1;
-                    for (int k = 0; k < numItemsToAdd; k++) {
-                        Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
-                        itemToAdd.setQuantity(random.nextInt(5) + 1);
-                        shoppingList.add(itemToAdd);
-                    }
+                    increaseList();
                 }
-
+System.out.println("price: " + currentItem.getPrice() + "\n" +"qPurchased: " + qPurchased + "\n" + "cash:" + cash + "\n" + "i:" + i + "\nMin:" + minimumPrice + "\n");
                 cash -= qPurchased * currentItem.getPrice();
             }
 
             i++;
             checkStealers();
-            done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
-
+            done = i >= shoppingList.size() || cash <= getMinimumPrice();
+            
         }
-        int j = 0;
-        while (j < shoppingList.size()) {
-            if (shoppingList.get(j).getItemQuantity() <= 0) {
-                shoppingList.remove(j);
-                j++;
-            } else {
-                j++;
-            }
-        }
+//        int j = 0;
+//        while (j < shoppingList.size()) {
+//            if (shoppingList.get(j).getItemQuantity() <= 0) {
+//                shoppingList.remove(j);
+//                j++;
+//            } else {
+//                j++;
+//            }
+//        }
 
         try {
             sleep(ONE_HUNDRED);

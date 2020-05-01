@@ -16,7 +16,7 @@ public class Item {
 
     private double price;
     
-    private Object quantityLock;
+    private Object quantityLock = new Object();
 
     /**
      * Constructor for objects of class Item

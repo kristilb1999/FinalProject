@@ -123,11 +123,11 @@ public class ChainStoreOperator extends Thread {
     public static void main(String args[]){
         
         //print output to a file
-        try{
-        System.setOut(new PrintStream("simulation.txt"));
-        }catch(FileNotFoundException e){
-        System.err.println("File Not Found: " + e);
-        }
+//        try{
+//        System.setOut(new PrintStream("simulation.txt"));
+//        }catch(FileNotFoundException e){
+//        System.err.println("File Not Found: " + e);
+//        }
         
         int numOfStores = 1;
         
