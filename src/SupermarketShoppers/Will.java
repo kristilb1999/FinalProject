@@ -83,10 +83,9 @@ public class Will extends Shopper {
 
     public void checkStealers() {
         ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        for (int i = 0; i < supermarketManager.getShoppers().size(); i++) {
-            if (snitching.visit(supermarketManager.getShoppers().get(i))) {
-                startedSnitching = true;
-            }
+        
+        for(Shopper shopper : supermarketManager.getShoppers()){
+            shopper.accept(snitching);
         }
     }
 

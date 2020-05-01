@@ -24,6 +24,7 @@ public class Jacob extends Shopper {
     public boolean startedSnitching;
 
     private Object lock = new Object();
+    private Object jailProbLock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
@@ -91,21 +92,25 @@ public class Jacob extends Shopper {
 
     public void checkStealers() {
         ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();
-        for (int i = 0; i < supermarketManager.getShoppers().size(); i++) {
-            if (snitching.visit(supermarketManager.getShoppers().get(i))) {
-                startedSnitching = true;
-            }
+        
+        for(Shopper shopper : supermarketManager.getShoppers()){
+            shopper.accept(snitching);
         }
     }
 
-    public void increaseJailProb() {
-        if (jailedProb < ONE_HUNDRED) {
-            jailedProb += INCREASE_PROB;
-        } else {
-            done = true;
-            jail.getArrested(this);
-            supermarketManager.removeShopper(shopperNumber);
+    public boolean increaseJailProb() {
+        if (startedStealing) {
+            synchronized (jailProbLock) {
+                if (jailedProb < ONE_HUNDRED) {
+                    jailedProb += INCREASE_PROB;
+                } else {
+                    done = true;
+                    jail.getArrested(this);
+                    supermarketManager.removeShopper(shopperNumber);
+                }
+            }
         }
+        return startedStealing;
     }
 
     @Override

@@ -24,6 +24,7 @@ public class Kristi extends Shopper
     public boolean startedStealing;
 
     private Object lock = new Object();
+    private Object jailProbLock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
@@ -92,18 +93,20 @@ public class Kristi extends Shopper
         return startedStealing;
     }
 
-    public void increaseJailProb()
+    public boolean increaseJailProb()
     {
-        if(jailedProb < SENT_TO_JAIL)
-        {
-            jailedProb += INCREASE_PROB;
+        if (startedStealing) {
+            synchronized (jailProbLock) {
+                if (jailedProb < ONE_HUNDRED) {
+                    jailedProb += INCREASE_PROB;
+                } else {
+                    done = true;
+                    jail.getArrested(this);
+                    supermarketManager.removeShopper(shopperNumber);
+                }
+            }
         }
-        else
-        {
-            done = true;
-            jail.getArrested(this);
-            supermarketManager.removeShopper(shopperNumber);
-        }
+        return startedStealing;
     }
 
     @Override

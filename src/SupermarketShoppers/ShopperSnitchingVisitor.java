@@ -14,25 +14,13 @@ public class ShopperSnitchingVisitor implements ShopperVisitor {
     @Override
     public boolean visit(Kristi shopper) {
 
-        boolean isStealing = false;
-        if (shopper.isStealing()) {
-            isStealing = true;
-            shopper.increaseJailProb();
-        }
-
-        return isStealing;
+        return shopper.increaseJailProb();
     }
 
     @Override
     public boolean visit(Jacob shopper) {
 
-        boolean isStealing = false;
-        if (shopper.isStealing()) {
-            isStealing = true;
-            shopper.increaseJailProb();
-        }
-
-        return isStealing;
+        return shopper.increaseJailProb();
     }
 
     @Override
