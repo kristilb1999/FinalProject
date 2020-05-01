@@ -100,4 +100,8 @@ abstract public class Shopper extends Thread {
     protected double getMinimumPrice(){
         return minimumPrice;
     }
+    
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
+    }
 }

@@ -53,11 +53,11 @@ public class Supermarket extends Thread
                 ShopperStealingVisitor stealing = new ShopperStealingVisitor();
                 ShopperPanickingVisitor panicking = new ShopperPanickingVisitor();
                 
-                for(Shopper customer : shoppers) {
-                    if(stealing.visit(customer)) {
+                for(Shopper shopper : shoppers) {
+                    if(shopper.accept(stealing)) {
                             numStealing++;
                     }
-                    if(panicking.visit(customer)) {
+                    if(shopper.accept(panicking)) {
                             numPanicShopping++;
                     }
                 }
