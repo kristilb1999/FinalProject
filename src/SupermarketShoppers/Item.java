@@ -94,4 +94,8 @@ public class Item {
         }
 
     }
+    
+    public Item getCopy(){
+        return new Item(this.name, this.value, this.itemQuant, this.price);
+    }
 }

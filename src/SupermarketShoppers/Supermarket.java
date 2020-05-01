@@ -33,7 +33,6 @@ public class Supermarket extends Thread
     public Supermarket(int storeNumber)
     {
         this.itemsInStore = new Inventory();
-        this.itemsInStore.readInItems();
         this.jail = new Jail();
         this.storeManager = new SupermarketManager(itemsInStore, jail);
         this.storeNumber = storeNumber;

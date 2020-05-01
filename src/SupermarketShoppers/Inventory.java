@@ -20,19 +20,9 @@ public class Inventory
 
     private static final InputStream ITEM_STREAM = Inventory.class.getResourceAsStream("/itemsInStore.txt");
 
-    private Vector<Item> itemList;
-
-    /**
-     * Constructor for objects of class ShoppingList
-     */
-    public Inventory()
-    {
-        this.itemList = new Vector<Item>();
-    }
-
-    public void readInItems()
-    {
-
+    private static final Vector<Item> totalItemList = new Vector<Item>();
+    
+    static{
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(ITEM_STREAM));
             String line;
@@ -40,14 +30,28 @@ public class Inventory
             {
                 StringTokenizer tokenizer = new StringTokenizer(line);
                 Item item = new Item(tokenizer.nextToken(), Integer.parseInt(tokenizer.nextToken()), Integer.parseInt(tokenizer.nextToken()), Double.parseDouble(tokenizer.nextToken()));
-                itemList.add(item);
+                totalItemList.add(item);
             }
         }catch(FileNotFoundException e){
             System.err.println("Resource Not Found: " + ITEM_STREAM.toString());
         }catch(IOException e){
             System.err.println("IO Exception: " + e);
         }
+    }
+    
+    private final Vector<Item> itemList = new Vector<Item>();
+    
+    {
+        for(Item item : totalItemList){
+            itemList.add(item.getCopy());
+        }
+    }
 
+    /**
+     * Constructor for objects of class ShoppingList
+     */
+    public Inventory()
+    {
     }
     
     public int containsItem(Item toCheck){
@@ -84,5 +88,4 @@ public class Inventory
         }
         return out;
     }
-
 }
