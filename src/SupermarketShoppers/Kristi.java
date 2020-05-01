@@ -64,15 +64,15 @@ public class Kristi extends Shopper
             }
             
         }
-        //int j = 0;
-//        while(j < shoppingList.size()) {
-//            if(shoppingList.get(j).getItemQuantity() <= 0) {
-//                shoppingList.remove(j);
-//                j++;
-//            }else{
-//                j++;
-//            }
-//        }
+        int j = 0;
+        while(j < shoppingList.size()) {
+            if(shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+                j++;
+            }else{
+                j++;
+            }
+        }
 
         try{
             sleep(ONE_HUNDRED);

@@ -35,7 +35,7 @@ public class Will extends Shopper {
     @Override
     public void run() {
         setMinimumPrice();
-        
+
         int i = 0;
         while (!done) {
             Item currentItem = shoppingList.get(i);
@@ -60,7 +60,16 @@ public class Will extends Shopper {
             i++;
             checkStealers();
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
-            
+
+        }
+        int j = 0;
+        while (j < shoppingList.size()) {
+            if (shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+                j++;
+            } else {
+                j++;
+            }
         }
 
         try {
