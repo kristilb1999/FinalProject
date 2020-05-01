@@ -10,6 +10,7 @@ import java.util.Vector;
  */
 public class Jail
 {
+    //A LIST FOR THE SHOPPERS IN JAIL
     private Vector<Shopper> shoppersInJail;
     
     /**
@@ -26,12 +27,14 @@ public class Jail
     }
      
     public int getNumInJail() {
+        //RETURN THE NUMBER OF SHOPPERS IN JAIL
         return shoppersInJail.size();
     }
     
     @Override
     public String toString()
     {
+        //RETURN THE STRING FOR THE SHOPPERS IN JAIL
         return 
             "Shoppers in Jail:\n" +
             "Number of criminals: " + shoppersInJail.size() + "\n" +
