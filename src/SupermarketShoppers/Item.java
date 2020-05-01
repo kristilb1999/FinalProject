@@ -77,7 +77,7 @@ public class Item
             "\nItem Name: " + name + 
             ", Item Value: " + value +
             ", Item Quantity: " + itemQuant +
-            ", Item Price: " + price + "\n";
+            ", Item Price: " + price;
     }
     
     @Override
