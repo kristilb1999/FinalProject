@@ -18,7 +18,7 @@ public class Cameron extends Shopper
     public static final int ONE_HUNDRED = 100;
 
     public boolean panicking;
-    
+
     private Object lock = new Object();
     /**
      * Constructor for objects of class Shoppers
@@ -36,60 +36,65 @@ public class Cameron extends Shopper
     public void run()
     {
         try{
-                sleep(500);
-            } catch (InterruptedException e){
-                System.err.println(e);
-            } 
-        
+            sleep(500);
+        } catch (InterruptedException e){
+            System.err.println(e);
+        } 
+
         int i = 0;
         while(!done && i < shoppingList.size()) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
 
-            if(index > -1){
                 synchronized (lock) {
                     Item itemToCheck = inventory.getList().get(index);
 
                     int itemQuantity = currentItem.getItemQuantity();
                     int numInInventory = itemToCheck.getItemQuantity();
 
-                    if(numInInventory >= itemQuantity){
-                        itemToCheck.updateQuantity(itemQuantity);
-                        cash -= itemQuantity * currentItem.getPrice();
-                        currentItem.setQuantity(0);
-                        shoppingList.remove(i);
-                    }else{
-                        cash -= numInInventory * currentItem.getPrice();
-                        itemToCheck.setQuantity(0);
-                        currentItem.updateQuantity(numInInventory);
+                    if(numInInventory > 0) {
+                        if(cash > 0) {
+                            if(numInInventory >= itemQuantity){
+                                itemToCheck.updateQuantity(itemQuantity);
+                                cash -= itemQuantity * currentItem.getPrice();
+                                currentItem.setQuantity(0);
+                                shoppingList.remove(i);
+                            }else{
+                                cash -= numInInventory * currentItem.getPrice();
+                                itemToCheck.setQuantity(0);
+                                currentItem.updateQuantity(numInInventory);
+                            }
+                        } else {
+                            cash = 0;
+                        }
+                    } else {
+                        panicking = true;
+                        int numItemsToAdd = random.nextInt(3) + 1;
+                        for(int k = 0; k < numItemsToAdd; k++) {
+                            Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
+                            itemToAdd.setQuantity(random.nextInt(5) + 1);
+                            shoppingList.add(itemToAdd);
+
+                        } 
                     }
                 }
 
-            }else{
-                panicking = true;
-                int numItemsToAdd = random.nextInt(3) + 1;
-                for(int k = 0; k < numItemsToAdd; k++) {
-                    Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
-                    itemToAdd.setQuantity(random.nextInt(5) + 1);
-                    shoppingList.add(itemToAdd);
-
-                }  
-            }
+            
 
             i++;
 
             done = shoppingList.isEmpty() || i >= shoppingList.size() || cash <= 0;
 
         }
-        
+
         try{
-                sleep(ONE_HUNDRED);
-            } catch (InterruptedException e){
-                System.err.println(e);
-            } 
+            sleep(ONE_HUNDRED);
+        } catch (InterruptedException e){
+            System.err.println(e);
+        } 
     }
-    
+
     public boolean isPanicking()
     {
         return panicking;
@@ -98,10 +103,12 @@ public class Cameron extends Shopper
     @Override
     public String toString(){
 
-        return "Cameron's Shopping List\n" +
+        return 
+        "\nCameron's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
-        "Cash left in wallet: " + cash +
-        shoppingList.toString() + "\n";
+        "Cash left in wallet: " + cash + "\n" +
+        "Items the shopper was unable to purchase:\n" +
+        shoppingList.toString();
 
     }
 }

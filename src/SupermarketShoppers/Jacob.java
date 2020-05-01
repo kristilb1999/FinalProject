@@ -39,13 +39,13 @@ public class Jacob extends Shopper
     @Override
     public void run()
     {
-        
+
         try{
-                sleep(500);
-            } catch (InterruptedException e){
-                System.err.println(e);
-            } 
-        
+            sleep(500);
+        } catch (InterruptedException e){
+            System.err.println(e);
+        } 
+
         int i = 0;
         int listSize = shoppingList.size();
         while(!done && i < shoppingList.size()) {
@@ -53,56 +53,61 @@ public class Jacob extends Shopper
 
             int index = inventory.containsItem(currentItem);
 
-            if(index > -1){
-                synchronized (lock) {
-                    Item itemToCheck = inventory.getList().get(index);
+            synchronized (lock) {
+                Item itemToCheck = inventory.getList().get(index);
 
-                    int itemQuantity = currentItem.getItemQuantity();
-                    int numInInventory = itemToCheck.getItemQuantity();
+                int itemQuantity = currentItem.getItemQuantity();
+                int numInInventory = itemToCheck.getItemQuantity();
 
-                    if (numInInventory >= itemQuantity && i > listSize)
-                    {
-                        startedStealing = true;
-                        itemToCheck.updateQuantity(itemQuantity);
-                        currentItem.setQuantity(0);
-                        shoppingList.remove(i); 
-                    }else if (numInInventory < itemQuantity && i > listSize){
-                        startedStealing = true;
-                        itemToCheck.setQuantity(0);
-                        currentItem.updateQuantity(numInInventory);
+                if(numInInventory > 0) {
+                    if(cash > 0) {
+                        if (numInInventory >= itemQuantity && i > listSize)
+                        {
+                            startedStealing = true;
+                            itemToCheck.updateQuantity(itemQuantity);
+                            currentItem.setQuantity(0);
+                            shoppingList.remove(i); 
+                        }else if (numInInventory < itemQuantity && i > listSize){
+                            startedStealing = true;
+                            itemToCheck.setQuantity(0);
+                            currentItem.updateQuantity(numInInventory);
+                        }
+                        else if(numInInventory >= itemQuantity){
+                            itemToCheck.updateQuantity(itemQuantity);
+                            cash -= itemQuantity * currentItem.getPrice();
+                            currentItem.setQuantity(0);
+                            shoppingList.remove(i);
+                        }else{
+                            cash -= numInInventory * currentItem.getPrice();
+                            itemToCheck.setQuantity(0);
+                            currentItem.updateQuantity(numInInventory);
+                        }
+                    }else {
+                        cash = 0;
                     }
-                    else if(numInInventory >= itemQuantity){
-                        itemToCheck.updateQuantity(itemQuantity);
-                        cash -= itemQuantity * currentItem.getPrice();
-                        currentItem.setQuantity(0);
-                        shoppingList.remove(i);
-                    }else{
-                        cash -= numInInventory * currentItem.getPrice();
-                        itemToCheck.setQuantity(0);
-                        currentItem.updateQuantity(numInInventory);
-                    }
+                } else {
+                    startedStealing = true;
+                    int numItemsToAdd = random.nextInt(3) + 1;
+                    for(int k = 0; k < numItemsToAdd; k++) {
+                        Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
+                        itemToAdd.setQuantity(random.nextInt(5) + 1);
+                        shoppingList.add(itemToAdd);
+                    }  
                 }
 
-            }else{
-                int numItemsToAdd = random.nextInt(3) + 1;
-                for(int k = 0; k < numItemsToAdd; k++) {
-                    Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
-                    itemToAdd.setQuantity(random.nextInt(5) + 1);
-                    shoppingList.add(itemToAdd);
-                }  
-            }
+            }  
 
             i++;
             checkStealers();
             done = shoppingList.isEmpty() || i >= shoppingList.size();
 
         }
-        
+
         try{
-                sleep(ONE_HUNDRED);
-            } catch (InterruptedException e){
-                System.err.println(e);
-            } 
+            sleep(ONE_HUNDRED);
+        } catch (InterruptedException e){
+            System.err.println(e);
+        } 
     }
 
     public boolean isStealing()
@@ -146,10 +151,12 @@ public class Jacob extends Shopper
     @Override
     public String toString(){
 
-        return "Jacob's Shopping List\n" +
+        return 
+        "\nJacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
-        "Cash left in wallet: " + cash +
-        shoppingList.toString() + "\n";
+        "Cash left in wallet: " + cash + "\n" +
+        "Items the shopper was unable to purchase:\n" +
+        shoppingList.toString();
 
     }
 
