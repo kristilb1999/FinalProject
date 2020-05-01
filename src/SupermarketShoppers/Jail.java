@@ -43,7 +43,9 @@ public class Jail
     }
     
     /**
-     * Constructor for objects of class Jail
+     * Gives the information about the shoppers in jail.
+     * 
+     * @return The information of the jail.
      */
     @Override
     public String toString()
