@@ -9,7 +9,7 @@ package SupermarketShoppers;
  *
  * @author Wil
  */
-public class ShopperPanickingVisitor implements ShoppingVisitor{
+public class ShopperPanickingVisitor implements ShopperVisitor{
     
     @Override
     public boolean visit(Kristi shopper){
