@@ -40,22 +40,21 @@ public class Kristi extends Shopper
     @Override
     public void run()
     {
-        int i = 0;
+        int i = 0; 
         int listSize = shoppingList.size();
         while(!done) {
             Item currentItem = shoppingList.get(i);
 
             int index = inventory.containsItem(currentItem);
 
-            
-                synchronized (lock) {
-                    Item itemToCheck = inventory.getList().get(index);
+            synchronized (lock) {
+                Item itemToCheck = inventory.getList().get(index);
 
-                    int itemQuantity = currentItem.getItemQuantity();
-                    int numInInventory = itemToCheck.getItemQuantity();
+                int itemQuantity = currentItem.getItemQuantity();
+                int numInInventory = itemToCheck.getItemQuantity();
 
-                    if(numInInventory > 0) {
-                        if(cash > 0) {
+                if(numInInventory > 0) {
+                    if(cash > 0) {
                         if (numInInventory >= itemQuantity && i > listSize)
                         {
                             startedStealing = true;
@@ -80,22 +79,26 @@ public class Kristi extends Shopper
                     }else{
                         cash = 0;
                     }
-                    }else {
-                        int numItemsToAdd = random.nextInt(3) + 1;
-                        for(int k = 0; k < numItemsToAdd; k++) {
-                            Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
-                            itemToAdd.setQuantity(random.nextInt(5) + 1);
-                            shoppingList.add(itemToAdd);
-                        } 
-                    }
+                }else {
+                    int numItemsToAdd = random.nextInt(3) + 1;
+                    for(int k = 0; k < numItemsToAdd; k++) {
+                        Item itemToAdd = inventory.getList().get(random.nextInt(inventory.getList().size()));
+                        itemToAdd.setQuantity(random.nextInt(5) + 1);
+                        shoppingList.add(itemToAdd);
+                    } 
                 }
+            }
 
-            
-
-            i++;
-
+            i++; 
             done = shoppingList.isEmpty() || i >= shoppingList.size();
-
+        }
+        int j = 0;
+        while(j < shoppingList.size()) {
+            if(shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+            }else{
+                j++;
+            }
         }
 
         try{
@@ -129,7 +132,7 @@ public class Kristi extends Shopper
     public String toString(){
 
         return 
-        "\nKristi's Shopping List\n" +
+        "\n\nKristi's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +

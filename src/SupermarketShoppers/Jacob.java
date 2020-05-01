@@ -40,12 +40,6 @@ public class Jacob extends Shopper
     public void run()
     {
 
-        try{
-            sleep(500);
-        } catch (InterruptedException e){
-            System.err.println(e);
-        } 
-
         int i = 0;
         int listSize = shoppingList.size();
         while(!done && i < shoppingList.size()) {
@@ -66,7 +60,6 @@ public class Jacob extends Shopper
                             startedStealing = true;
                             itemToCheck.updateQuantity(itemQuantity);
                             currentItem.setQuantity(0);
-                            shoppingList.remove(i); 
                         }else if (numInInventory < itemQuantity && i > listSize){
                             startedStealing = true;
                             itemToCheck.setQuantity(0);
@@ -76,7 +69,6 @@ public class Jacob extends Shopper
                             itemToCheck.updateQuantity(itemQuantity);
                             cash -= itemQuantity * currentItem.getPrice();
                             currentItem.setQuantity(0);
-                            shoppingList.remove(i);
                         }else{
                             cash -= numInInventory * currentItem.getPrice();
                             itemToCheck.setQuantity(0);
@@ -101,6 +93,14 @@ public class Jacob extends Shopper
             checkStealers();
             done = shoppingList.isEmpty() || i >= shoppingList.size();
 
+        }
+        int j = 0;
+        while(j < shoppingList.size()) {
+            if(shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+            }else{
+                j++;
+            }
         }
 
         try{
@@ -152,7 +152,7 @@ public class Jacob extends Shopper
     public String toString(){
 
         return 
-        "\nJacob's Shopping List\n" +
+        "\n\nJacob's Shopping List\n" +
         "Shopper number " + shopperNumber + "\n" +
         "Cash left in wallet: " + cash + "\n" +
         "Items the shopper was unable to purchase:\n" +
