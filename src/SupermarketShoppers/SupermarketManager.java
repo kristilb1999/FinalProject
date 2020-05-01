@@ -149,6 +149,10 @@ public class SupermarketManager extends Thread
     {
         return this.shoppers;
     }
+    
+    public int getNumShoppers(){
+        return this.shoppers.size();
+    }
 
     public void removeShopper(int shopperToRemove)
     {

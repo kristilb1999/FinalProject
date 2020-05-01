@@ -12,6 +12,12 @@ public class Supermarket extends Thread
     private Inventory itemsInStore;
 
     private Vector<Shopper> shoppers;
+    
+    private int numCustomers;
+    
+    private int numStealing;
+    
+    private int numPanicShopping;
 
     private SupermarketManager storeManager;
 
@@ -39,6 +45,37 @@ public class Supermarket extends Thread
         
         while(!done) {
             if(storeManager.done()){
+                numCustomers = storeManager.getNumShoppers();
+                
+                shoppers = storeManager.getShoppers();
+                
+                numStealing = jail.getNumInJail();
+                
+                for(Shopper customer : shoppers) {
+                    if(customer instanceof Kristi) {
+                        Kristi k = (Kristi) customer;
+                        if(k.isStealing()) {
+                            numStealing++;
+                        }
+                    } else if (customer instanceof Jacob) {
+                        Jacob j = (Jacob) customer;
+                        if(j.isStealing()) {
+                            numStealing++;
+                        }
+                    } else if (customer instanceof Cameron) {
+                        Cameron c = (Cameron) customer;
+                        if(c.isPanicking()) {
+                            numPanicShopping++;
+                        }
+                    } else if (customer instanceof Will) {
+                        Will w = (Will) customer;
+                        if(w.isPanicking()) {
+                            numPanicShopping++;
+                        }
+                    }
+                }
+                
+                
                 System.out.println(this.toString());
                 this.done = true;
             }
@@ -51,9 +88,29 @@ public class Supermarket extends Thread
         }
 
     }
+    
+    public int getNumStealing() {
+        return numStealing;
+    }
+    
+    public int getNumPanicShopping() {
+        return numPanicShopping;
+    }
 
     public boolean done() {
         return this.done;
+    }
+     
+    public int numShoppersInJail() {
+        return jail.getNumInJail();
+    }
+    
+    public int getNumCustomers() {
+        return numCustomers;
+    }
+    
+    public int getStoreNumber() {
+        return storeNumber;
     }
 
     public String toString()
