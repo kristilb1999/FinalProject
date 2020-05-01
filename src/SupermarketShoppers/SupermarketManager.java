@@ -52,7 +52,7 @@ public class SupermarketManager extends Thread
             int numOfItems;
             int itemIndex;
 
-            shopType = 4;//random.nextInt(4) + 1;
+            shopType = random.nextInt(4) + 1;
             switch(shopType){
                 case WILL :
                 numOfItems = random.nextInt(7) + 1;
