@@ -60,8 +60,8 @@ public class ChainStoreOperator extends Thread {
         }
         
         for(Supermarket store : storesRunning) {
-                store.toString();
-            }
+            System.out.println(store.toString());
+        }
         
         this.printInformation();
         
