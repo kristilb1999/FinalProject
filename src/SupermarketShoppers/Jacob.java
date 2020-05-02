@@ -69,6 +69,7 @@ public class Jacob extends Shopper {
                 i++;
                 supermarketManager.checkStealers();
                 done = i >= shoppingList.size();
+                checkJailProb();
             }
         }
 
@@ -92,12 +93,6 @@ public class Jacob extends Shopper {
             synchronized (jailProbLock) {
                 if (jailedProb < ONE_HUNDRED) {
                     jailedProb += INCREASE_PROB;
-                } else {
-                    synchronized (doneLock) {
-                        done = true;
-                    }
-                    jail.getArrested(this);
-                    supermarketManager.removeShopper(this);
                 }
             }
         }
@@ -117,5 +112,17 @@ public class Jacob extends Shopper {
 
     public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
+    }
+    
+    private void checkJailProb(){
+        if (startedStealing) {
+                synchronized (jailProbLock) {
+                    if (jailedProb >= ONE_HUNDRED) {
+                        done = true;
+                        jail.getArrested(this);
+                        supermarketManager.removeShopper(this);
+                    }
+                }
+            }
     }
 }

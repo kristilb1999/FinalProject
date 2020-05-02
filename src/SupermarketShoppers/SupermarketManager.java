@@ -25,7 +25,7 @@ public class SupermarketManager extends Thread {
     private final int MAX_PEOPLE = 20;
     private int numShoppers;
 
-    private final Vector<Shopper> shoppers;
+    private Vector<Shopper> shoppers;
 
     private Inventory inventory;
 
@@ -38,7 +38,7 @@ public class SupermarketManager extends Thread {
     SupermarketManager(Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
         this.jail = jail;
-        this.shoppers = new Vector<Shopper>();
+        this.shoppers= new Vector<Shopper>();
         this.random = new Random();
     }
 
@@ -122,7 +122,7 @@ public class SupermarketManager extends Thread {
             }
             newShopper.start();
             synchronized (shoppersLock) {
-                this.shoppers.add(newShopper);
+                shoppers.add(newShopper);
             }
             shopperID++;
         }
@@ -130,8 +130,8 @@ public class SupermarketManager extends Thread {
         while (!done) {
             boolean isDone = true;
             synchronized (shoppersLock) {
-                for (Shopper customer : shoppers) {
-                    if (!customer.done()) {
+                for (Shopper shopper : shoppers) {
+                    if (!shopper.done()) {
                         isDone = false;
                     }
                 }
@@ -172,9 +172,14 @@ public class SupermarketManager extends Thread {
 
     @Override
     public String toString() {
-        return "Number of shoppers in the store: " + this.shoppers.size() + "\n"
-                + this.shoppers.toString();
+        int size;
+        String toString;
+        synchronized (shoppersLock) {
+            size = this.shoppers.size();
+            toString = this.shoppers.toString();
+        }
 
+        return "Number of shoppers in the store: " + size + "\n" + toString;
     }
 
     public void checkStealers() {

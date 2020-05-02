@@ -2,14 +2,14 @@ package SupermarketShoppers;
 
 import java.util.Vector;
 import java.util.Random;
+
 /**
  * Write a description of class Shoppers here.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Kristi extends Shopper
-{
+public class Kristi extends Shopper {
 
     public static final int MORALITY_NUM = 3;
 
@@ -27,24 +27,25 @@ public class Kristi extends Shopper
     /**
      * Constructor for objects of class Shoppers
      */
-    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket)
-    {
+    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket) {
         super(shoppingList, inventory, number, jail, supermarket);
 
         morality = MORALITY_NUM;
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
         jailedProb = 100;
-        startedStealing = true;/**(random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+        startedStealing = true;
+        /**
+         * (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
          *
          */
     }
 
     @Override
-    public void run(){
+    public void run() {
         shopperSleep();
-        
+
         setMinimumPrice();
-        
+
         int i = 0;
         while (!done) {
             Item currentItem = shoppingList.get(i);
@@ -67,38 +68,33 @@ public class Kristi extends Shopper
                     cash -= qPurchased * currentItem.getPrice();
                 }
             }
-            
+
             i++;
-            done = i >= shoppingList.size();            
+            done = i >= shoppingList.size();
+            checkJailProb();
         }
-        
+
         int j = 0;
-        while(j < shoppingList.size()) {
-            if(shoppingList.get(j).getItemQuantity() <= 0) {
+        while (j < shoppingList.size()) {
+            if (shoppingList.get(j).getItemQuantity() <= 0) {
                 shoppingList.remove(j);
                 j++;
-            }else{
+            } else {
                 j++;
             }
         }
 
     }
 
-    public boolean isStealing()
-    {
+    public boolean isStealing() {
         return startedStealing;
     }
 
-    public boolean increaseJailProb()
-    {
+    public boolean increaseJailProb() {
         if (startedStealing) {
             synchronized (jailProbLock) {
                 if (jailedProb < ONE_HUNDRED) {
                     jailedProb += INCREASE_PROB;
-                } else {
-                    done = true;
-                    jail.getArrested(this);
-                    supermarketManager.removeShopper(this);
                 }
             }
         }
@@ -106,18 +102,29 @@ public class Kristi extends Shopper
     }
 
     @Override
-    public String toString(){
+    public String toString() {
 
-        return
-        "\n\nKristi's Shopping List\n" +
-        "Shopper number " + shopperNumber + "\n" +
-        "Cash left in wallet: " + cash + "\n" +
-        "Items the shopper was unable to purchase:\n" +
-        shoppingList.toString();
+        return "\n\nKristi's Shopping List\n"
+                + "Shopper number " + shopperNumber + "\n"
+                + "Cash left in wallet: " + cash + "\n"
+                + "Items the shopper was unable to purchase:\n"
+                + shoppingList.toString();
 
     }
-    
-    public boolean accept(ShopperVisitor shopperVisitor){
+
+    public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
+    }
+    
+    private void checkJailProb(){
+        if (startedStealing) {
+                synchronized (jailProbLock) {
+                    if (jailedProb >= ONE_HUNDRED) {
+                        done = true;
+                        jail.getArrested(this);
+                        supermarketManager.removeShopper(this);
+                    }
+                }
+            }
     }
 }
