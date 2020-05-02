@@ -85,7 +85,7 @@ public class Cameron extends Shopper {
 
         return "\n\nCameron's Shopping List\n"
                 + "Shopper number " + shopperNumber + "\n"
-                + "Cash left in wallet: " + cash + "\n"
+                + "Cash left in wallet: " + String.format("%.2f", cash) + "\n"
                 + "Items the shopper was unable to purchase:\n"
                 + shoppingList.toString();
 
