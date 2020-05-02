@@ -18,7 +18,7 @@ import java.util.Vector;
  */
 public class ChainStoreOperator extends Thread {
     
-    private static final int DELAY_TIME = 500;
+    private static final int DELAY_TIME = 50;
     
     private int numStores;
     
@@ -31,6 +31,7 @@ public class ChainStoreOperator extends Thread {
         this.storesRunning = new Vector<Supermarket>();
     }
    
+    @Override
     public void run(){
         for(int i = 0; i < numStores; i++) {
             Supermarket nextStore = new Supermarket(i);
@@ -57,6 +58,10 @@ public class ChainStoreOperator extends Thread {
                 System.err.println(e);
             } 
         }
+        
+        for(Supermarket store : storesRunning) {
+                store.toString();
+            }
         
         this.printInformation();
         

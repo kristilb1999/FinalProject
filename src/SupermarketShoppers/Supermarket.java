@@ -26,9 +26,12 @@ public class Supermarket extends Thread
     private int storeNumber;
 
     private boolean done;
+    
+    private static final int DELAY_TIME = 250;
 
     /**
      * Constructor for objects of class Supermarket
+     * @param storeNumber
      */
     public Supermarket(int storeNumber)
     {
@@ -38,6 +41,7 @@ public class Supermarket extends Thread
         this.storeNumber = storeNumber;
     }
 
+    @Override
     public void run() {
 
         this.storeManager.start();
@@ -62,13 +66,11 @@ public class Supermarket extends Thread
                     }
                 }
                 
-                
-                System.out.println(this.toString());
                 this.done = true;
             }
             
             try{
-                sleep(250);
+                sleep(DELAY_TIME);
             } catch (InterruptedException e){
                 System.err.println(e);
             } 
@@ -100,6 +102,7 @@ public class Supermarket extends Thread
         return storeNumber;
     }
 
+    @Override
     public String toString()
     {
         return "\nSupermarket " + this.storeNumber + "\n" + this.storeManager.toString() +
