@@ -92,9 +92,4 @@ public class Will extends PanickingShopper{
             }
         }
     }
-    
-    @Override
-    public boolean accept(ShopperVisitor shopperVisitor){
-        return shopperVisitor.visit(this);
-    }
 }

@@ -35,4 +35,9 @@ abstract public class PanickingShopper extends Shopper{
     public boolean isPanicking() {
         return panicking;
     }
+    
+    @Override
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
+    }
 }

@@ -64,4 +64,9 @@ abstract public class StealingShopper extends Shopper{
                 }
             }
     }
+    
+    @Override
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
+    }
 }

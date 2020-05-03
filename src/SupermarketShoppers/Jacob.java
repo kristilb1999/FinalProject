@@ -98,9 +98,4 @@ public class Jacob extends StealingShopper {
             }
         }
     }
-    
-    @Override
-    public boolean accept(ShopperVisitor shopperVisitor) {
-        return shopperVisitor.visit(this);
-    }
 }
