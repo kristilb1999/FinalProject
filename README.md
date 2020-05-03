@@ -1,5 +1,6 @@
-# FinalProject: TD-ShopSim (Tower Defense Game & Shopping Simulation)
-Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
+# FinalProject: TD-ShopSim 
+# (Tower Defense Game & Shopping Simulation)
+by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 
 # Windows Installer
 * Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.1.0-alpha/FinalProject-Installer.exe "FinalProject-Installer.exe")
@@ -26,6 +27,8 @@ Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 * The Windows installer should now be located under FinalProject/installer/
 
 # License
+Copyright (C) 2020 William Skelly, Kristi Boardman, Cameron Costello, and Jacob Burch
+
 The use of TD-ShopSim is governed by the terms of the GNU General 
 Public License Version 2 with Classpath Exception, as found in [LICENSE.txt](https://github.com/kristilb1999/FinalProject/blob/master/LICENSE.txt).
 
