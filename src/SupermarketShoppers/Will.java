@@ -27,12 +27,10 @@ import java.util.Vector;
  */
 public class Will extends PanickingShopper{
 
-    public static final int MORALITY_NUM = 1;
-
     public boolean startedSnitching;
 
     private Object lock = new Object();
-
+    
     /**
      * Constructor for objects of class Shoppers
      * @param shoppingList
@@ -45,7 +43,7 @@ public class Will extends PanickingShopper{
         super(shoppingList, inventory, number, jail, shopperManager);
 
         name = "Will";
-        cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
+        cash = random.nextInt(MAX_CASH / Morality.WILL.getValue()) + 1;
     }
 
     @Override

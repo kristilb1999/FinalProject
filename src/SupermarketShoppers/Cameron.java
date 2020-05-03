@@ -28,8 +28,6 @@ import java.util.Random;
  */
 public class Cameron extends PanickingShopper {
 
-    public static final int MORALITY_NUM = 2;
-
     private Object lock = new Object();
 
     /**
@@ -44,7 +42,7 @@ public class Cameron extends PanickingShopper {
         super(shoppingList, inventory, number, jail, shopperManager);
 
         name = "Cameron";
-        cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
+        cash = random.nextInt(MAX_CASH / Morality.CAMERON.getValue()) + 1;
 
     }
 

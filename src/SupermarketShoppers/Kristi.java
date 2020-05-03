@@ -27,8 +27,6 @@ import java.util.Vector;
  */
 public class Kristi extends StealingShopper {
 
-    public static final int MORALITY_NUM = 3;
-
     private Object lock = new Object();
     private Object jailProbLock = new Object();
 
@@ -44,8 +42,8 @@ public class Kristi extends StealingShopper {
         super(shoppingList, inventory, number, jail, shopperManager);
 
         name = "Kristi";
-        cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
+        cash = random.nextInt(MAX_CASH / Morality.KRISTI.getValue()) + 1;
+        jailedProb = (random.nextDouble() * ONE_HUNDRED) *  Morality.KRISTI.getValue();
     }
 
     @Override
