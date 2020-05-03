@@ -157,8 +157,17 @@ public class Item {
         return qPurchased;
     }
 
+    /**
+     * This method overrides the equals method to determine when
+     * an item is equal to the input.
+     * 
+     * @param other The object that will be converted to an item.
+     * @return true or false Return whether or not the item equals the 
+     *          parameter item.
+     */
     @Override
     public boolean equals(Object other) {
+        //CHECK IF OTHER IS AN INSTANCE OF ITEM
         if (other instanceof Item) {
             return name.equals(((Item) other).getName());
         } else {
