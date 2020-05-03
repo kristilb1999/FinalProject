@@ -35,23 +35,31 @@ import java.io.InputStreamReader;
 public class Inventory
 {
 
+    //THE INPUT STREAM TO READ IN
     private static final InputStream ITEM_STREAM = Inventory.class.getResourceAsStream("/itemsInStore.txt");
 
+    //ALL OF THE ITEMS IN THE LIST TO READ IN
     private static final Vector<Item> totalItemList = new Vector<Item>();
+    
     
     static{
         try{
+            //BUFFERED READER FOR THE INPUT STREAM
             BufferedReader br = new BufferedReader(new InputStreamReader(ITEM_STREAM));
             String line;
+            //READ EACH LINE OF THE FILE
             while((line = br.readLine()) != null)
             {
+                //TOKENIZE EACH LINE AND CREATE A NEW ITEM
                 StringTokenizer tokenizer = new StringTokenizer(line);
                 Item item = new Item(tokenizer.nextToken(), Integer.parseInt(tokenizer.nextToken()), Integer.parseInt(tokenizer.nextToken()), Double.parseDouble(tokenizer.nextToken()));
                 totalItemList.add(item);
             }
         }catch(FileNotFoundException e){
+            //PRINT AN ERROR IF THE FILE IS NOT FOUND
             System.err.println("Resource Not Found: " + ITEM_STREAM.toString());
         }catch(IOException e){
+            //PRINT AN IO EXCEPTION
             System.err.println("IO Exception: " + e);
         }
     }
@@ -62,13 +70,6 @@ public class Inventory
         for(Item item : totalItemList){
             itemList.add(item.getCopy());
         }
-    }
-
-    /**
-     * Constructor for objects of class ShoppingList
-     */
-    public Inventory()
-    {
     }
     
     public int containsItem(Item toCheck){
