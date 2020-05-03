@@ -1,7 +1,7 @@
 # FinalProject: TD-ShopSim 
 by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 ## Tower Defense Game & Shopping Simulation
-This project contains two portions, a Tower Defense Game and a Shopping Simulation.
+This project contains two portions: a Tower Defense Game and a Shopping Simulation.
 
 ## Windows Installer
 * Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.1.0-alpha/FinalProject-Installer.exe "FinalProject-Installer.exe")
