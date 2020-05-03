@@ -31,36 +31,32 @@ import java.util.Vector;
  */
 public class ChainStoreOperator extends Thread {
 
-    private static final int DELAY_TIME = 50;
-
     private int numStores;
 
-    private Vector<Supermarket> storesRunning;
-
-    private boolean done;
+    private Vector<Supermarket> storesList;
 
     private ChainStoreOperator(int numStores) {
         this.numStores = numStores;
-        this.storesRunning = new Vector<Supermarket>();
+        this.storesList = new Vector<Supermarket>();
     }
 
     @Override
     public void run() {
         for (int i = 0; i < numStores; i++) {
             Supermarket nextStore = new Supermarket(i);
+            storesList.add(nextStore);
             nextStore.start();
-            storesRunning.add(nextStore);
         }
 
-        for (int i = 0; i < storesRunning.size(); i++) {
+        for (int i = 0; i < storesList.size(); i++) {
             try {
-                storesRunning.get(i).join();
+                storesList.get(i).join();
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
         }
         
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             System.out.println(store.toString());
         }
 
@@ -86,7 +82,7 @@ public class ChainStoreOperator extends Thread {
     public int mostPopStore() {
         int mostPopular = -1;
         int mostCustomers = 0;
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             if (store.getNumCustomers() > mostCustomers) {
                 mostPopular = store.getStoreNumber();
             }
@@ -96,7 +92,7 @@ public class ChainStoreOperator extends Thread {
 
     public double averageShoppers() {
         double totalShoppers = 0;
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             totalShoppers += store.getNumCustomers();
             totalShoppers += store.numShoppersInJail();
         }
@@ -105,7 +101,7 @@ public class ChainStoreOperator extends Thread {
 
     public double averageInJail() {
         double totalInJail = 0;
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             totalInJail += store.numShoppersInJail();
         }
         return totalInJail / numStores;
@@ -113,7 +109,7 @@ public class ChainStoreOperator extends Thread {
 
     public int panicShoppers() {
         int totalPanicking = 0;
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             totalPanicking += store.getNumPanicShopping();
         }
         return totalPanicking;
@@ -121,7 +117,7 @@ public class ChainStoreOperator extends Thread {
 
     public int stealingShoppers() {
         int totalStealing = 0;
-        for (Supermarket store : storesRunning) {
+        for (Supermarket store : storesList) {
             totalStealing += store.getNumStealing();
         }
         return totalStealing;
