@@ -25,9 +25,7 @@ import java.util.Vector;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Jacob extends StealingShopper {
-
-    public boolean startedSnitching;
+public class Jacob extends StealingShopper implements SnitchingShopper{
 
     private Object lock = new Object();
     private Object jailProbLock = new Object();
@@ -80,7 +78,7 @@ public class Jacob extends StealingShopper {
                 }
 
                 i++;
-                supermarketManager.checkStealers();
+                snitchOnStealers();
                 done = i >= shoppingList.size();
                 checkJailProb();
             }
@@ -95,5 +93,10 @@ public class Jacob extends StealingShopper {
                 j++;
             }
         }
+    }
+    
+    @Override
+    public void snitchOnStealers() {
+        shopperManager.checkStealers();
     }
 }

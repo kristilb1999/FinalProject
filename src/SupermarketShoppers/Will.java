@@ -25,9 +25,7 @@ import java.util.Vector;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Will extends PanickingShopper{
-
-    public boolean startedSnitching;
+public class Will extends PanickingShopper implements SnitchingShopper{
 
     private Object lock = new Object();
     
@@ -75,7 +73,7 @@ public class Will extends PanickingShopper{
             }
 
             i++;
-            supermarketManager.checkStealers();
+            snitchOnStealers();
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
 
         }
@@ -89,5 +87,10 @@ public class Will extends PanickingShopper{
                 j++;
             }
         }
+    }
+
+    @Override
+    public void snitchOnStealers() {
+        shopperManager.checkStealers();
     }
 }

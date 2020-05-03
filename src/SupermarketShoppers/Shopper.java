@@ -53,7 +53,7 @@ abstract public class Shopper extends Thread {
     
     protected String name;
 
-    protected ShopperManager supermarketManager;
+    protected ShopperManager shopperManager;
 
     /**
      * Constructor for objects of class Shopper
@@ -63,12 +63,12 @@ abstract public class Shopper extends Thread {
      * @param jail
      * @param supermarketManager
      */
-    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
+    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         shopperNumber = number;
         this.inventory = inventory;
         this.shoppingList = shoppingList;
         this.jail = jail;
-        this.supermarketManager = supermarketManager;
+        this.shopperManager = shopperManager;
         random = new Random();
         minimumPrice = Double.MAX_VALUE;
     }
