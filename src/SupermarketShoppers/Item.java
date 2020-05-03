@@ -104,10 +104,20 @@ public class Item {
         this.price = price;
     }
 
+     /**
+     * Return the item quantity.
+     * 
+     * @return Quantity of the item.
+     */
     public int getItemQuantity() {
         return itemQuant;
     }
 
+    /**
+     * Set the quantity of the item.
+     * 
+     * @param quantity The quantity to change to.
+     */
     public void setQuantity(int itemQuant) {
         this.itemQuant = itemQuant;
     }
