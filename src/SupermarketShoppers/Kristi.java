@@ -18,7 +18,6 @@
 package SupermarketShoppers;
 
 import java.util.Vector;
-import java.util.Random;
 
 /**
  * Write a description of class Shoppers here.
@@ -26,35 +25,27 @@ import java.util.Random;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Kristi extends Shopper {
+public class Kristi extends StealingShopper {
 
     public static final int MORALITY_NUM = 3;
-
-    public static final int MAX_CASH = 1000;
-
-    public static final int INCREASE_PROB = 5;
-
-    public static final int SENT_TO_JAIL = 65;
-
-    public boolean startedStealing;
 
     private Object lock = new Object();
     private Object jailProbLock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
+     * @param shoppingList
+     * @param inventory
+     * @param number
+     * @param jail
+     * @param shopperManager
      */
-    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarket) {
-        super(shoppingList, inventory, number, jail, supermarket);
+    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
+        super(shoppingList, inventory, number, jail, shopperManager);
 
-        morality = MORALITY_NUM;
+        name = "Kristi";
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
-        jailedProb = 100;
-        startedStealing = true;
-        /**
-         * (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
-         *
-         */
+        jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
     }
 
     @Override
@@ -101,41 +92,5 @@ public class Kristi extends Shopper {
             }
         }
 
-    }
-
-    public boolean isStealing() {
-        return startedStealing;
-    }
-
-    public boolean increaseJailProb() {
-        if (startedStealing) {
-            synchronized (jailProbLock) {
-                if (jailedProb < ONE_HUNDRED) {
-                    jailedProb += INCREASE_PROB;
-                }
-            }
-        }
-        return startedStealing;
-    }
-
-    @Override
-    public String getShopperName(){
-        return "Kristi";
-    }
-
-    public boolean accept(ShopperVisitor shopperVisitor) {
-        return shopperVisitor.visit(this);
-    }
-    
-    private void checkJailProb(){
-        if (startedStealing) {
-                synchronized (jailProbLock) {
-                    if (jailedProb >= ONE_HUNDRED) {
-                        done = true;
-                        jail.getArrested(this);
-                        this.done = true;
-                    }
-                }
-            }
     }
 }

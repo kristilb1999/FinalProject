@@ -17,31 +17,27 @@
  */
 package SupermarketShoppers;
 
+import java.util.Vector;
+
 /**
  *
- * @author Will Skelly
+ * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class ShopperStealingVisitor implements ShopperVisitor{
+abstract public class PanickingShopper extends Shopper{
     
-    @Override
-    public boolean visit(Shopper shopper){
-        
-        
-        return false;
+    public boolean panicking;
+    
+    public PanickingShopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
+        super(shoppingList, inventory, number, jail, supermarketManager);
+    }
+    
+    public boolean isPanicking() {
+        return panicking;
     }
     
     @Override
-    public boolean visit(StealingShopper shopper){
-        
-       return shopper.isStealing();
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
     }
-    
-    @Override
-    public boolean visit(PanickingShopper shopper){
-        
-       return false;
-    }
-    
-    
 }

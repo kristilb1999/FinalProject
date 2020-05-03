@@ -35,29 +35,38 @@ import java.io.InputStreamReader;
 public class Inventory
 {
 
+    //THE INPUT STREAM TO READ IN
     private static final InputStream ITEM_STREAM = Inventory.class.getResourceAsStream("/itemsInStore.txt");
 
+    //ALL OF THE ITEMS IN THE LIST TO READ IN
     private static final Vector<Item> totalItemList = new Vector<Item>();
-    
+
     static{
         try{
+            //BUFFERED READER FOR THE INPUT STREAM
             BufferedReader br = new BufferedReader(new InputStreamReader(ITEM_STREAM));
             String line;
+            //READ EACH LINE OF THE FILE
             while((line = br.readLine()) != null)
             {
+                //TOKENIZE EACH LINE AND CREATE A NEW ITEM
                 StringTokenizer tokenizer = new StringTokenizer(line);
                 Item item = new Item(tokenizer.nextToken(), Integer.parseInt(tokenizer.nextToken()), Integer.parseInt(tokenizer.nextToken()), Double.parseDouble(tokenizer.nextToken()));
                 totalItemList.add(item);
             }
         }catch(FileNotFoundException e){
+            //PRINT AN ERROR IF THE FILE IS NOT FOUND
             System.err.println("Resource Not Found: " + ITEM_STREAM.toString());
         }catch(IOException e){
+            //PRINT AN IO EXCEPTION
             System.err.println("IO Exception: " + e);
         }
     }
-    
+
+    //LIST OF ITEMS 
     private final Vector<Item> itemList = new Vector<Item>();
-    
+
+    //FILL THE ITEM LIST
     {
         for(Item item : totalItemList){
             itemList.add(item.getCopy());
@@ -65,12 +74,12 @@ public class Inventory
     }
 
     /**
-     * Constructor for objects of class ShoppingList
+     * This method checks to see if the item list contains an item.
+     * 
+     * @param toCheck Check to see if this item is in the list
+     * @return The position of the item, otherwise negative 1
+     *         if the item does not exist.
      */
-    public Inventory()
-    {
-    }
-    
     public int containsItem(Item toCheck){
         for(int i = 0; i < itemList.size(); i++){
             if(itemList.get(i).equals(toCheck)){
@@ -80,6 +89,11 @@ public class Inventory
         return -1;
     }
 
+    /**
+     * Print out the information of each item in the item list
+     * 
+     * @return The string of information about the items.
+     */
     @Override
     public String toString(){
         String out = "";
@@ -89,16 +103,29 @@ public class Inventory
         return out;
     }
 
+    /**
+     * Return the item list.
+     * 
+     * @return The list of items.
+     */
     public Vector<Item> getList(){
         return itemList;
     }
 
-    public boolean contains(Item other){
+    /**
+     * This method checks to see if the item list contains an item.
+     * 
+     * @param item The item to check in the item list.
+     * @return True or false depending on if the list conatins the item.
+     */
+    public boolean contains(Item item){
         boolean out = false;
         int i = 0;
 
+        //CHECK IF THE LIST CONTAINS THE ITEM
         while(!out && i < itemList.size()){
-            if (itemList.get(i).equals(other) && itemList.get(i).getItemQuantity() > 0){
+            //IF THE ITEM IS IN THE LIST AND THE QUANTITY IS GREATER THAN 0, OUT = TRUE
+            if (itemList.get(i).equals(item) && itemList.get(i).getItemQuantity() > 0){
                 out = true;
             }
             i++;

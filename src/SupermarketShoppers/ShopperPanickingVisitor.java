@@ -25,20 +25,6 @@ package SupermarketShoppers;
 public class ShopperPanickingVisitor implements ShopperVisitor{
     
     @Override
-    public boolean visit(Kristi shopper){
-        
-        
-        return false;
-    }
-    
-    @Override
-    public boolean visit(Jacob shopper){
-        
-        
-       return false;
-    }
-    
-    @Override
     public boolean visit(Shopper shopper){
         
         
@@ -46,13 +32,15 @@ public class ShopperPanickingVisitor implements ShopperVisitor{
     }
 
     @Override
-    public boolean visit(Will shopper) {
-        return shopper.isPanicking();
+    public boolean visit(StealingShopper shopper){
+        
+       return false;
     }
-
+    
     @Override
-    public boolean visit(Cameron shopper) {
-        return shopper.isPanicking();
+    public boolean visit(PanickingShopper shopper){
+        
+       return shopper.isPanicking();
     }
     
 }

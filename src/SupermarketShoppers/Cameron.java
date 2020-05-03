@@ -26,23 +26,24 @@ import java.util.Random;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Cameron extends Shopper {
+public class Cameron extends PanickingShopper {
 
     public static final int MORALITY_NUM = 2;
-
-    public static final int MAX_CASH = 1000;
-
-    public boolean panicking;
 
     private Object lock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
+     * @param shoppingList
+     * @param inventory
+     * @param number
+     * @param jail
+     * @param shopperManager
      */
-    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
-        super(shoppingList, inventory, number, jail, supermarketManager);
+    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
+        super(shoppingList, inventory, number, jail, shopperManager);
 
-        morality = MORALITY_NUM;
+        name = "Cameron";
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
 
     }
@@ -91,18 +92,5 @@ public class Cameron extends Shopper {
                 j++;
             }
         }
-    }
-
-    public boolean isPanicking() {
-        return panicking;
-    }
-
-    @Override
-    public String getShopperName(){
-        return "Cameron";
-    }
-    
-    public boolean accept(ShopperVisitor shopperVisitor){
-        return shopperVisitor.visit(this);
     }
 }
