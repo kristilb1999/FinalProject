@@ -25,14 +25,19 @@ package SupermarketShoppers;
  */
 public class Item {
 
+    //THE NAME OF THE ITEM
     private String name;
 
+    //THE ITEM VALUE
     private int value;
 
+    //THE ITEM QUANTITY
     private int itemQuant;
 
+    //THE ITEM PRICE
     private double price;
     
+    //QUANTITY LOCK TO ENSURE THREAD SAFETY
     private Object quantityLock = new Object();
 
     /**
