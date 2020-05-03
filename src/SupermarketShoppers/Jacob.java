@@ -71,7 +71,7 @@ public class Jacob extends Shopper {
                 int itemQuantity = currentItem.getItemQuantity();
                 if (cash > 0) {
 
-                    int qPurchased = itemToCheck.attemptToBuy(itemQuantity, Double.MAX_VALUE);
+                    int qPurchased = itemToCheck.attemptToBuy(itemQuantity, cash);
 
                     if (!startedStealing && qPurchased == 0) {
                         startedStealing = true;
