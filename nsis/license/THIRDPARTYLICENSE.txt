@@ -1,0 +1,38 @@
+TD-ShopSim makes use of, and distributes with it, several third party libraries which
+are made available under different license conditions.
+
+Copies of various licenses can be found in the "thirdpartylicenses" directory/folder
+within the TD-ShopSim distribution.
+
+Contents:
+1. Copyright notices
+2. Libraries used and their licenses
+3. Summary of jar files and licenses
+
+
+1. COPYRIGHT NOTICES
+====================
+
+Licenses of third-party software used in TD-ShopSim require the following notices be present in
+the TD-ShopSim documentation:
+
+
+
+
+
+2. LIBRARIES AND THEIR LICENSES
+===============================
+
+The following is a list of the libraries used in TD-ShopSim, and their licenses:
+
+
+H2, the Java SQL database (MPL 2.0 and EPL 1.0)
+--------------------------------------------------
+"h2-1.4.200.jar" is used by TD-ShopSim to serve
+as a database.  It is distributed under the MPL 2.0 or EPL 1.0,
+as found in the "H2-MPL-EPL.txt" file.
+
+
+3. SUMMARY OF THIRD-PARTY JAR FILES AND LICENSES
+
+H2-1.4.200.jar                           Mozilla Public License Version 2.0 or Eclipse Public License
