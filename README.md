@@ -1,13 +1,14 @@
 # FinalProject: TD-ShopSim 
-# (Tower Defense Game & Shopping Simulation)
 by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
+## Tower Defense Game & Shopping Simulation
+This project contains two portions, a Tower Defense Game and a Shopping Simulation.
 
-# Windows Installer
+## Windows Installer
 * Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.1.0-alpha/FinalProject-Installer.exe "FinalProject-Installer.exe")
 * Launch from Start Menu Programs
 * Uninstall from Add or Remove Programs
 
-# Running in BlueJ
+## Running in BlueJ
 * Clone this repository
 * Run 'touch package.bluej' inside the FinalProject/src/ directory
 * Run 'touch package.bluej' inside the FinalProject/src/TowerDefense directory
@@ -16,7 +17,7 @@ by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 * Run 'start package.bluej' inside the FinalProject/src/ directory
 * Navigate to the Launcher package in BlueJ, run main method on LauncherWindow.java
 
-# Building and Running in Netbeans 11
+## Building and Running in Netbeans 11
 * Clone this repository, then open the Netbeans project 'FinalProject' from Netbeans
 * The project can now be run by clicking 'Run Project' (keyboard shortcut F6) in Netbeans
 * Unzip jre.zip to FinalProject/jre/
@@ -26,7 +27,7 @@ by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 * Navigate to Files (Netbeans Tab), locate build.xml, right click and select Run Target > Other Targets > package-for-installer (if this doesn't work, try running package-for-launch4j first)
 * The Windows installer should now be located under FinalProject/installer/
 
-# License
+## License
 Copyright (C) 2020 William Skelly, Kristi Boardman, Cameron Costello, and Jacob Burch
 
 The use of TD-ShopSim is governed by the terms of the GNU General 
