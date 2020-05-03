@@ -39,7 +39,7 @@ public class Supermarket extends Thread {
 
     private int numPanicShopping;
 
-    private SupermarketManager storeManager;
+    private ShopperManager storeManager;
 
     private Jail jail;
 
@@ -57,7 +57,7 @@ public class Supermarket extends Thread {
     public Supermarket(int storeNumber) {
         this.itemsInStore = new Inventory();
         this.jail = new Jail();
-        this.storeManager = new SupermarketManager(itemsInStore, jail);
+        this.storeManager = new ShopperManager(itemsInStore, jail);
         this.storeNumber = storeNumber;
     }
 

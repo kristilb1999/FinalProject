@@ -45,7 +45,7 @@ public class Jacob extends Shopper {
     /**
      * Constructor for objects of class Shoppers
      */
-    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager) {
+    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         super(shoppingList, inventory, number, jail, supermarketManager);
 
         morality = MORALITY_NUM;

@@ -28,7 +28,7 @@ import java.util.Vector;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class SupermarketManager extends Thread {
+public class ShopperManager extends Thread {
 
     private static final int DELAY_TIME = 33;
 
@@ -52,7 +52,7 @@ public class SupermarketManager extends Thread {
 
     private Object shoppersLock = new Object();
 
-    SupermarketManager(Inventory itemsInStore, Jail jail) {
+    ShopperManager (Inventory itemsInStore, Jail jail) {
         this.inventory = itemsInStore;
         this.jail = jail;
         this.shoppers= new Vector<Shopper>();

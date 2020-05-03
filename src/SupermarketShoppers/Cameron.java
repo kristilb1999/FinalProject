@@ -39,7 +39,7 @@ public class Cameron extends Shopper {
     /**
      * Constructor for objects of class Shoppers
      */
-    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager) {
+    public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         super(shoppingList, inventory, number, jail, supermarketManager);
 
         morality = MORALITY_NUM;

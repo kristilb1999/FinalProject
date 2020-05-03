@@ -51,12 +51,12 @@ abstract public class Shopper extends Thread {
 
     protected double minimumPrice;
 
-    protected SupermarketManager supermarketManager;
+    protected ShopperManager supermarketManager;
 
     /**
      * Constructor for objects of class Shoppers
      */
-    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager) {
+    public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         shopperNumber = number;
         this.inventory = inventory;
         this.shoppingList = shoppingList;

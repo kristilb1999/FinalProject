@@ -44,7 +44,7 @@ public class Kristi extends Shopper {
     /**
      * Constructor for objects of class Shoppers
      */
-    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarket) {
+    public Kristi(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarket) {
         super(shoppingList, inventory, number, jail, supermarket);
 
         morality = MORALITY_NUM;

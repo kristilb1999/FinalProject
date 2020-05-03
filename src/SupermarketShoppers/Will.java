@@ -40,7 +40,7 @@ public class Will extends Shopper {
     /**
      * Constructor for objects of class Shoppers
      */
-    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, SupermarketManager supermarketManager) {
+    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         super(shoppingList, inventory, number, jail, supermarketManager);
 
         morality = MORALITY_NUM;
