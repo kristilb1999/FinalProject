@@ -4,7 +4,7 @@ by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 This project contains two portions:  a Tower Defense Game and a Shopping Simulation.
 
 ## Windows Installer
-* Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.2.0-alpha/FinalProject-Installer.exe "FinalProject-Installer.exe")
+* Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.2.0-alpha/TD-ShopSim_Installer.exe "TD-ShopSim_Installer.exe")
 * Launch from Start Menu Programs
 * Uninstall from Add or Remove Programs
 
