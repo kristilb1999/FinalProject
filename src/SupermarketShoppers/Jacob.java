@@ -18,7 +18,6 @@
 package SupermarketShoppers;
 
 import java.util.Vector;
-import java.util.Random;
 
 /**
  * Write a description of class Shoppers here.
@@ -26,15 +25,9 @@ import java.util.Random;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Jacob extends Shopper {
+public class Jacob extends StealingShopper {
 
     public static final int MORALITY_NUM = 4;
-
-    public static final int MAX_CASH = 1000;
-
-    public static final int INCREASE_PROB = 5;
-
-    public boolean startedStealing;
 
     public boolean startedSnitching;
 
@@ -44,11 +37,16 @@ public class Jacob extends Shopper {
 
     /**
      * Constructor for objects of class Shoppers
+     * @param shoppingList
+     * @param inventory
+     * @param number
+     * @param jail
+     * @param shopperManager
      */
-    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
-        super(shoppingList, inventory, number, jail, supermarketManager);
+    public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
+        super(shoppingList, inventory, number, jail, shopperManager);
 
-        morality = MORALITY_NUM;
+        name = "Jacob";
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
         jailedProb = (random.nextDouble() * ONE_HUNDRED) * MORALITY_NUM;
     }
@@ -100,40 +98,9 @@ public class Jacob extends Shopper {
             }
         }
     }
-
-    public boolean isStealing() {
-        return startedStealing;
-    }
-
-    public boolean increaseJailProb() {
-        if (startedStealing) {
-            synchronized (jailProbLock) {
-                if (jailedProb < ONE_HUNDRED) {
-                    jailedProb += INCREASE_PROB;
-                }
-            }
-        }
-        return startedStealing;
-    }
-
+    
     @Override
-    public String getShopperName(){
-        return "Jacob";
-    }
-
     public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
-    }
-    
-    private void checkJailProb(){
-        if (startedStealing) {
-                synchronized (jailProbLock) {
-                    if (jailedProb >= ONE_HUNDRED) {
-                        done = true;
-                        jail.getArrested(this);
-                        this.done = true;
-                    }
-                }
-            }
     }
 }

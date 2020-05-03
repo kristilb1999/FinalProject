@@ -30,6 +30,8 @@ import java.util.Random;
 abstract public class Shopper extends Thread {
     
     public static final int ONE_HUNDRED = 100;
+    
+    public static final int MAX_CASH = 1000;
 
     protected Inventory inventory;
 
@@ -43,18 +45,23 @@ abstract public class Shopper extends Thread {
 
     protected double jailedProb;
 
-    protected int morality;
-
     protected boolean done;
 
     protected int shopperNumber;
 
     protected double minimumPrice;
+    
+    protected String name;
 
     protected ShopperManager supermarketManager;
 
     /**
-     * Constructor for objects of class Shoppers
+     * Constructor for objects of class Shopper
+     * @param shoppingList
+     * @param inventory
+     * @param number
+     * @param jail
+     * @param supermarketManager
      */
     public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         shopperNumber = number;
@@ -66,6 +73,7 @@ abstract public class Shopper extends Thread {
         minimumPrice = Double.MAX_VALUE;
     }
 
+    @Override
     abstract public void run();
 
     public boolean done() {
@@ -86,14 +94,6 @@ abstract public class Shopper extends Thread {
 
     public void setJailedProb(double jailedProb) {
         this.jailedProb = jailedProb;
-    }
-
-    public int getMorality() {
-        return morality;
-    }
-
-    public void setMorality(int morality) {
-        this.morality = morality;
     }
 
     public Vector<Item> getShoppingList() {
@@ -120,10 +120,6 @@ abstract public class Shopper extends Thread {
         return minimumPrice;
     }
     
-    public boolean accept(ShopperVisitor shopperVisitor){
-        return shopperVisitor.visit(this);
-    }
-    
     protected void shopperSleep(){
         try {
             sleep(ONE_HUNDRED);
@@ -135,7 +131,7 @@ abstract public class Shopper extends Thread {
     @Override
     public String toString() {
 
-        return "\n\n" + getShopperName() + "\'s Shopping List\n"
+        return "\n\n" + name + "\'s Shopping List\n"
                 + "Shopper number " + shopperNumber + "\n"
                 + "Cash left in wallet: " + String.format("%.2f", cash) + "\n"
                 + "Items the shopper was unable to purchase:\n"
@@ -143,5 +139,7 @@ abstract public class Shopper extends Thread {
 
     }
     
-    abstract public String getShopperName();
+    public boolean accept(ShopperVisitor shopperVisitor){
+        return shopperVisitor.visit(this);
+    }
 }

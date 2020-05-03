@@ -25,25 +25,26 @@ import java.util.Vector;
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Will extends Shopper {
+public class Will extends PanickingShopper{
 
     public static final int MORALITY_NUM = 1;
 
-    public static final int MAX_CASH = 1000;
-
     public boolean startedSnitching;
-
-    public boolean panicking;
 
     private Object lock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
+     * @param shoppingList
+     * @param inventory
+     * @param number
+     * @param jail
+     * @param shopperManager
      */
-    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
-        super(shoppingList, inventory, number, jail, supermarketManager);
+    public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
+        super(shoppingList, inventory, number, jail, shopperManager);
 
-        morality = MORALITY_NUM;
+        name = "Will";
         cash = random.nextInt(MAX_CASH / MORALITY_NUM) + 1;
     }
 
@@ -91,16 +92,8 @@ public class Will extends Shopper {
             }
         }
     }
-
-    public boolean isPanicking() {
-        return panicking;
-    }
-
-    @Override
-    public String getShopperName(){
-        return "Will";
-    }
     
+    @Override
     public boolean accept(ShopperVisitor shopperVisitor){
         return shopperVisitor.visit(this);
     }
