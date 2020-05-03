@@ -86,10 +86,20 @@ public class Item {
         this.value = value;
     }
 
+     /**
+     * Return the item price.
+     * 
+     * @return Price of the item.
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Set the price of the item.
+     * 
+     * @param price The price to change to.
+     */
     public void setPrice(double price) {
         this.price = price;
     }
