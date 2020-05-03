@@ -136,7 +136,7 @@ public class Item {
      * 
      * @param quantity The quantity of the item.
      *        cash How much cash is available.
-     * @return the amount purchased.
+     * @return The amount purchased.
      */
     public int attemptToBuy(int quantity, double cash) {
         int qPurchased = 0;
@@ -162,7 +162,7 @@ public class Item {
      * an item is equal to the input.
      * 
      * @param other The object that will be converted to an item.
-     * @return true or false Return whether or not the item equals the 
+     * @return Return whether or not the item equals the 
      *          parameter item.
      */
     @Override
@@ -176,10 +176,20 @@ public class Item {
 
     }
 
+    /**
+     * Returns a copy of an item.
+     * 
+     * @return The item copy.
+     */
     public Item getCopy(){
         return new Item(this.name, this.value, this.itemQuant, this.price);
     }
 
+    /**
+     * Returns item information.
+     * 
+     * @return The item information.
+     */
     @Override
     public String toString() {
         return "\nItem Name: " + name
