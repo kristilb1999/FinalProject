@@ -161,6 +161,15 @@ public class SupermarketManager extends Thread {
                 System.err.println(e);
             }
         }
+        
+//        for (int i = 0; i < shoppers.size(); i++) {
+//            try{
+//                shoppers.get(i).join(250);
+//            }catch(InterruptedException e){
+//
+//            }
+//        }
+//        done = true;
 
     }
 
