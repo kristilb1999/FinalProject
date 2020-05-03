@@ -77,7 +77,7 @@ public class Inventory
      * This method checks to see if the item list contains an item.
      * 
      * @param toCheck Check to see if this item is in the list
-     * @return return the position of the item, otherwise negative 1
+     * @return The position of the item, otherwise negative 1
      *         if the item does not exist.
      */
     public int containsItem(Item toCheck){
@@ -89,6 +89,11 @@ public class Inventory
         return -1;
     }
 
+    /**
+     * Print out the information of each item in the item list
+     * 
+     * @return The string of information about the items.
+     */
     @Override
     public String toString(){
         String out = "";
