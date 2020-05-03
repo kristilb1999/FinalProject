@@ -68,10 +68,20 @@ public class Item {
         this.name = name;
     }
 
+    /**
+     * Return the item value.
+     * 
+     * @return Value of the item.
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Set the value of the item.
+     * 
+     * @param value The value to change to.
+     */
     public void setValue(int value) {
         this.value = value;
     }
