@@ -86,7 +86,7 @@ public class Item {
         this.value = value;
     }
 
-     /**
+    /**
      * Return the item price.
      * 
      * @return Price of the item.
@@ -104,7 +104,7 @@ public class Item {
         this.price = price;
     }
 
-     /**
+    /**
      * Return the item quantity.
      * 
      * @return Quantity of the item.
@@ -131,25 +131,30 @@ public class Item {
         this.itemQuant -= quantity;
     }
 
+    /**
+     * This is used to attempt to buy an item. 
+     * 
+     * @param quantity The quantity of the item.
+     *        cash How much cash is available.
+     * @return the amount purchased.
+     */
     public int attemptToBuy(int quantity, double cash) {
         int qPurchased = 0;
+        
+        //LOCK TO ENSURE THREAD SAFETY
         synchronized (quantityLock) {
 
+            //WHILE THERE IS MORE CASH THAN PRICE QUANTITY IS GREATER THAN 0,
+            //PURCHASE THE ITEM
             while(cash > this.price && quantity > 0 && itemQuant > 0){
                 cash -= this.price;
                 qPurchased++;
                 quantity--;
             }
         }
+        
+        //RETURN AMOUNT PURCHASED
         return qPurchased;
-    }
-
-    @Override
-    public String toString() {
-        return "\nItem Name: " + name
-        + ", Item Value: " + value
-        + ", Item Quantity: " + itemQuant
-        + ", Item Price: " + price;
     }
 
     @Override
@@ -164,5 +169,13 @@ public class Item {
 
     public Item getCopy(){
         return new Item(this.name, this.value, this.itemQuant, this.price);
+    }
+
+    @Override
+    public String toString() {
+        return "\nItem Name: " + name
+        + ", Item Value: " + value
+        + ", Item Quantity: " + itemQuant
+        + ", Item Price: " + price;
     }
 }
