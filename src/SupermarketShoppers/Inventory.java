@@ -103,16 +103,29 @@ public class Inventory
         return out;
     }
 
+    /**
+     * Return the item list.
+     * 
+     * @return The list of items.
+     */
     public Vector<Item> getList(){
         return itemList;
     }
 
-    public boolean contains(Item other){
+    /**
+     * This method checks to see if the item list contains an item.
+     * 
+     * @param item The item to check in the item list.
+     * @return True or false depending on if the list conatins the item.
+     */
+    public boolean contains(Item item){
         boolean out = false;
         int i = 0;
 
+        //CHECK IF THE LIST CONTAINS THE ITEM
         while(!out && i < itemList.size()){
-            if (itemList.get(i).equals(other) && itemList.get(i).getItemQuantity() > 0){
+            //IF THE ITEM IS IN THE LIST AND THE QUANTITY IS GREATER THAN 0, OUT = TRUE
+            if (itemList.get(i).equals(item) && itemList.get(i).getItemQuantity() > 0){
                 out = true;
             }
             i++;
