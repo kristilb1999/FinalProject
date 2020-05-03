@@ -34,7 +34,7 @@ LicenseData "nsis\license.rtf"
 # This will be in the installer/uninstaller's title bar
 Name "${COMPANYNAME} - ${APPNAME}"
 Icon "misc\favicon.ico"
-outFile "installer\TD-ShopSim_installer.exe"
+outFile "installer\TD-ShopSim_Installer.exe"
  
 !include LogicLib.nsh
  
