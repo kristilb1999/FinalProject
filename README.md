@@ -1,4 +1,4 @@
-# FinalProject
+# FinalProject: TD-ShopSim (Tower Defense Game & Shopping Simulation)
 Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 
 # Windows Installer
@@ -24,3 +24,10 @@ Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 * Install [NSIS](https://nsis.sourceforge.io/Main_Page) (tested using version 3.05) to 'C:\Program Files (x86)\NSIS'
 * Navigate to Files (Netbeans Tab), locate build.xml, right click and select Run Target > Other Targets > package-for-installer (if this doesn't work, try running package-for-launch4j first)
 * The Windows installer should now be located under FinalProject/installer/
+
+# License
+The use of TD-ShopSim is governed by the terms of the GNU General 
+Public License Version 2 with Classpath Exception, as found in [LICENSE.txt](https://github.com/kristilb1999/FinalProject/blob/master/LICENSE.txt).
+
+TD-ShopSim makes use of 3rd party software which are under different 
+licenses. These licenses can be found in [THIRDPARTYLICENSE.txt](https://github.com/kristilb1999/FinalProject/blob/master/THIRDPARTYLICENSE.txt).
