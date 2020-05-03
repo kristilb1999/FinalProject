@@ -40,8 +40,7 @@ public class Inventory
 
     //ALL OF THE ITEMS IN THE LIST TO READ IN
     private static final Vector<Item> totalItemList = new Vector<Item>();
-    
-    
+
     static{
         try{
             //BUFFERED READER FOR THE INPUT STREAM
@@ -63,15 +62,24 @@ public class Inventory
             System.err.println("IO Exception: " + e);
         }
     }
-    
+
+    //LIST OF ITEMS 
     private final Vector<Item> itemList = new Vector<Item>();
-    
+
+    //FILL THE ITEM LIST
     {
         for(Item item : totalItemList){
             itemList.add(item.getCopy());
         }
     }
-    
+
+    /**
+     * This method checks to see if the item list contains an item.
+     * 
+     * @param toCheck Check to see if this item is in the list
+     * @return return the position of the item, otherwise negative 1
+     *         if the item does not exist.
+     */
     public int containsItem(Item toCheck){
         for(int i = 0; i < itemList.size(); i++){
             if(itemList.get(i).equals(toCheck)){
