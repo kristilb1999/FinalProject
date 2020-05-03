@@ -27,27 +27,43 @@ import java.util.Vector;
  * default creation is one store. When the store has completed running, a string
  * of information about the stores will be output to the terminal window.
  *
- * @author Kristi Boardman
+ * @author Kristi Boardman, Will Skelly, Cameron Costello, Jake Burch
+ * @version Spring 2020
  */
 public class ChainStoreOperator extends Thread {
 
+    //A LIST OF ALL STORES IN THE CHAIN
+    private Vector<Supermarket> storesList;
+    
+    //THE NUMBER OF STORES IN THE CHAIN
     private int numStores;
 
-    private Vector<Supermarket> storesList;
-
+/**
+ * Constructs a chain store operator that takes in a number of stores.
+ * @param numStores 
+ */
     private ChainStoreOperator(int numStores) {
         this.numStores = numStores;
         this.storesList = new Vector<Supermarket>();
     }
 
+    /**
+     * Creates all of the supermarkets with their unique store numbers,
+     * and waits until all of the supermarkets have finished. Finally, 
+     * all supermarkets will print their own information and a collection
+     * of other information will be printed before the program ends.
+     */
     @Override
     public void run() {
+        
+        //CREATE A LIST OF SUPERMARKETS WITH UNIQUE STORE NUMBERS
         for (int i = 0; i < numStores; i++) {
             Supermarket nextStore = new Supermarket(i);
             storesList.add(nextStore);
             nextStore.start();
         }
 
+        //WAITS UNTIL EVERY SUPERMARKET IS COMPLETE
         for (int i = 0; i < storesList.size(); i++) {
             try {
                 storesList.get(i).join();
@@ -56,14 +72,23 @@ public class ChainStoreOperator extends Thread {
             }
         }
         
+        //PRINTS ALL SUPERMARKET INFORMATION IN ORDER BY UNIQUE NUMBER
         for (Supermarket store : storesList) {
             System.out.println(store.toString());
         }
 
+        //PRINTS ALL IMPORTANT INFORMATION ABOUT STORES
         this.printInformation();
 
     }
 
+    /**
+     * Prints information about all of the stores. Will print the most popular
+     * store (the one with the most visitors), the average amount of shoppers
+     * that visited every supermarket, the average amount of shoppers that went
+     * to jail for stealing, the amount of visitors that panic shopped, and the
+     * amount of visitors that stole from the store.
+     */
     public void printInformation() {
 
         System.out.println("Important supermarket information:");
@@ -79,17 +104,26 @@ public class ChainStoreOperator extends Thread {
         System.out.println(sb);
     }
 
+    /**
+     * Returns the store number of the most visited store of the day.
+     * @return The store number of the most popular store.
+     */
     public int mostPopStore() {
         int mostPopular = -1;
         int mostCustomers = 0;
         for (Supermarket store : storesList) {
             if (store.getNumCustomers() > mostCustomers) {
+                mostCustomers = store.getNumCustomers();
                 mostPopular = store.getStoreNumber();
             }
         }
         return mostPopular;
     }
 
+    /**
+     * Returns the average number of shoppers across all of the stores.
+     * @return The average number of shoppers across all of the stores.
+     */
     public double averageShoppers() {
         double totalShoppers = 0;
         for (Supermarket store : storesList) {
@@ -98,6 +132,10 @@ public class ChainStoreOperator extends Thread {
         return totalShoppers / numStores;
     }
 
+    /**
+     * Returns the average number of people in jail across all stores.
+     * @return The average number of people thrown in jail across all stores.
+     */
     public double averageInJail() {
         double totalInJail = 0;
         for (Supermarket store : storesList) {
@@ -106,6 +144,10 @@ public class ChainStoreOperator extends Thread {
         return totalInJail / numStores;
     }
 
+    /**
+     * The total number of panic shoppers from all stores.
+     * @return The number of panic shoppers from all stores.
+     */
     public int panicShoppers() {
         int totalPanicking = 0;
         for (Supermarket store : storesList) {
@@ -114,6 +156,10 @@ public class ChainStoreOperator extends Thread {
         return totalPanicking;
     }
 
+    /**
+     * The total number of shoppers that stole from all stores.
+     * @return The total number of shoppers that stole from all stores.
+     */
     public int stealingShoppers() {
         int totalStealing = 0;
         for (Supermarket store : storesList) {
@@ -122,22 +168,31 @@ public class ChainStoreOperator extends Thread {
         return totalStealing;
     }
 
+    /**
+     * Runs the number of simulations that are input, or one by default.
+     * All text output is redirected to the "simulation.txt" file.
+     * @param args An integer amount of supermarkets to create.
+     */
     public static void main(String args[]) {
 
-        //print output to a file
-//        try{
-//        System.setOut(new PrintStream("simulation.txt"));
-//        }catch(FileNotFoundException e){
-//        System.err.println("File Not Found: " + e);
-//        }
+        //OUTPUT WILL BE PRINTED TO THE SIMULATION.TXT FILE
+        try{
+        System.setOut(new PrintStream("simulation.txt"));
+        }catch(FileNotFoundException e){
+        System.err.println("File Not Found: " + e);
+        }
+        
+        //ONE STORE IS CREATED BY DEFAULT
         int numOfStores = 1;
 
+        //IF THERE IS NOT A VALID INPUT, ONE SUPERMARKET IS CREATED BY DEFAULT
         if (args.length != 1 || !(Integer.parseInt(args[0]) > 0)) {
             System.out.println("The amount of stores to run was not input. One store will be created by default.");
         } else if (Integer.parseInt(args[0]) > 0) {
             numOfStores = Integer.parseInt(args[0]);
         }
 
+        //CREATE THE SUPERMARKETS AND RUN ALL THREADS
         java.awt.EventQueue.invokeLater(new ChainStoreOperator(numOfStores));
 
     }
