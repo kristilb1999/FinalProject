@@ -122,6 +122,11 @@ public class Item {
         this.itemQuant = itemQuant;
     }
 
+    /**
+     * Update the quantity of the item.
+     * 
+     * @param quantity The quantity to change to.
+     */
     public void updateQuantity(int quantity) {
         this.itemQuant -= quantity;
     }
