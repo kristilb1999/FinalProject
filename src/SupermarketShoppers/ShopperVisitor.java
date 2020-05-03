@@ -25,10 +25,7 @@ package SupermarketShoppers;
  */
 public interface ShopperVisitor {
     
-    
-    public boolean visit(Kristi shopper);
-    public boolean visit(Will shopper);
-    public boolean visit(Cameron shopper);
-    public boolean visit(Jacob shopper);
+    public boolean visit(StealingShopper shopper);
+    public boolean visit(PanickingShopper shopper);
     public boolean visit(Shopper shopper);
 }
