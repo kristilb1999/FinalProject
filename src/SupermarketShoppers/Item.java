@@ -25,6 +25,9 @@ package SupermarketShoppers;
  */
 public class Item {
 
+    //QUANTITY LOCK TO ENSURE THREAD SAFETY
+    private Object quantityLock = new Object();
+
     //THE NAME OF THE ITEM
     private String name;
 
@@ -36,9 +39,6 @@ public class Item {
 
     //THE ITEM PRICE
     private double price;
-    
-    //QUANTITY LOCK TO ENSURE THREAD SAFETY
-    private Object quantityLock = new Object();
 
     /**
      * Constructor for objects of class Item
@@ -50,10 +50,20 @@ public class Item {
         this.itemQuant = itemQuant;
     }
 
+    /**
+     * Return the item name.
+     * 
+     * @return Name of the item.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the item.
+     * 
+     * @param name The name to change to.
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -89,7 +99,7 @@ public class Item {
     public int attemptToBuy(int quantity, double cash) {
         int qPurchased = 0;
         synchronized (quantityLock) {
-            
+
             while(cash > this.price && quantity > 0 && itemQuant > 0){
                 cash -= this.price;
                 qPurchased++;
@@ -102,9 +112,9 @@ public class Item {
     @Override
     public String toString() {
         return "\nItem Name: " + name
-                + ", Item Value: " + value
-                + ", Item Quantity: " + itemQuant
-                + ", Item Price: " + price;
+        + ", Item Value: " + value
+        + ", Item Quantity: " + itemQuant
+        + ", Item Price: " + price;
     }
 
     @Override
@@ -116,7 +126,7 @@ public class Item {
         }
 
     }
-    
+
     public Item getCopy(){
         return new Item(this.name, this.value, this.itemQuant, this.price);
     }
