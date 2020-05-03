@@ -39,7 +39,7 @@ public class Supermarket extends Thread {
 
     private int numPanicShopping;
 
-    private ShopperManager storeManager;
+    private ShopperManager shopperManager;
 
     private Jail jail;
 
@@ -57,26 +57,24 @@ public class Supermarket extends Thread {
     public Supermarket(int storeNumber) {
         this.itemsInStore = new Inventory();
         this.jail = new Jail();
-        this.storeManager = new ShopperManager(itemsInStore, jail);
+        this.shopperManager = new ShopperManager(itemsInStore, jail);
         this.storeNumber = storeNumber;
     }
 
     @Override
     public void run() {
 
-        this.storeManager.start();
+        this.shopperManager.start();
 
         try {
-            this.storeManager.join();
+            this.shopperManager.join();
         } catch (InterruptedException e) {
             System.err.println(e);
         }
 
-        numCustomers = storeManager.getNumShoppers();
+        numCustomers = shopperManager.getNumShoppers();
 
-        shoppers = storeManager.getShoppers();
-
-        numStealing = jail.getNumInJail();
+        shoppers = shopperManager.getShoppers();
 
         ShopperStealingVisitor stealing = new ShopperStealingVisitor();
         ShopperPanickingVisitor panicking = new ShopperPanickingVisitor();
@@ -123,7 +121,7 @@ public class Supermarket extends Thread {
         sb.append("\nSupermarket ")
                 .append(this.storeNumber)
                 .append("\n")
-                .append(this.storeManager.toString())
+                .append(this.shopperManager.toString())
                 .append("\n\n ")
                 .append(this.jail.toString());
         return sb.toString();

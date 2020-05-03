@@ -94,7 +94,6 @@ public class ChainStoreOperator extends Thread {
         double totalShoppers = 0;
         for (Supermarket store : storesList) {
             totalShoppers += store.getNumCustomers();
-            totalShoppers += store.numShoppersInJail();
         }
         return totalShoppers / numStores;
     }

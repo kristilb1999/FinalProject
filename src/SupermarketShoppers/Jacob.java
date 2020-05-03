@@ -131,7 +131,8 @@ public class Jacob extends Shopper {
                     if (jailedProb >= ONE_HUNDRED) {
                         done = true;
                         jail.getArrested(this);
-                        supermarketManager.removeShopper(this);
+                        //supermarketManager.removeShopper(this);
+                        this.done = true;
                     }
                 }
             }
