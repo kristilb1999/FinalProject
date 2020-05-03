@@ -117,14 +117,8 @@ public class Jacob extends Shopper {
     }
 
     @Override
-    public String toString() {
-
-        return "\n\nJacob's Shopping List\n"
-                + "Shopper number " + shopperNumber + "\n"
-                + "Cash left in wallet: " + String.format("%.2f", cash) + "\n"
-                + "Items the shopper was unable to purchase:\n"
-                + shoppingList.toString();
-
+    public String getShopperName(){
+        return "Jacob";
     }
 
     public boolean accept(ShopperVisitor shopperVisitor) {

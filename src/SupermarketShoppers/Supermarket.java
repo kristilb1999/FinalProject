@@ -118,8 +118,15 @@ public class Supermarket extends Thread {
 
     @Override
     public String toString() {
-        return "\nSupermarket " + this.storeNumber + "\n" + this.storeManager.toString()
-                + "\n\n " + this.jail.toString();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\nSupermarket ")
+                .append(this.storeNumber)
+                .append("\n")
+                .append(this.storeManager.toString())
+                .append("\n\n ")
+                .append(this.jail.toString());
+        return sb.toString();
     }
 
 }

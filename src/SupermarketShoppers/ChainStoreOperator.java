@@ -72,14 +72,15 @@ public class ChainStoreOperator extends Thread {
 
         System.out.println("Important supermarket information:");
 
-        String toPrint
-                = "Most visited store of the day: Store number " + mostPopStore() + "\n"
-                + "Average number of shoppers in one day: " + averageShoppers() + "\n"
-                + "Average number of shoppers sent to jail: " + averageInJail() + "\n"
-                + "Number of panic shoppers from all stores: " + panicShoppers() + "\n"
-                + "Number of people who stole from all stores: " + stealingShoppers();
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Most visited store of the day: Store number ").append(mostPopStore()).append("\n");
+        sb.append("Average number of shoppers in one day: ").append(averageShoppers()).append("\n");
+        sb.append("Average number of shoppers sent to jail: ").append(averageInJail()).append("\n");
+        sb.append("Number of panic shoppers from all stores: ").append(panicShoppers()).append("\n");
+        sb.append("Number of people who stole from all stores: ").append(stealingShoppers());
 
-        System.out.println(toPrint);
+        System.out.println(sb);
     }
 
     public int mostPopStore() {

@@ -131,4 +131,17 @@ abstract public class Shopper extends Thread {
             System.err.println(e);
         }
     }
+    
+    @Override
+    public String toString() {
+
+        return "\n\n" + getShopperName() + "\'s Shopping List\n"
+                + "Shopper number " + shopperNumber + "\n"
+                + "Cash left in wallet: " + String.format("%.2f", cash) + "\n"
+                + "Items the shopper was unable to purchase:\n"
+                + shoppingList.toString();
+
+    }
+    
+    abstract public String getShopperName();
 }
