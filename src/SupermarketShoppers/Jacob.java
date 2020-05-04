@@ -26,9 +26,7 @@ import java.util.Vector;
  * @version Spring 2020
  */
 public class Jacob extends StealingShopper implements SnitchingShopper{
-
-    private Object lock = new Object();
-    private Object jailProbLock = new Object();
+    
     private Object doneLock = new Object();
 
     /**

@@ -27,9 +27,6 @@ import java.util.Vector;
  */
 public class Kristi extends StealingShopper {
 
-    private Object lock = new Object();
-    private Object jailProbLock = new Object();
-
     /**
      * Constructor for objects of class Shoppers
      * @param shoppingList

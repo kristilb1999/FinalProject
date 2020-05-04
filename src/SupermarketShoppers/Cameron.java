@@ -28,15 +28,13 @@ import java.util.Random;
  */
 public class Cameron extends PanickingShopper {
 
-    private Object lock = new Object();
-
     /**
      * Constructor for objects of class Shoppers
-     * @param shoppingList
-     * @param inventory
+     * @param shoppingList the shopping list for this Shopper
+     * @param inventory the 
      * @param number
      * @param jail
-     * @param shopperManager
+     * @param shopperManager the shopping manager that is managing this Shopper
      */
     public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         super(shoppingList, inventory, number, jail, shopperManager);
@@ -46,6 +44,9 @@ public class Cameron extends PanickingShopper {
 
     }
 
+    /**
+     * Run method for the Cameron that controls this Cameron's shopping.
+     */
     @Override
     public void run() {
         shopperSleep();

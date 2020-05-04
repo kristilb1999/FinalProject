@@ -30,9 +30,7 @@ abstract public class StealingShopper extends Shopper{
 
     public boolean startedStealing;
     
-    private Object lock = new Object();
     private Object jailProbLock = new Object();
-    private Object doneLock = new Object();
     
     public StealingShopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         super(shoppingList, inventory, number, jail, supermarketManager);

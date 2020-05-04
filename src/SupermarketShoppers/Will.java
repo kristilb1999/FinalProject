@@ -26,8 +26,6 @@ import java.util.Vector;
  * @version Spring 2020
  */
 public class Will extends PanickingShopper implements SnitchingShopper{
-
-    private Object lock = new Object();
     
     /**
      * Constructor for objects of class Shoppers
