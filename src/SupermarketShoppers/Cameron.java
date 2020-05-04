@@ -18,10 +18,9 @@
 package SupermarketShoppers;
 
 import java.util.Vector;
-import java.util.Random;
 
 /**
- * Write a description of class Shoppers here.
+ * This class models a Shopper that can neither steal nor snitch.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
@@ -30,15 +29,17 @@ public class Cameron extends PanickingShopper {
 
     /**
      * Constructor for objects of class Shoppers
+     * 
      * @param shoppingList the shopping list for this Shopper
-     * @param inventory the 
-     * @param number
-     * @param jail
-     * @param shopperManager the shopping manager that is managing this Shopper
+     * @param inventory the inventory that the Shopper will purchase items from
+     * @param number the number of the shopper
+     * @param jail the jail that shopper will go to if they are caught stealing
+     * @param shopperManager the ShopperManager that is managing this Shopper
      */
     public Cameron(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         super(shoppingList, inventory, number, jail, shopperManager);
 
+        //SETTING NAME AND STARTING CASH
         name = "Cameron";
         cash = random.nextInt(MAX_CASH / Morality.CAMERON.getValue()) + 1;
 
@@ -46,6 +47,7 @@ public class Cameron extends PanickingShopper {
 
     /**
      * Run method for the Cameron that controls this Cameron's shopping.
+     * 
      */
     @Override
     public void run() {
@@ -82,14 +84,7 @@ public class Cameron extends PanickingShopper {
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
         }
 
-        int j = 0;
-        while (j < shoppingList.size()) {
-            if (shoppingList.get(j).getItemQuantity() <= 0) {
-                shoppingList.remove(j);
-                j++;
-            } else {
-                j++;
-            }
-        }
+        //REMOVE ITEMS FROM SHOPPING LIST IF ACQUIRED
+        crossItemsOffList();
     }
 }

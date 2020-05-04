@@ -28,9 +28,9 @@ import java.util.Random;
  * @version Spring 2020
  */
 abstract public class Shopper extends Thread {
-    
+
     public static final int ONE_HUNDRED = 100;
-    
+
     public static final int MAX_CASH = 1000;
 
     protected Inventory inventory;
@@ -50,13 +50,14 @@ abstract public class Shopper extends Thread {
     protected int shopperNumber;
 
     protected double minimumPrice;
-    
+
     protected String name;
 
     protected ShopperManager shopperManager;
 
     /**
      * Constructor for objects of class Shopper
+     *
      * @param shoppingList
      * @param inventory
      * @param number
@@ -116,18 +117,30 @@ abstract public class Shopper extends Thread {
         }
     }
 
-    protected double getMinimumPrice(){
+    protected double getMinimumPrice() {
         return minimumPrice;
     }
-    
-    protected void shopperSleep(){
+
+    protected void shopperSleep() {
         try {
             sleep(ONE_HUNDRED);
         } catch (InterruptedException e) {
             System.err.println(e);
         }
     }
-    
+
+    protected void crossItemsOffList() {
+        int j = 0;
+        while (j < shoppingList.size()) {
+            if (shoppingList.get(j).getItemQuantity() <= 0) {
+                shoppingList.remove(j);
+                j++;
+            } else {
+                j++;
+            }
+        }
+    }
+
     @Override
     public String toString() {
 
@@ -138,8 +151,8 @@ abstract public class Shopper extends Thread {
                 + shoppingList.toString();
 
     }
-    
-    public boolean accept(ShopperVisitor shopperVisitor){
+
+    public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
     }
 }

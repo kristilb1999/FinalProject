@@ -20,31 +20,38 @@ package SupermarketShoppers;
 import java.util.Vector;
 
 /**
- * Write a description of class Shoppers here.
+ * This class models a Shopper that can steal and snitch on other
+ * shoppers that are stealing.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Jacob extends StealingShopper implements SnitchingShopper{
-    
+public class Jacob extends StealingShopper implements SnitchingShopper {
+
     private Object doneLock = new Object();
 
     /**
      * Constructor for objects of class Shoppers
-     * @param shoppingList
-     * @param inventory
-     * @param number
-     * @param jail
-     * @param shopperManager
+     *
+     * @param shoppingList the shopping list for this Shopper
+     * @param inventory the inventory that the Shopper will purchase items from
+     * @param number the number of the shopper
+     * @param jail the jail that shopper will go to if they are caught stealing
+     * @param shopperManager the ShopperManager that is managing this Shopper
      */
     public Jacob(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         super(shoppingList, inventory, number, jail, shopperManager);
 
+        //SETTING NAME, STARTING CASH, AND STARTING PROBABILITY OF GOING TO JAIL
         name = "Jacob";
-        cash = random.nextInt(MAX_CASH /  Morality.JACOB.getValue()) + 1;
+        cash = random.nextInt(MAX_CASH / Morality.JACOB.getValue()) + 1;
         jailedProb = (random.nextDouble() * ONE_HUNDRED) * Morality.JACOB.getValue();
     }
 
+    /**
+     * Run method for the Jacob that controls this Jacob's shopping.
+     *
+     */
     @Override
     public void run() {
         shopperSleep();
@@ -82,17 +89,15 @@ public class Jacob extends StealingShopper implements SnitchingShopper{
             }
         }
 
-        int j = 0;
-        while (j < shoppingList.size()) {
-            if (shoppingList.get(j).getItemQuantity() <= 0) {
-                shoppingList.remove(j);
-                j++;
-            } else {
-                j++;
-            }
-        }
+        //REMOVE ITEMS FROM SHOPPING LIST IF ACQUIRED
+        crossItemsOffList();
     }
-    
+
+    /**
+     * Calls the checkStealers() method of the ShopperManager class
+     * to check if other Shoppers are stealing.
+     * 
+     */
     @Override
     public void snitchOnStealers() {
         shopperManager.checkStealers();

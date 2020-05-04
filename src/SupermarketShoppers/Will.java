@@ -20,15 +20,17 @@ package SupermarketShoppers;
 import java.util.Vector;
 
 /**
- * Write a description of class Shoppers here.
+ * This class models a Shopper that can snitch on other
+ * shoppers that are stealing, but not steal.
  *
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
-public class Will extends PanickingShopper implements SnitchingShopper{
-    
+public class Will extends PanickingShopper implements SnitchingShopper {
+
     /**
      * Constructor for objects of class Shoppers
+     *
      * @param shoppingList
      * @param inventory
      * @param number
@@ -38,18 +40,23 @@ public class Will extends PanickingShopper implements SnitchingShopper{
     public Will(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         super(shoppingList, inventory, number, jail, shopperManager);
 
+        //SETTING NAME AND STARTING CASH
         name = "Will";
         cash = random.nextInt(MAX_CASH / Morality.WILL.getValue()) + 1;
     }
 
+    /**
+     * Run method for the Will that controls this Will's shopping.
+     * 
+     */
     @Override
     public void run() {
         shopperSleep();
-        
+
         setMinimumPrice();
 
         int i = 0;
-        
+
         while (!done) {
             Item currentItem = shoppingList.get(i);
 
@@ -75,18 +82,16 @@ public class Will extends PanickingShopper implements SnitchingShopper{
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
 
         }
-        
-        int j = 0;
-        while (j < shoppingList.size()) {
-            if (shoppingList.get(j).getItemQuantity() <= 0) {
-                shoppingList.remove(j);
-                j++;
-            } else {
-                j++;
-            }
-        }
+
+        //REMOVE ITEMS FROM SHOPPING LIST IF ACQUIRED
+        crossItemsOffList();
     }
 
+    /**
+     * Calls the checkStealers() method of the ShopperManager class
+     * to check if other Shoppers are stealing.
+     * 
+     */
     @Override
     public void snitchOnStealers() {
         shopperManager.checkStealers();
