@@ -10,7 +10,7 @@ Shopping Simulation Description:
 This program takes an integer as input to specify the number of supermarkets that will be simulated concurrently, if no input is given then only one supermarket will run. Each supermarket is in charge of creating between one and twenty shoppers that will search the supermarket's inventory for the items that they wish to purchase. Each shopper can only buy the things that they can afford, unless they are a shopper that steals from the store. There are four types of shoppers that can enter the store: a shopper that will never steal any items, but will snitch on any shopper they find stealing; a shopper that will never steal and will never snitch; a shopper that will steal from the store, but will not snitch on other people that are stealing; and a shopper that will steal items and will snitch on any other shopper that is stealing. Shoppers that do not steal also have a tendency to participate in panic shopping when they cannot buy all of the items that are on their shopping list because the store does not have any in it's inventory. At the end of the simulation, information about the stores and the shopper types will output into a text file.
 
 ## Windows Installer
-* Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.2.0-alpha/TD-ShopSim_Installer.exe "TD-ShopSim_Installer.exe")
+* Download and run the [Installer](https://github.com/kristilb1999/FinalProject/releases/download/v0.3.0-alpha/TD-ShopSim_Installer.exe "TD-ShopSim_Installer.exe")
 * Launch from Start Menu Programs
 * Uninstall from Add or Remove Programs
 
