@@ -33,10 +33,16 @@ enum Difficulty
     
     private final int level;
     
+    //CONSTRUCTOR
     Difficulty(int level){
      this.level = level;   
     }
     
+    /**
+     * Returns the difficulty level as an int from 0 to 2.
+     * 
+     * @return the difficulty level
+     */
     public int getValue(){
         return this.level;
     }
