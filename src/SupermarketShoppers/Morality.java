@@ -35,7 +35,7 @@ enum Morality
     }
    
     /**
-     * Returns the morality value.
+     * Returns the morality value as an int from 1 to 4.
      * 
      * @return the morality value
      */
