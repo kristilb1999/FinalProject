@@ -31,7 +31,7 @@ import java.util.Vector;
  */
 public class DatabaseDriver {
 
-    private static final String DATABASENAME = "./Player-Friends";
+    private static final String DATABASENAME = "~/AppData/Local/TD-ShopSim/Player-Friends";
 
     //based on
     //https://www.novixys.com/blog/read-file-resources-folder-java/
