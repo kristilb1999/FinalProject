@@ -176,8 +176,10 @@ public class ChainStoreOperator extends Thread {
     public static void main(String args[]) {
 
         //OUTPUT WILL BE PRINTED TO THE SIMULATION.TXT FILE
+        //FILEPATH BASED ON:
+        //https://stackoverflow.com/questions/25223599/java-how-to-read-write-files-to-from-any-users-desktop
         try{
-        System.setOut(new PrintStream("simulation.txt"));
+        System.setOut(new PrintStream(System.getProperty("user.home") +  "/Desktop/" + "simulation.txt"));
         }catch(FileNotFoundException e){
         System.err.println("File Not Found: " + e);
         }
