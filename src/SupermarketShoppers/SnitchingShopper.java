@@ -18,8 +18,10 @@
 package SupermarketShoppers;
 
 /**
- *
- * @author Wil
+ * This interface describes the method(s) required of a Shopper that snitches.
+ * 
+ * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
+ * @version Spring 2020
  */
 public interface SnitchingShopper {
     

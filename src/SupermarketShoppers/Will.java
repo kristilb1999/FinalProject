@@ -51,36 +51,34 @@ public class Will extends PanickingShopper implements SnitchingShopper {
      */
     @Override
     public void run() {
+        //SLEEP SO SHOPPER IS NOT ALONE WHILE SHOPPING SO IT CAN SNITCH
         shopperSleep();
-
+        //SET THE AMOUNT FOR THE SHOPPER TO BE UNABLE TO PURCHASE MORE ITEMS
         setMinimumPrice();
-
+        
+        //LOOP TO GO SHOPPING
         int i = 0;
-
         while (!done) {
             Item currentItem = shoppingList.get(i);
 
+            //ATTEMPT TO PURCHASE ITEM FROM SHOPPING LIST
             int index = inventory.containsItem(currentItem);
-
             Item itemToCheck = inventory.getList().get(index);
-
             int itemQuantity = currentItem.getItemQuantity();
             if (cash > 0) {
 
                 int qPurchased = itemToCheck.attemptToBuy(itemQuantity, cash);
-
                 if (qPurchased == 0) {
                     panicking = true;
                     increaseList();
                 }
-
                 cash -= qPurchased * currentItem.getPrice();
             }
 
-            i++;
+            //SNITCH ON OTHER SHOPPERS
             snitchOnStealers();
+            i++;
             done = i >= shoppingList.size() || cash <= getMinimumPrice();
-
         }
 
         //REMOVE ITEMS FROM SHOPPING LIST IF ACQUIRED

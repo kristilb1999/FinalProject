@@ -260,6 +260,7 @@ public class ShopperManager extends Thread {
 
     /**
      * When you snitch, you check to see if there are people stealing in the store.
+     * 
      */
     public void checkStealers() {
         ShopperSnitchingVisitor snitching = new ShopperSnitchingVisitor();

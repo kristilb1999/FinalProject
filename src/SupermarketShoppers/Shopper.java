@@ -29,40 +29,29 @@ import java.util.Random;
  */
 abstract public class Shopper extends Thread {
 
+    //VARIABLE FOR THE SHOPPER CLASS
     public static final int ONE_HUNDRED = 100;
-
     public static final int MAX_CASH = 1000;
-
     protected Inventory inventory;
-
     protected Jail jail;
-
     protected Vector<Item> shoppingList;
-
     protected Random random;
-
     protected double cash;
-
     protected double jailedProb;
-
     protected boolean done;
-
     protected int shopperNumber;
-
     protected double minimumPrice;
-
     protected String name;
-
     protected ShopperManager shopperManager;
 
     /**
-     * Constructor for objects of class Shopper
-     *
-     * @param shoppingList
-     * @param inventory
-     * @param number
-     * @param jail
-     * @param supermarketManager
+     * Constructor for objects of class Shoppers.
+     * 
+     * @param shoppingList the shopping list for this Shopper
+     * @param inventory the inventory that the Shopper will purchase items from
+     * @param number the number of the shopper
+     * @param jail the jail that shopper will go to if they are caught stealing
+     * @param shopperManager the ShopperManager that is managing this Shopper
      */
     public Shopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager shopperManager) {
         shopperNumber = number;
@@ -74,33 +63,72 @@ abstract public class Shopper extends Thread {
         minimumPrice = Double.MAX_VALUE;
     }
 
+    /**
+     * Abstract run method for Shopper classes.
+     * 
+     */
     @Override
     abstract public void run();
 
+    /**
+     * Returns whether the Shopper is done.
+     * 
+     * @return whether the Shopper is done
+     */
     public boolean done() {
         return done;
     }
 
+    /**
+     * Returns the Shopper's cash.
+     * 
+     * @return the Shopper's cash
+     */
     public double getCash() {
         return cash;
     }
 
+    /**
+     * Sets the Shopper's cash.
+     * 
+     * @param cash the amount to set the Shopper's cash to
+     */
     public void setCash(double cash) {
         this.cash = cash;
     }
 
+    /**
+     * Return's this Shopper's probability of going to jail.
+     * 
+     * @return this Shopper's probability of going to jail
+     */
     public double getJailedProb() {
         return jailedProb;
     }
 
+    /**
+     * Sets this Shopper's probability of going to jail.
+     * 
+     * @param jailedProb the probability to set the Shopper's jail probability to
+     */
     public void setJailedProb(double jailedProb) {
         this.jailedProb = jailedProb;
     }
 
+    /**
+     * Returns this Shopper's shopping list.
+     * 
+     * @return this Shopper's shopping list
+     */
     public Vector<Item> getShoppingList() {
         return shoppingList;
     }
 
+    /**
+     * Adds items to the Shopper's list, 
+     * such as if the Shopper starts stealing or panicking
+     * 
+     */
     protected void increaseList() {
         int numItemsToAdd = random.nextInt(3) + 1;
         for (int k = 0; k < numItemsToAdd; k++) {
@@ -110,6 +138,11 @@ abstract public class Shopper extends Thread {
         }
     }
 
+    /**
+     * Sets the minimum price for the Shopper based on
+     * the price of the cheapest item on the Shopper's shopping list.
+     * 
+     */
     protected void setMinimumPrice() {
         for (Item item : shoppingList) {
             minimumPrice = (item.getPrice() < minimumPrice
@@ -117,10 +150,20 @@ abstract public class Shopper extends Thread {
         }
     }
 
+    /**
+     * Gets the minimum price for the Shopper based on
+     * the price of the cheapest item on the Shopper's shopping list.
+     * 
+     * @return the minimum price of the Shopper 
+     */
     protected double getMinimumPrice() {
         return minimumPrice;
     }
 
+    /**
+     * Causes the Shopper to sleep for 100 milliseconds.
+     * 
+     */
     protected void shopperSleep() {
         try {
             sleep(ONE_HUNDRED);
@@ -129,6 +172,11 @@ abstract public class Shopper extends Thread {
         }
     }
 
+    /**
+     * Removes items from the Shopper's shopping list if the Shopper
+     * has acquired the required quantity of that item.
+     * 
+     */
     protected void crossItemsOffList() {
         int j = 0;
         while (j < shoppingList.size()) {
@@ -141,6 +189,11 @@ abstract public class Shopper extends Thread {
         }
     }
 
+    /**
+     * Returns a string of information relating to the Shopper.  
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
 
@@ -152,6 +205,12 @@ abstract public class Shopper extends Thread {
 
     }
 
+    /**
+     * Accepts a ShopperVisitor to visit with this Shopper.
+     * 
+     * @param shopperVisitor the shopperVisitor to visit
+     * @return the result of visiting the ShopperVisitor
+     */
     public boolean accept(ShopperVisitor shopperVisitor) {
         return shopperVisitor.visit(this);
     }

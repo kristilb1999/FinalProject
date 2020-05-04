@@ -20,26 +20,34 @@ package SupermarketShoppers;
 import java.util.Vector;
 
 /**
- *
+ * This class models a shopper that Steals.
+ * 
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
 abstract public class StealingShopper extends Shopper{
 
+    //variables for StealingShopper
     public static final int INCREASE_PROB = 5;
-
     public boolean startedStealing;
-    
     private Object jailProbLock = new Object();
     
     public StealingShopper(Vector<Item> shoppingList, Inventory inventory, int number, Jail jail, ShopperManager supermarketManager) {
         super(shoppingList, inventory, number, jail, supermarketManager);
     }
     
+    /**
+     * Returns whether the StealingShopper has started stealing.
+     * 
+     */
     public boolean isStealing() {
         return startedStealing;
     }
 
+     /**
+     * Increases the jail probability of the StealingShopper.
+     * 
+     */
     public boolean increaseJailProb() {
         if (startedStealing) {
             synchronized (jailProbLock) {
@@ -51,6 +59,11 @@ abstract public class StealingShopper extends Shopper{
         return startedStealing;
     }
     
+    /**
+     * Sends the Shopper to jail if their jail probability >= 100 percent and
+     * sets the Shopper to Done if they go to jail.
+     * 
+     */
     protected void checkJailProb(){
         if (startedStealing) {
                 synchronized (jailProbLock) {
@@ -63,6 +76,12 @@ abstract public class StealingShopper extends Shopper{
             }
     }
     
+    /**
+     * Accepts a ShopperVisitor to visit with this Shopper.
+     * 
+     * @param shopperVisitor the shopperVisitor to visit
+     * @return the result of visiting the ShopperVisitor
+     */
     @Override
     public boolean accept(ShopperVisitor shopperVisitor){
         return shopperVisitor.visit(this);

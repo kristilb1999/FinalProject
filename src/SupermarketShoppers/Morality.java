@@ -29,10 +29,16 @@ enum Morality
     
     private final int VALUE;
     
+    //CONSTRUCTOR
     Morality(int value){
      this.VALUE = value;
     }
-    
+   
+    /**
+     * Returns the morality value.
+     * 
+     * @return the morality value
+     */
     public int getValue(){
         return this.VALUE;
     }

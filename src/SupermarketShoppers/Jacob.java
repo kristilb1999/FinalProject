@@ -54,24 +54,24 @@ public class Jacob extends StealingShopper implements SnitchingShopper {
      */
     @Override
     public void run() {
+        //SLEEP SO SHOPPER IS NOT ALONE WHILE SHOPPING SO IT CAN SNITCH
         shopperSleep();
-
+        //SET THE AMOUNT FOR THE SHOPPER TO BE UNABLE TO PURCHASE MORE ITEMS
         setMinimumPrice();
 
+        //LOOP TO GO SHOPPING
         int i = 0;
         synchronized (doneLock) {
             while (!done) {
                 Item currentItem = shoppingList.get(i);
 
+                //ATTEMPT TO PURCHASE ITEM FROM SHOPPING LIST
                 int index = inventory.containsItem(currentItem);
-
                 Item itemToCheck = inventory.getList().get(index);
-
                 int itemQuantity = currentItem.getItemQuantity();
                 if (cash > 0) {
 
                     int qPurchased = itemToCheck.attemptToBuy(itemQuantity, cash);
-
                     if (!startedStealing && qPurchased == 0) {
                         startedStealing = true;
                         increaseList();
@@ -82,10 +82,12 @@ public class Jacob extends StealingShopper implements SnitchingShopper {
                     }
                 }
 
-                i++;
+                //SNITCH ON OTHER SHOPPERS
                 snitchOnStealers();
-                done = i >= shoppingList.size();
+                //CHECK IF SHOPPER SHOULD GO TO JAIL
                 checkJailProb();
+                i++;
+                done = i >= shoppingList.size();
             }
         }
 

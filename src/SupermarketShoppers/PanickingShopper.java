@@ -20,7 +20,8 @@ package SupermarketShoppers;
 import java.util.Vector;
 
 /**
- *
+ * This class models a shopper that Panics.
+ * 
  * @author Cameron Costello, Kristi Boardman, Will Skelly, Jacob Burch
  * @version Spring 2020
  */
@@ -32,10 +33,21 @@ abstract public class PanickingShopper extends Shopper{
         super(shoppingList, inventory, number, jail, supermarketManager);
     }
     
+    /**
+     * Returns whether the Shopper has started panic shopping.
+     * 
+     * @return whether the Shopper has started panic shopping.
+     */
     public boolean isPanicking() {
         return panicking;
     }
     
+    /**
+     * Accepts a ShopperVisitor to visit with this Shopper.
+     * 
+     * @param shopperVisitor the shopperVisitor to visit
+     * @return the result of visiting the ShopperVisitor
+     */
     @Override
     public boolean accept(ShopperVisitor shopperVisitor){
         return shopperVisitor.visit(this);

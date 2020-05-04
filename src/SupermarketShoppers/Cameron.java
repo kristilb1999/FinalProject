@@ -51,22 +51,23 @@ public class Cameron extends PanickingShopper {
      */
     @Override
     public void run() {
+        //SLEEP SO SHOPPER IS NOT ALONE WHILE SHOPPING SO IT CAN SNITCH
         shopperSleep();
+        //SET THE AMOUNT FOR THE SHOPPER TO BE UNABLE TO PURCHASE MORE ITEMS
         setMinimumPrice();
 
+        //LOOP TO GO SHOPPING
         int i = 0;
         while (!done) {
             Item currentItem = shoppingList.get(i);
 
+            //ATTEMPT TO PURCHASE ITEM FROM SHOPPING LIST
             int index = inventory.containsItem(currentItem);
-
             Item itemToCheck = inventory.getList().get(index);
-
             int itemQuantity = currentItem.getItemQuantity();
             if (cash > 0) {
 
                 int qPurchased = itemToCheck.attemptToBuy(itemQuantity, cash);
-
                 if (qPurchased == 0) {
                     panicking = true;
                     int numItemsToAdd = random.nextInt(3) + 1;
@@ -76,7 +77,6 @@ public class Cameron extends PanickingShopper {
                         shoppingList.add(itemToAdd);
                     }
                 }
-
                 cash -= qPurchased * currentItem.getPrice();
             }
 
