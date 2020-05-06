@@ -2,6 +2,8 @@
 by Kristi Boardman, Cameron Costello, Will Skelly, Jake Burch
 ## Tower Defense Game & Shopping Simulation
 This project contains two portions:  a Tower Defense Game and a Shopping Simulation.
+## Video Link To Project Demo
+https://youtu.be/88HuZBQGQng
 
 ### Tower Defense Game
 The objective of this game is to defend the tower against the incoming zombie army. The zombies enter the scene from the left most side of the screen to attack the tower that resides on the right most end of the screen. The zombies will walk in a straight path in this 2D version of Tower Defense in order to reach the tower. There are four types of zombies in this army to watch out for the Average Zombie, the Big-Eye Zombie, the Hunchback Zombie, and the Pirate Zombie. All zombies in the army will do the same amount of damage as their strength to the tower health. The Average Zombie is the weakest of the enemies, it is the slowest (2) and has the least amount of health (1). The Hunchback Zombie is the next weakest of the enemies, it moves a little bit faster (5) than the Average Zombie and has slightly more health (2). The Big-Eye Zombie is slightly stronger than the other two zombies, with a speed of 7 and will take 3 hits before it dies. The strongest of the enemies is the Pirate Zombie which is the fastest with a speed of 10 and the strongest with a max health of 5. These enemies can be destroyed by launching weapons from the clickable launch area above the tower. Click and drag your mouse in order to launch a weapon towards the incoming enemies before they reduce your tower health to zero and you lose the game. The weapons that are launched will randomly be chosen from four different options: a boulder, a grenade, a molotov cocktail, and tnt.
